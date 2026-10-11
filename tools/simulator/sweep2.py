@@ -6,7 +6,7 @@ from sweep import cls, CLASSES
 BASE_TECH = dict(P.TECHNIQUES_CORE)
 
 def run(builds, n=250):
-    F = {f"{r[:3]}-{bn}": (r, ups) for r in P.RACES for bn, ups in builds.items()}
+    F = {f"{r[:3]}-{bn}": (r, ups) for r in P.PLAYABLE_RACES for bn, ups in builds.items()}
     score = {c: [] for c in builds}
     for a, b in itertools.permutations(F, 2):
         if cls(a) == cls(b): continue

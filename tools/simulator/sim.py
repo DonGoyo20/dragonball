@@ -12,6 +12,8 @@ class Fighter:
     ups: tuple                 # mejoras por atributo, orden P.ATTRS
     use_kaioken: bool = True
     name: str = ""
+    techniques: dict = None      # si es None, usa P.TECHNIQUES (jugador)
+    extra_mult: float = 1.0      # calibración de jefes: multiplica todos los E
     hp: float = 1.0
     ki: float = 0.0
     kaio_grade: int = 0
@@ -44,7 +46,7 @@ class Fighter:
         return P.KAIOKEN[self.kaio_grade - 1]["mult"]
 
     def E(self, attr):
-        return (self.value(attr) ** P.VALUE_EXP) * (P.GU ** self._t) * self.form_mult()
+        return (self.value(attr) ** P.VALUE_EXP) * (P.GU ** self._t) * self.form_mult() * self.extra_mult
 
     @property
     def np(self):
@@ -69,9 +71,11 @@ def hit_fraction(att, defn, tech):
 
 
 def choose_tech(f, target):
-    best, best_dmg = "melee", hit_fraction(f, target, P.TECHNIQUES["melee"])
-    for name, t in P.TECHNIQUES.items():
-        if name == "melee" or not f.meets(t["req"]):
+    techs = f.techniques or P.TECHNIQUES
+    melee = techs.get("melee", P.TECHNIQUES["melee"])
+    best, best_dmg = "melee", hit_fraction(f, target, melee)
+    for name, t in techs.items():
+        if name == "melee" or not f.meets(t.get("req", {})):
             continue
         cost = t["cost"] * P.ki_cost_multiplier(f.value("CON"))
         if f.ki < cost:
@@ -85,11 +89,13 @@ def choose_tech(f, target):
 def tick(a, b, rng):
     """a ataca a b una vez."""
     name = choose_tech(a, b)
-    t = P.TECHNIQUES[name]
+    t = (a.techniques or P.TECHNIQUES).get(name) or P.TECHNIQUES[name]
     a.ki -= t["cost"] * P.ki_cost_multiplier(a.value("CON"))
-    if rng.random() < P.dodge_probability(b.E("VEL"), a.E("VEL")):
-        return
-    b.hp -= hit_fraction(a, b, t)
+    hit = rng.random() >= P.dodge_probability(b.E("VEL"), a.E("VEL"))
+    if hit:
+        b.hp -= hit_fraction(a, b, t)
+    if t.get("self_destruct"):
+        a.hp = 0.0
 
 
 def upkeep(f):
@@ -125,6 +131,8 @@ def duel(a, b, rng, max_ticks=900):
                 tick(x, y, rng)
                 if y.hp <= 0:
                     return x
+                if x.hp <= 0:
+                    return y
     return None
 
 
@@ -157,7 +165,7 @@ BUILDS = {
 
 def fighters():
     out = {}
-    for race in P.RACES:
+    for race in P.PLAYABLE_RACES:
         for bn, ups in BUILDS.items():
             out[f"{race[:3]}-{bn}"] = (race, ups)
     return out
@@ -191,6 +199,6 @@ if __name__ == "__main__":
             row.append(f"{wa*100:>11.0f}%")
         print(f"{a:24}" + "".join(row))
     print("\nImpuesto de la puerta 1 (70 mejoras) para Kaio-ken grado 1, VIT >= 16:")
-    for race in P.RACES:
+    for race in P.PLAYABLE_RACES:
         need, pct = gate_tax(race, "VIT", 16)
         print(f"  {race:9} {need} mejoras = {pct:.1f}%  ({'cumple' if pct <= 15 else 'NO cumple'} la regla del 15 %)")

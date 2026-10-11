@@ -42,7 +42,7 @@ Modelos, animaciones, efectos, equilibrio, rendimiento.
 La beta cae principalmente entre las Fases 2 y 6 del plan anterior, con contenido recortado.
 
 ## Hecho sobre el papel (sin PC)
-- Simulador de equilibrio en Python con 15 pruebas automáticas (`tools/simulator`).
+- Simulador de equilibrio en Python con 23 pruebas automáticas y el bestiario de la beta validado (`tools/simulator`).
 
 ## Después de la beta (anotado)
 - Técnica de teletransportación hacia NPC (ver `ABILITIES.md` §10).

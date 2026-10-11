@@ -49,7 +49,7 @@ class TestGateAccessibility(unittest.TestCase):
 
     def test_kaioken_grade1_all_playable_races(self):
         req = P.KAIOKEN[0]["req"]
-        for race in P.RACES:
+        for race in P.PLAYABLE_RACES:
             for attr, value in req.items():
                 need, pct = sim.gate_tax(race, attr, value)
                 self.assertLessEqual(pct, 15.0, f"{race} {attr}>={value}: {pct:.1f}%")

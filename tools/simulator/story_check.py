@@ -9,7 +9,7 @@ def boss():
 
 def table(n=1000):
     rows = []
-    for race in P.RACES:
+    for race in P.PLAYABLE_RACES:
         for bn, ups in sim.BUILDS.items():
             wa, wb, d = sim.win_rate(lambda r=race, u=ups: sim.Fighter(r, u), boss, n=n)
             rows.append((f"{race} / {bn}", wa))
@@ -28,7 +28,7 @@ EXTREME_THRESHOLD = 0.70
 
 def extreme_with_extra(n=1000):
     rows = []
-    for race in P.RACES:
+    for race in P.PLAYABLE_RACES:
         for bn, ups in sim.EXTREME_BUILDS.items():
             attr = MAIN_ATTACK_ATTR[bn]
             if not attr:

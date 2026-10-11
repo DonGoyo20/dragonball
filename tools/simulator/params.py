@@ -14,7 +14,11 @@ VALUE_EXP = 1.0
 RACES = {
     "saiyajin": {"base": (8, 10, 6, 8, 5, 7, 4), "growth": (1.0, 1.25, 1.0, 1.1, 0.9, 1.15, 0.85)},
     "humano":   {"base": (6, 6, 5, 6, 5, 5, 7),  "growth": (1.1, 1.0, 1.0, 1.1, 1.0, 1.0, 1.3)},
+    # enemigos y NPC: base 5 y crecimiento 1 en todo; su reparto lo da el arquetipo (BESTIARY.md)
+    "npc":      {"base": (5, 5, 5, 5, 5, 5, 5),  "growth": (1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)},
 }
+
+PLAYABLE_RACES = ("saiyajin", "humano")   # razas que elige el jugador (la beta)
 
 # Combate (SYSTEMS §3)
 HIT_FRACTION = 0.05

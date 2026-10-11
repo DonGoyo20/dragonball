@@ -1,0 +1,863 @@
+{
+ "_comment": "Bestiario de la beta (borrador de diseño, 2026-10-11). Niveles en 'nivel total'. XP: ver BESTIARY.md. Entidades dragonball:* son nombres propuestos. power_mult: calibrado con tools/simulator/bestiary.py --calibrate (story: el más duro que cumple la garantía con margen; elite: media de victorias ~75 %; boss/secret opcionales: media ~35 %).",
+ "archetypes": {
+  "bruto": {
+   "VIT": 0.25,
+   "FUE": 0.35,
+   "DEF": 0.2,
+   "VEL": 0.1,
+   "KI": 0,
+   "POD": 0,
+   "CON": 0.1
+  },
+  "veloz": {
+   "VIT": 0.15,
+   "FUE": 0.25,
+   "DEF": 0.1,
+   "VEL": 0.4,
+   "KI": 0,
+   "POD": 0,
+   "CON": 0.1
+  },
+  "tirador": {
+   "VIT": 0.15,
+   "FUE": 0.05,
+   "DEF": 0.15,
+   "VEL": 0.1,
+   "KI": 0.15,
+   "POD": 0.3,
+   "CON": 0.1
+  },
+  "guerrero": {
+   "VIT": 0.18,
+   "FUE": 0.22,
+   "DEF": 0.15,
+   "VEL": 0.15,
+   "KI": 0.08,
+   "POD": 0.14,
+   "CON": 0.08
+  },
+  "tanque": {
+   "VIT": 0.35,
+   "FUE": 0.2,
+   "DEF": 0.35,
+   "VEL": 0.05,
+   "KI": 0,
+   "POD": 0,
+   "CON": 0.05
+  },
+  "bestia": {
+   "VIT": 0.3,
+   "FUE": 0.35,
+   "DEF": 0.15,
+   "VEL": 0.2,
+   "KI": 0,
+   "POD": 0,
+   "CON": 0
+  },
+  "equilibrado": {
+   "VIT": 0.143,
+   "FUE": 0.143,
+   "DEF": 0.143,
+   "VEL": 0.143,
+   "KI": 0.143,
+   "POD": 0.142,
+   "CON": 0.143
+  }
+ },
+ "techniques": {
+  "melee": {
+   "kind": "phys",
+   "attr": "FUE",
+   "mult": 1.0,
+   "cost": 0
+  },
+  "mordisco": {
+   "kind": "phys",
+   "attr": "FUE",
+   "mult": 1.4,
+   "cost": 0
+  },
+  "golpe_pesado": {
+   "kind": "phys",
+   "attr": "FUE",
+   "mult": 2.0,
+   "cost": 20
+  },
+  "ki_blast": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 1.5,
+   "cost": 4
+  },
+  "autodestruccion": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 6.0,
+   "cost": 0,
+   "self_destruct": true
+  },
+  "double_sunday": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 2.5,
+   "cost": 80
+  },
+  "galick_ho": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 3.0,
+   "cost": 120
+  },
+  "bomba_energia": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 3.5,
+   "cost": 140
+  },
+  "big_bang": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 4.0,
+   "cost": 160
+  },
+  "dodonpa": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 3.5,
+   "cost": 100
+  }
+ },
+ "enemies": [
+  {
+   "id": "zombi",
+   "name": "Zombi",
+   "source": "minecraft:zombie",
+   "level": 3,
+   "archetype": "bruto",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ]
+  },
+  {
+   "id": "esqueleto",
+   "name": "Esqueleto",
+   "source": "minecraft:skeleton",
+   "level": 5,
+   "archetype": "tirador",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ]
+  },
+  {
+   "id": "arana",
+   "name": "Araña",
+   "source": "minecraft:spider",
+   "level": 4,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ]
+  },
+  {
+   "id": "arana_cueva",
+   "name": "Araña de las cuevas",
+   "source": "minecraft:cave_spider",
+   "level": 8,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "cueva"
+   ]
+  },
+  {
+   "id": "creeper",
+   "name": "Creeper",
+   "source": "minecraft:creeper",
+   "level": 7,
+   "archetype": "bruto",
+   "kind": "normal",
+   "techniques": [
+    "autodestruccion"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ]
+  },
+  {
+   "id": "slime",
+   "name": "Slime",
+   "source": "minecraft:slime",
+   "level": 6,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pantano",
+    "cueva"
+   ]
+  },
+  {
+   "id": "fantasma",
+   "name": "Fantasma",
+   "source": "minecraft:phantom",
+   "level": 12,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "pradera",
+    "montana"
+   ]
+  },
+  {
+   "id": "husk",
+   "name": "Husk",
+   "source": "minecraft:husk",
+   "level": 12,
+   "archetype": "bruto",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "desierto"
+   ]
+  },
+  {
+   "id": "ahogado",
+   "name": "Ahogado",
+   "source": "minecraft:drowned",
+   "level": 10,
+   "archetype": "bruto",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "costa",
+    "mar"
+   ]
+  },
+  {
+   "id": "stray",
+   "name": "Vagabundo",
+   "source": "minecraft:stray",
+   "level": 14,
+   "archetype": "tirador",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast"
+   ],
+   "regions": [
+    "nieve"
+   ]
+  },
+  {
+   "id": "bruja",
+   "name": "Bruja",
+   "source": "minecraft:witch",
+   "level": 16,
+   "archetype": "tirador",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast"
+   ],
+   "regions": [
+    "pantano"
+   ]
+  },
+  {
+   "id": "saqueador",
+   "name": "Saqueador",
+   "source": "minecraft:pillager",
+   "level": 18,
+   "archetype": "tirador",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast",
+    "melee"
+   ],
+   "regions": [
+    "pradera",
+    "montana"
+   ]
+  },
+  {
+   "id": "vindicador",
+   "name": "Vindicador",
+   "source": "minecraft:vindicator",
+   "level": 24,
+   "archetype": "bruto",
+   "kind": "normal",
+   "techniques": [
+    "golpe_pesado"
+   ],
+   "regions": [
+    "bosque",
+    "montana"
+   ]
+  },
+  {
+   "id": "enderman",
+   "name": "Enderman",
+   "source": "minecraft:enderman",
+   "level": 26,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "golpe_pesado"
+   ],
+   "regions": [
+    "pradera",
+    "desierto",
+    "montana"
+   ]
+  },
+  {
+   "id": "evocador",
+   "name": "Evocador",
+   "source": "minecraft:evoker",
+   "level": 40,
+   "archetype": "tirador",
+   "kind": "elite",
+   "techniques": [
+    "ki_blast",
+    "double_sunday"
+   ],
+   "regions": [
+    "bosque"
+   ],
+   "power_mult": 1.1
+  },
+  {
+   "id": "devastador",
+   "name": "Devastador",
+   "source": "minecraft:ravager",
+   "level": 45,
+   "archetype": "bruto",
+   "kind": "elite",
+   "techniques": [
+    "golpe_pesado"
+   ],
+   "regions": [
+    "montana"
+   ],
+   "power_mult": 0.85
+  },
+  {
+   "id": "piglin_zombi",
+   "name": "Piglin zombi",
+   "source": "minecraft:zombified_piglin",
+   "level": 70,
+   "archetype": "bruto",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "nether"
+   ]
+  },
+  {
+   "id": "piglin",
+   "name": "Piglin",
+   "source": "minecraft:piglin",
+   "level": 75,
+   "archetype": "guerrero",
+   "kind": "normal",
+   "techniques": [
+    "melee",
+    "ki_blast"
+   ],
+   "regions": [
+    "nether"
+   ]
+  },
+  {
+   "id": "hoglin",
+   "name": "Hoglin",
+   "source": "minecraft:hoglin",
+   "level": 80,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "nether"
+   ]
+  },
+  {
+   "id": "cubo_magma",
+   "name": "Cubo de magma",
+   "source": "minecraft:magma_cube",
+   "level": 78,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "nether"
+   ]
+  },
+  {
+   "id": "blaze",
+   "name": "Blaze",
+   "source": "minecraft:blaze",
+   "level": 85,
+   "archetype": "tirador",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast"
+   ],
+   "regions": [
+    "nether"
+   ]
+  },
+  {
+   "id": "ghast",
+   "name": "Ghast",
+   "source": "minecraft:ghast",
+   "level": 90,
+   "archetype": "tirador",
+   "kind": "elite",
+   "techniques": [
+    "bomba_energia"
+   ],
+   "regions": [
+    "nether"
+   ],
+   "power_mult": 1.95
+  },
+  {
+   "id": "esqueleto_wither",
+   "name": "Esqueleto wither",
+   "source": "minecraft:wither_skeleton",
+   "level": 95,
+   "archetype": "guerrero",
+   "kind": "elite",
+   "techniques": [
+    "melee",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "nether"
+   ],
+   "power_mult": 1.25
+  },
+  {
+   "id": "shulker",
+   "name": "Shulker",
+   "source": "minecraft:shulker",
+   "level": 120,
+   "archetype": "tanque",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast"
+   ],
+   "regions": [
+    "end"
+   ]
+  },
+  {
+   "id": "wither",
+   "name": "Wither",
+   "source": "minecraft:wither",
+   "level": 130,
+   "archetype": "tirador",
+   "kind": "boss",
+   "techniques": [
+    "ki_blast",
+    "bomba_energia"
+   ],
+   "regions": [
+    "jefe_opcional"
+   ],
+   "notes": "Jefe vanilla opcional",
+   "power_mult": 1.55
+  },
+  {
+   "id": "warden",
+   "name": "Warden",
+   "source": "minecraft:warden",
+   "level": 140,
+   "archetype": "bruto",
+   "kind": "boss",
+   "techniques": [
+    "golpe_pesado",
+    "ki_blast"
+   ],
+   "regions": [
+    "cueva_profunda"
+   ],
+   "notes": "Jefe vanilla opcional; ataca por sonido",
+   "power_mult": 1.55
+  },
+  {
+   "id": "ender_dragon",
+   "name": "Dragón del End",
+   "source": "minecraft:ender_dragon",
+   "level": 150,
+   "archetype": "bestia",
+   "kind": "boss",
+   "techniques": [
+    "mordisco",
+    "bomba_energia"
+   ],
+   "regions": [
+    "end"
+   ],
+   "notes": "Jefe vanilla opcional",
+   "power_mult": 1.75
+  },
+  {
+   "id": "lobo_salvaje",
+   "name": "Lobo salvaje",
+   "source": "dragonball:wild_wolf",
+   "level": 4,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ]
+  },
+  {
+   "id": "jabali",
+   "name": "Jabalí",
+   "source": "dragonball:boar",
+   "level": 6,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "bosque"
+   ]
+  },
+  {
+   "id": "oso",
+   "name": "Oso pardo",
+   "source": "dragonball:brown_bear",
+   "level": 14,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "golpe_pesado"
+   ],
+   "regions": [
+    "bosque",
+    "montana"
+   ]
+  },
+  {
+   "id": "dino_pequeno",
+   "name": "Dinosaurio pequeño",
+   "source": "dragonball:small_dino",
+   "level": 12,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "pradera",
+    "desierto"
+   ]
+  },
+  {
+   "id": "pterodactilo",
+   "name": "Pterodáctilo",
+   "source": "dragonball:pterodactyl",
+   "level": 22,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "montana",
+    "costa"
+   ]
+  },
+  {
+   "id": "triceratops",
+   "name": "Triceratops",
+   "source": "dragonball:triceratops",
+   "level": 38,
+   "archetype": "tanque",
+   "kind": "elite",
+   "techniques": [
+    "golpe_pesado"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "power_mult": 1.05
+  },
+  {
+   "id": "tiranosaurio",
+   "name": "Tiranosaurio",
+   "source": "dragonball:tyrannosaur",
+   "level": 45,
+   "archetype": "bestia",
+   "kind": "elite",
+   "techniques": [
+    "mordisco",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "desierto",
+    "pradera"
+   ],
+   "power_mult": 0.8
+  },
+  {
+   "id": "ladron",
+   "name": "Ladrón",
+   "source": "dragonball:thief",
+   "level": 8,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ]
+  },
+  {
+   "id": "bandido",
+   "name": "Bandido",
+   "source": "dragonball:bandit",
+   "level": 14,
+   "archetype": "guerrero",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera",
+    "bosque",
+    "desierto"
+   ]
+  },
+  {
+   "id": "capitan_bandido",
+   "name": "Capitán bandido",
+   "source": "dragonball:bandit_captain",
+   "level": 30,
+   "archetype": "guerrero",
+   "kind": "elite",
+   "techniques": [
+    "melee",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "desierto"
+   ],
+   "power_mult": 1.0
+  },
+  {
+   "id": "soldado_patrulla",
+   "name": "Soldado de la Patrulla Roja",
+   "source": "dragonball:red_ribbon_soldier",
+   "level": 36,
+   "archetype": "guerrero",
+   "kind": "normal",
+   "techniques": [
+    "melee",
+    "ki_blast"
+   ],
+   "regions": [
+    "montana"
+   ]
+  },
+  {
+   "id": "demonio_menor",
+   "name": "Demonio menor",
+   "source": "dragonball:minor_demon",
+   "level": 45,
+   "archetype": "bruto",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "camino_serpiente"
+   ]
+  },
+  {
+   "id": "demonio_camino",
+   "name": "Demonio del camino",
+   "source": "dragonball:snake_way_demon",
+   "level": 90,
+   "archetype": "guerrero",
+   "kind": "normal",
+   "techniques": [
+    "melee",
+    "ki_blast"
+   ],
+   "regions": [
+    "camino_serpiente"
+   ]
+  },
+  {
+   "id": "raditz",
+   "name": "Raditz",
+   "source": "dragonball:raditz",
+   "level": 55,
+   "archetype": "guerrero",
+   "kind": "story",
+   "techniques": [
+    "melee",
+    "ki_blast",
+    "double_sunday"
+   ],
+   "regions": [
+    "historia"
+   ],
+   "notes": "Primera amenaza grande de la historia",
+   "power_mult": 1.05
+  },
+  {
+   "id": "saibaman",
+   "name": "Saibaman",
+   "source": "dragonball:saibaman",
+   "level": 85,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "melee",
+    "autodestruccion"
+   ],
+   "regions": [
+    "invasion"
+   ],
+   "notes": "Aparecen en grupos de 6; la autodestrucción es una muerte para ellos"
+  },
+  {
+   "id": "nappa",
+   "name": "Nappa",
+   "source": "dragonball:nappa",
+   "level": 130,
+   "archetype": "bruto",
+   "kind": "story",
+   "techniques": [
+    "melee",
+    "golpe_pesado",
+    "bomba_energia"
+   ],
+   "regions": [
+    "historia"
+   ],
+   "notes": "Jefe de arco intermedio",
+   "power_mult": 1.25
+  },
+  {
+   "id": "vegeta",
+   "name": "Vegeta",
+   "source": "dragonball:vegeta",
+   "level": 171,
+   "archetype": "guerrero",
+   "kind": "story",
+   "techniques": [
+    "melee",
+    "ki_blast",
+    "galick_ho",
+    "big_bang"
+   ],
+   "regions": [
+    "historia"
+   ],
+   "notes": "Jefe final de la beta",
+   "power_mult": 1.9
+  },
+  {
+   "id": "dino_ancestral",
+   "name": "Dinosaurio ancestral",
+   "source": "dragonball:ancient_dino",
+   "level": 70,
+   "archetype": "bestia",
+   "kind": "secret",
+   "techniques": [
+    "mordisco",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "cueva"
+   ],
+   "secret_hint": "Los cazadores del desierto hablan de huesos enormes en una cueva y de un rugido que sacude la roca.",
+   "reward": "Pesas ancestrales: objeto de entrenamiento con +0,5 al multiplicador de penalización (tope general ×5 intacto)",
+   "power_mult": 1.4
+  },
+  {
+   "id": "tao",
+   "name": "Asesino Tao",
+   "source": "dragonball:mercenary_tao",
+   "level": 95,
+   "archetype": "guerrero",
+   "kind": "secret",
+   "techniques": [
+    "melee",
+    "golpe_pesado",
+    "dodonpa"
+   ],
+   "regions": [
+    "desierto"
+   ],
+   "secret_hint": "Un asesino a sueldo viaja por los caminos del desierto. Quien lo ha visto no suele contarlo.",
+   "reward": "Técnica única Dodonpa (se compra a un precio, requisitos de atributo para usarla)",
+   "power_mult": 1.75
+  },
+  {
+   "id": "espiritu_guerrero",
+   "name": "Espíritu guerrero",
+   "source": "dragonball:warrior_spirit",
+   "level": 120,
+   "archetype": "guerrero",
+   "kind": "secret",
+   "techniques": [
+    "melee",
+    "ki_blast",
+    "galick_ho"
+   ],
+   "regions": [
+    "camino_serpiente"
+   ],
+   "secret_hint": "Un guerrero legendario espera en un recodo del Camino de la Serpiente; los demonios evitan su zona.",
+   "reward": "Atajo de dominio: +30 % de dominio instantáneo en una forma que ya poseas",
+   "power_mult": 1.85
+  }
+ ]
+}

@@ -90,7 +90,7 @@ Cada tipo de enemigo tiene un **nivel total** y una **XP fija** en el bestiario.
 - `origen`: ×1 normal; **×0,25 si viene de un generador de monstruos o granja** (a verificar en Fase 1).
 - Cada entidad recompensa una sola vez.
 
-**Tabla guía** (XP del enemigo del mismo nivel que el jugador; el diseñador la ajusta a mano):
+**Tabla guía** (XP del enemigo del mismo nivel que el jugador; el diseñador la ajusta a mano; la XP de élite y jefes se define en `BESTIARY.md` §3):
 
 | Nivel del enemigo | XP del enemigo | Combates parejos por mejora |
 |---|---|---|
