@@ -14,7 +14,7 @@ Cada raza es un archivo de datos (`data/<modid>/races/<id>.json`) con estos bloq
 | Modificadores de crecimiento | Cuánto rinde cada punto invertido en cada atributo |
 | Rasgos | Ventajas y desventajas pasivas |
 | Condición de entrenamiento | Qué la hace progresar de forma especial |
-| Estilos y especializaciones | Caminos de build (elegibles en el nivel 10, ver §9) |
+| Estilos y especializaciones | Caminos de build (elegibles en el nivel total 46, ver §9) |
 | Técnicas propias | Lista que solo esa raza puede aprender o aprende mejor |
 | Escalera de formas | Hasta 5 formas, una por puerta (WORLD_DESIGN §4.2) |
 | Identidad visual | Colores, aura, efectos |
@@ -22,9 +22,9 @@ Cada raza es un archivo de datos (`data/<modid>/races/<id>.json`) con estos bloq
 Atributos (en este orden): **VIT** vitalidad, **FUE** fuerza, **DEF** defensa, **VEL** velocidad, **KI** ki máximo, **POD** poder de ki, **CON** control.
 
 ## 2. Comparativa y equilibrio
-Modelo simple: total de atributos = base + 5 puntos por nivel × crecimiento medio (puntos repartidos por igual, sin formas ni rasgos). Calculado con un script.
+Modelo simple: total de atributos = base + mejoras × crecimiento medio (mejoras repartidas por igual, sin formas ni rasgos). Columnas en **nivel total** (N = 1 + mejoras). Calculado con un script; los números son los mismos de la versión anterior.
 
-| Raza | Base | Crec. medio | Nivel 1 | Nivel 20 | Nivel 50 | Nivel 100 |
+| Raza | Base | Crec. medio | N = 1 | N = 96 | N = 246 | N = 496 |
 |---|---|---|---|---|---|---|
 | Saiyajin | 48 | 1,036 | 48 | 146 | 302 | 561 |
 | Raza de Freezer | 59 | 0,857 | 59 | 140 | 269 | 483 |
@@ -80,7 +80,7 @@ Lectura:
 
 **Identidad visual:** pelo que se alza, aura dorada y luego azul/plateada, chispas eléctricas, ojos que cambian de color.
 
-> **Cambio (2026-10-11):** la primera puerta (nivel 15, ~5 h de juego) es temprana para el Super Saiyajin, que en la serie llega tras Vegeta. Para la beta (Saga Saiyan, hasta Vegeta, nivel 35) solo se usa la **puerta 1**. En Saiyajin y Terrícola la forma 1 es el **Kaio-ken**.
+> **Cambio (2026-10-11):** la primera puerta (nivel total 71, ~5 h de juego) es temprana para el Super Saiyajin, que en la serie llega tras Vegeta. Para la beta (Saga Saiyan, hasta Vegeta, nivel total ~171, provisional) solo se usa la **puerta 1**. En Saiyajin y Terrícola la forma 1 es el **Kaio-ken**.
 
 ## 4. Raza de Freezer (Arcosiano)
 
@@ -262,7 +262,7 @@ Lectura:
 **Identidad visual:** metal, luces, sin aura orgánica, chispas y vapor.
 
 ## 9. Especializaciones
-A partir del nivel 10, el jugador elige un camino dentro de su raza (ya listados). Cada camino da:
+A partir del nivel total 46, el jugador elige un camino dentro de su raza (ya listados). Cada camino da:
 - Bonus de crecimiento en 2–3 atributos.
 - Acceso a técnicas propias del camino.
 - Una pasiva única.

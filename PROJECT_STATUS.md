@@ -11,6 +11,7 @@
 - **Aprobadas (SYSTEMS.md v2):** cansancio = agotamiento por quedarse sin ki; ki = barra; vida como barra en porcentaje; XP fija por enemigo creciente con la dificultad; ritmo de progreso lento.
 - **Referencia de diseño del usuario:** experiencia tipo Elden Ring / Breath of the Wild: historia como columna vertebral + muchos jefes secretos y rutas de personajes con recompensas muy buenas. Vuelo con coste de ki mínimo; XP 50/30/20 (combate/misiones/entrenamiento).
 - **Alcance (usuario):** beta = Saga Saiyan hasta Vegeta (niveles 1–35); 1.0 = todo Z. Sin marcadores: diario de ruta (solo palabras del NPC) + mapa del explorador que se dibuja al recorrer. Rutas de personaje = misiones de NPC.
+- **Sistema de niveles (usuario, 3.ª ronda):** estilo Elden Ring / Dragon Block C: la XP es una moneda que se gasta en el atributo elegido; nivel total = 1 + mejoras; tope de la beta aún sin decidir; el mapa muestra tu posición.
 - **Propuestas, sin confirmar explícitamente:** Minecraft 1.21.1 + NeoForge + Java 21; mod independiente (no ampliar DragonMine Z); no depender de un mod RPG externo para el núcleo; licencia por decidir.
 
 ## Documentos
@@ -25,4 +26,4 @@ GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas
 Todas las del juego (nada implementado todavía).
 
 ## Próxima tarea
-Resolver 2 preguntas de CONTENT_DESIGN.md §10; ajustar RACES.md a esos parámetros (XP de raza, agotamiento); completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).
+Resolver las preguntas de SYSTEMS.md §16 y CONTENT_DESIGN.md §10; ajustar RACES.md a esos parámetros (XP de raza, agotamiento); completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).

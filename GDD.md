@@ -1,6 +1,6 @@
 # GDD — Documento de diseño del juego
 
-> Estado: **borrador de diseño sobre el papel.** Las reglas numéricas vigentes están en `SYSTEMS.md` (prevalece sobre este documento). Los números son una primera propuesta
+> Estado: **borrador de diseño sobre el papel.** (Nivel, puntos y atributos: ver `SYSTEMS.md` §2; el sistema por mejoras sustituye a los "niveles 1–100 con 5 puntos".) Las reglas numéricas vigentes están en `SYSTEMS.md` (prevalece sobre este documento). Los números son una primera propuesta
 > sin ajustar (se afinan jugando, Fase 2). Todo lo marcado "(P)" es propuesta pendiente
 > de tu aprobación; lo demás sale de tu documento original.
 

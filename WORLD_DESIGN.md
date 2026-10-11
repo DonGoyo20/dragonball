@@ -47,27 +47,25 @@ Explorar → encontrar amenaza o lugar → luchar / entrenar → gastar puntos �
 | Esferas del dragón (§8) | Un deseo | Muy escaso |
 
 ## 4. Sistema de niveles y puertas de forma
-Tres números que no se mezclan:
-- **Nivel (1–100):** visible. Da puntos de atributo y de técnica.
-- **Etapa (0–4):** 20 niveles cada una; es un tramo de la historia. El poder crece de forma continua con cada nivel (+21,6 %, ver `SYSTEMS.md` §2.1), no a saltos por etapa.
-- **Nivel de poder (NP):** derivado de atributos × factor de nivel × forma. Es lo que usa el combate por razón de poder.
+> **Actualizado (v3):** las reglas de nivel, mejoras, coste y XP viven en `SYSTEMS.md` §2 (sistema por mejoras: la XP se gasta en el atributo que elijas; nivel total = 1 + mejoras). Aquí queda la parte de formas.
 
-### 4.1 Experiencia
-`XP para pasar del nivel L al L+1 = 50 · L^1.6` (calculado con script; se reajusta en Fase 2).
-Acumulada: nivel 10 → 8.678; 20 → 49.474; 40 → 290.624; 60 → 825.162; 99 → 3.008.351.
+Conceptos:
+- **Nivel total (1–496):** suma de mejoras. Es el que ve el jugador.
+- **Nivel de poder (NP):** derivado de atributos × factor por mejora × forma; lo usa el combate por razón.
+- **Etapa:** tramo de la historia (≈100 niveles totales). Es narrativa, no un multiplicador.
 
 ### 4.2 Puertas de forma (respuesta a tu decisión 4)
 Cada raza tiene hasta **5 evoluciones/formas**. Cada una es la llave de una puerta:
 
 | Puerta | Se alcanza | Para pasar hace falta | Qué abre |
 |---|---|---|---|
-| 1 | Nivel 15 | Desbloquear la forma 1 | Niveles 16–35 |
-| 2 | Nivel 35 | Forma 2 | Niveles 36–55 |
-| 3 | Nivel 55 | Forma 3 | Niveles 56–75 |
-| 4 | Nivel 75 | Forma 4 | Niveles 76–95 |
-| 5 | Nivel 95 | Forma 5 (suprema) | Niveles 96–100 |
+| 1 | Nivel total 71 | Desbloquear la forma 1 | Niveles 72–171 |
+| 2 | Nivel total 171 | Forma 2 | Niveles 172–271 |
+| 3 | Nivel total 271 | Forma 3 | Niveles 272–371 |
+| 4 | Nivel total 371 | Forma 4 | Niveles 372–471 |
+| 5 | Nivel total 471 | Forma 5 (suprema) | Niveles 472–496 |
 
-Hasta que desbloqueas la forma, la XP se acumula pero el nivel no sube de la puerta. El juego libre te lleva a la puerta; **cada forma la desbloqueas con un hito propio** (misión, maestro, jefe o condición especial), definido por datos para cada forma.
+Hasta que desbloqueas la forma, la XP se acumula pero no puedes comprar más mejoras pasada la puerta. El juego libre te lleva a la puerta; **cada forma la desbloqueas con un hito propio** (misión, maestro, jefe o condición especial), definido por datos para cada forma.
 
 ### 4.3 Escalera de formas por raza (provisional, se concreta en la fase de razas)
 | Puerta | Saiyajin | Raza de Freezer | Terrícola | Namekiano |
@@ -84,9 +82,9 @@ Majin y Androide: por diseñar. No todas las razas tienen que tener 5.
 Usar una forma sube su **dominio** (0–100 %): baja el coste de ki, sube un poco el multiplicador (con tope). Al 100 % la forma pasa a ser **estable**: se mantiene sin coste de ki y una fracción de su multiplicador pasa a la base del personaje. Es el progreso libre dentro de la etapa, y refleja cómo en la serie las formas acaban siendo el estado normal.
 
 ### 4.5 Puntos
-- **Atributo:** 5 por nivel; coste creciente con rendimientos decrecientes (curva exacta en Fase 2).
-- **Técnica:** 1 por nivel + maestros.
-- **Reasignar:** con un objeto o maestro, con coste.
+- **Mejoras de atributo:** se compran con XP (SYSTEMS §2.1).
+- **Puntos de técnica:** 1 cada 5 niveles totales + maestros y misiones.
+- **Reasignar:** con un objeto o maestro, con coste (SYSTEMS §2.7).
 
 ## 5. Entrenamiento con penalización (respuesta a tu decisión 3)
 Sin fatiga. Entrenar con una penalización voluntaria multiplica la XP de entrenamiento:
@@ -118,7 +116,7 @@ bandidos/dinosaurios (0), cápsula saiyajin (1), invasión de Saibamen (1–2), 
   2. Pack de Senzu (3).
   3. Bolsa de zeni.
   4. Revelar la ubicación de un lugar especial sin descubrir.
-  5. Liberar potencial: puntos de atributo extra (pequeña cantidad, una vez por puerta).
+  5. Liberar potencial: mejoras de atributo gratis (pequeña cantidad, una vez por puerta).
 - **Un solo deseo** por activación. Las esferas se dispersan y reaparecen tras un periodo largo (config. por defecto 30 días de Minecraft ≈ 10 h reales).
 
 ## 9. Muerte y Otro Mundo (decisión 2)

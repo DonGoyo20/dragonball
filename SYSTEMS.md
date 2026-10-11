@@ -5,7 +5,7 @@
 > inventan reglas: solo ajustan los parámetros de este documento** (ver §11). Todo valor es
 > propuesta (P), configurable en archivos de datos y se ajusta jugando.
 >
-> **Versión 2 (2026-10-11):** XP por enemigo en tabla fija, cansancio como agotamiento por ki y ritmo lento.
+> **Versión 3 (2026-10-11):** sistema de mejoras por atributo (la XP es una moneda), XP por enemigo en tabla fija, cansancio como agotamiento por ki y ritmo lento.
 >
 > **Sustituye a:** la idea de "multiplicar el poder por etapa" de GDD §2/§3 y WORLD_DESIGN §4
 > (producía un salto de ×207 al cambiar de etapa; ver §2.1).
@@ -19,64 +19,98 @@
 | **Recursos especiales** | Agua (Namekiano), Calor (Androide), Tensión (Freezer) | Según raza | Según raza | Solo esa raza |
 | **Dominio de forma** | 0–100 % por forma | Usar la forma | — | Sí |
 
-## 2. Niveles, poder y experiencia
+## 2. Atributos, nivel y experiencia (v3: sistema por mejoras, estilo Elden Ring)
 
-### 2.1 Poder efectivo (reemplaza al multiplicador por etapa)
-Cada atributo tiene un valor **base** (`stat`) y un **poder efectivo** (`E`):
+> **Cambio de la v3 (2026-10-11):** ya no se "sube de nivel y se reparten 5 puntos". La experiencia es una **moneda**: se gasta para mejorar el atributo que quieras. El nivel es la suma de mejoras. Así el jugador decide su tipo de personaje (fuerza, control de ki extremo, mucho ki…).
 
-`E_atributo = stat × g^(nivel−1) × M_forma`
+### 2.1 Cómo funciona
+- **XP** = moneda. Se gana con combates, misiones y entrenamiento (§2.5).
+- **Mejora:** pagas XP y subes **un** atributo de los 7. El atributo sube en el valor de crecimiento de tu raza (p. ej. Saiyajin: FUE +1,25 por mejora).
+- **Nivel total `N` = 1 + número de mejoras.** Es lo que se muestra y lo que usa el juego para escalar el mundo. Máximo de diseño: **N = 496** (495 mejoras).
+- **Tope por atributo:** 90 mejoras. Para tener cinco atributos al máximo hacen falta 450 mejoras: los personajes extremos son posibles, pero solo a costa de abandonar otros atributos.
+- **Coste de la siguiente mejora** (igual para cualquier atributo, como en Elden Ring; depende solo de tu nivel total): `coste(T) = 10 × (1 + T/5)^1,6`, con `T = N − 1`.
 
-- `g = 1,216` (+21,6 % por nivel). Calculado para que el nivel 100 con la mejor forma ronde 10^12.
-- `M_forma`: multiplicador de la forma activa × dominio (§8). Sin forma = 1.
-- **Nivel de poder (NP) mostrado** = suma de los `E`.
+| Nivel total N | Coste de la mejora | XP acumulada |
+|---|---|---|
+| 1 | 10 | 10 |
+| 21 | 131 | 1.315 |
+| 46 | 398 | 7.842 |
+| 96 | 1.207 | 47.007 |
+| 146 | 2.309 | 134.344 |
+| 175 | 3.063 | 212.427 |
+| 246 | 5.228 | 505.314 |
+| 371 | 10.002 | 1.447.623 |
+| 496 | ~15.000 | ~3.000.000 |
 
-Por qué: el salto entre niveles es siempre el mismo (+21,6 %) y las etapas dejan de ser un muro. Cada etapa de 20 niveles vale ≈ ×50.
+### 2.2 Poder efectivo
+`E_atributo = valor_atributo × 1,0399^T × M_forma`
 
-| Nivel | NP sin forma (modelo Saiyajin) |
-|---|---|
-| 1 | 48 |
-| 20 | 6.010 |
-| 40 | 512.000 |
-| 60 | 36.200.000 |
-| 80 | 2.330.000.000 |
-| 100 | 143.000.000.000 |
+- `valor_atributo = base_raza + crecimiento_raza × mejoras_en_ese_atributo`.
+- `1,0399^T`: +4,0 % por mejora (equivale a +21,6 % cada 5 mejoras, el mismo ritmo de antes). Es **global**: todas las mejoras, en el atributo que sean, hacen más fuerte al personaje entero, y la especialización decide *dónde* es más fuerte.
+- `M_forma`: forma activa × dominio (§8). Sin forma = 1.
+- **Nivel de poder (NP)** = suma de los `E`.
 
-### 2.2 Qué hace cada cosa
-- **Nivel:** sube `g^(nivel−1)` para **todos** los atributos a la vez. Es la progresión "automática".
-- **Puntos de atributo:** se reparten entre los 7 atributos. Eligen *en qué eres bueno* (la forma de tu poder), no cuánto eres.
-- **Puertas de forma (WORLD_DESIGN §4.2):** bloquean el nivel en 15, 35, 55, 75, 95 hasta desbloquear la forma correspondiente.
+### 2.3 Especializar vale la pena, sin romper nada (prueba numérica)
+Tres personajes Saiyajin con el mismo nivel total (N = 171, ~16 h de juego):
 
-### 2.3 XP por derrotar enemigos (decisión tuya: puntos fijos por enemigo)
-Cada tipo de enemigo tiene un **nivel** y una **XP fija** escritos a mano en el bestiario (archivo de datos). La XP **sube progresivamente con la dificultad** del enemigo. No hay fórmula oculta ni bonus por tipo.
+| Build | Mejoras | NP total | Resultado |
+|---|---|---|---|
+| Equilibrado | 24 en cada uno | 173.000 | — |
+| Guerrero | VIT 30, FUE 60, DEF 35, VEL 45 | 183.000 | FUE ×2,1 respecto al equilibrado |
+| Maestro de ki | VIT 20, KI 50, POD 55, CON 45 | 165.000 | POD ×2,0 respecto al equilibrado |
+
+Duelos (golpes necesarios para vencer; menos = más fuerte):
+- Guerrero vence al Equilibrado en **9** golpes; el Equilibrado al Guerrero en 20.
+- Guerrero vence al Maestro de ki en **4** golpes cuerpo a cuerpo; el Maestro de ki al Guerrero en **8** golpes de ki (con la defensa contra ki de §3.2; sin ella eran 13).
+- Maestro de ki vence al Equilibrado en 10; el Equilibrado en 12.
+
+Lectura honesta: la especialización importa de verdad. En un cuerpo a cuerpo directo, el Guerrero domina al Maestro de ki. El Maestro de ki debe compensar con **alcance, vuelo y daño explosivo**, cosa que esta cuenta no modela. Se ajusta con combate real en la Fase 2.
+
+### 2.4 Puertas de forma (en nivel total)
+| Puerta | Se alcanza en | Para pasar |
+|---|---|---|
+| 1 | N = 71 | Desbloquear la forma 1 |
+| 2 | N = 171 | Forma 2 |
+| 3 | N = 271 | Forma 3 |
+| 4 | N = 371 | Forma 4 |
+| 5 | N = 471 | Forma 5 (suprema) |
+
+Hasta desbloquear la forma, **la XP se acumula pero no puedes comprar más mejoras** pasada la puerta. (Equivale a los antiguos niveles 15/35/55/75/95.) *Tope de la beta: provisional, ver `CONTENT_DESIGN.md`.*
+
+### 2.5 XP por derrotar enemigos (puntos fijos por enemigo)
+Cada tipo de enemigo tiene un **nivel total** y una **XP fija** en el bestiario. La XP sube progresivamente con la dificultad.
 
 `XP recibida = XP_del_enemigo × factor_nivel × origen`
 
-- `XP_del_enemigo`: valor del bestiario. Se parte de una **tabla guía** y el diseñador puede ajustarla a mano, enemigo por enemigo (jefes incluidos).
-- `factor_nivel` (con `dif = nivel_jugador − nivel_enemigo`):
-  - `dif < 0` (enemigo más fuerte): `1 + 0,1 × |dif|`, tope 1,5.
-  - `dif ≥ 0`: `1 − 0,15 × dif`, mínimo 0. A 7 niveles por encima no das nada.
-- `origen`: ×1 normal; **×0,25 si el enemigo viene de un generador de monstruos o granja** (se comprueba el motivo de aparición, a verificar en Fase 1). Evita las granjas de mobs.
-- Cada entidad recompensa **una sola vez** (marca de entidad ya recompensada).
+- `factor_nivel` (con `dif = N_jugador − N_enemigo`):
+  - `dif < 0` (enemigo más fuerte): `1 + 0,02 × |dif|`, tope 1,5.
+  - `dif ≥ 0`: `1 − 0,03 × dif`, mínimo 0. A 33 niveles por encima no das nada.
+- `origen`: ×1 normal; **×0,25 si viene de un generador de monstruos o granja** (a verificar en Fase 1).
+- Cada entidad recompensa una sola vez.
 
-**Tabla guía** (XP del enemigo del mismo nivel que el jugador; ritmo lento, 10 + 0,5·L combates parejos por nivel):
+**Tabla guía** (XP del enemigo del mismo nivel que el jugador; el diseñador la ajusta a mano):
 
-| Nivel del enemigo | XP del enemigo | Combates parejos por nivel |
+| Nivel del enemigo | XP del enemigo | Combates parejos por mejora |
 |---|---|---|
-| 1 | 4,8 | 10,5 |
-| 5 | 52 | 12,5 |
-| 10 | 133 | 15 |
-| 20 | 302 | 20 |
-| 30 | 462 | 25 |
-| 50 | 747 | 35 |
-| 75 | 1.053 | 47,5 |
-| 100 | 1.321 | 60 |
+| 1 | 4,8 | 2,1 |
+| 21 | 52 | 2,5 |
+| 46 | 133 | 3 |
+| 96 | 302 | 4 |
+| 146 | 462 | 5 |
+| 246 | 747 | 7 |
+| 371 | 1.053 | 9,5 |
+| 496 | 1.321 | 12 |
 
-Ritmo: unos 3.465 combates parejos hasta el nivel 100. Con ~90 s por combate son ~87 h si **toda** la XP viniera del combate. Si misiones y entrenamiento dan XP al mismo ritmo por hora que el combate, el total sigue siendo ~87 h (el reparto 50/30/20 dice *de dónde* viene la XP, no cuánto dura). Tiempo acumulado aproximado a ese ritmo: nivel 15 ≈ 5 h; nivel 35 ≈ 16 h; nivel 55 ≈ 32 h; nivel 100 ≈ 87 h. *Corrección: una versión anterior de este documento decía 40–50 h; suponía que la mitad de la XP llegaba sin tiempo, lo cual no es cierto.* Cifras a validar jugando.
+Tiempo acumulado de referencia a ritmo de diseño (90 s por combate, toda la XP al mismo ritmo): N = 71 ≈ 5 h; N = 171 ≈ 16 h; N = 271 ≈ 32 h; N = 496 ≈ 87 h. El reparto 50 % combate / 30 % misiones / 20 % entrenamiento dice *de dónde* viene la XP. Cifras a validar jugando.
 
-La XP de misiones y entrenamiento se reparte con el mismo criterio: valores fijos en los datos, no fórmulas ocultas.
+### 2.6 Qué NO da XP
+Enemigos 33 o más niveles por debajo, animales pasivos, muertes que no cause el jugador (o su aliado) y duplicados de la misma entidad.
 
-### 2.4 Qué NO da XP
-Enemigos 7 o más niveles por debajo, animales pasivos, muertes que no cause el jugador (o su aliado vinculado) y duplicados de la misma entidad.
+### 2.7 Reasignar (respec)
+Con un objeto raro o un maestro, se redistribuyen las mejoras ya hechas (el nivel total no cambia). Tiene coste para que no sea trivial cambiar de build cada combate.
+
+### 2.8 Puntos de técnica
+1 punto de técnica cada 5 niveles totales, más los que den maestros y misiones. Se gastan en aprender o mejorar técnicas.
 
 ## 3. Combate
 
@@ -87,7 +121,8 @@ La vida real se guarda como **fracción (0–1)** y se muestra en la barra de Mi
 `daño = 0,05 × clamp((A/D)^0,75 , 0,001 , 200)`
 
 - `A` = `E_FUE` (cuerpo a cuerpo) o `E_POD` (técnica de ki) × multiplicador de la técnica.
-- `D` = `E_DEF^0,7 × E_VIT^0,3` (la VIT aporta aguante además de la defensa).
+- `D` contra golpes físicos = `E_DEF^0,7 × E_VIT^0,3`.
+- `D` contra técnicas de ki = `E_DEF^0,4 × E_CON^0,3 × E_VIT^0,3` (el control resiste el ki; da una defensa propia al personaje de ki).
 - Con `A = D` se necesitan unos 20 golpes. Con 100× más poder, ~10× más daño; con 100× menos, ~10× menos.
 - Ningún golpe supera el 100 %.
 
@@ -167,14 +202,14 @@ Saiyajin: apetito ×1,5 pero buff ×1,5. Namekiano: modo **agua** en vez de comi
 - **XP de entrenamiento:** baja por hora de entrenamiento activo (sin penalización) ≈ `XP_necesaria(L)/1,5`.
 - **Entrenamiento activo:** solo cuenta si hay acciones del tipo (golpear, moverse con peso, cargar ki). Quieto no suma.
 - **Penalizaciones voluntarias:** suman multiplicador a la XP de entrenamiento; **tope combinado ×5** (WORLD_DESIGN §5).
-- **Punto de entrenamiento libre:** cada 30 min de entrenamiento activo de un tipo da un punto libre en el atributo correspondiente. Tope: 2 puntos libres por nivel.
+- **Mejora libre:** cada 30 min de entrenamiento activo de un tipo da una mejora gratis en el atributo correspondiente (sin gastar XP). Tope: 2 mejoras libres por cada 5 niveles totales.
 - **Maestros:** entrenar con un maestro suma bonus fijo y puede desbloquear técnicas y formas. Los bonus de raza (Terrícola +30 %) se aplican aquí.
 
 ## 10. Datos de configuración
 Todos los números de este documento viven en archivos, no en código:
 ```
 data/<modid>/balance/
-  leveling.json   # g, XP_necesaria, tabla guía de XP, factor por diferencia de nivel, multiplicador de origen (generador/granja)
+  leveling.json   # factor por mejora, coste(T), tope de mejoras por atributo, puertas, tabla guía de XP, factor por diferencia de nivel, multiplicador de origen
   bestiary.json   # nivel, arquetipo, atributos y XP fija de cada enemigo
   combat.json     # 0,05 / 0,75 / 0,7-0,3 / esquiva / topes
   ki.json         # reserva, regeneración, carga, vuelo, coste/CON
@@ -188,7 +223,7 @@ Una raza solo rellena estas ranuras. Ninguna toca el código.
 
 | Ranura | Ejemplo |
 |---|---|
-| `stats.base[7]`, `stats.growth[7]` | Ya definido en RACES.md |
+| `stats.base[7]`, `stats.growth[7]` | Valor inicial y cuánto sube cada atributo por **mejora** (RACES.md) |
 | `xp.combat_mult`, `xp.training_mult`, `xp.master_mult`, `xp.boss_mult` | Terrícola `master_mult 1.3`; Freezer `training_mult 0.85` |
 | `ki.regen_mult`, `ki.cost_mult` | Saiyajin `regen_mult < 1` |
 | `hp.regen_mult`, `hp.regen_flat` | Namekiano, Majin |
@@ -201,7 +236,7 @@ Una raza solo rellena estas ranuras. Ninguna toca el código.
 Lo único que sí requiere código nuevo es un **rasgo distinto** (p. ej. Zenkai o Absorción). Por eso los rasgos se programan como módulos reutilizables, con una interfaz común.
 
 ## 12. Estado guardado por jugador
-`raza, nivel, xp, atributos (7), puntos libres, vida (fracción), ki, estado Agotado (tiempo restante), hambre, buffs, formas (estado, dominio), entidades ya recompensadas, recursos especiales, versión de datos.`
+`raza, XP sin gastar, mejoras por atributo (7), nivel total (derivado), mejoras libres, vida (fracción), ki, estado Agotado (tiempo restante), hambre, buffs, formas (estado, dominio), entidades ya recompensadas, recursos especiales, versión de datos.`
 
 ## 13. Decisiones cerradas en esta versión
 1. Cansancio = agotamiento por quedarse sin ki (§5). Ki = barra que gastan ataques de ki y transformaciones.
@@ -210,9 +245,14 @@ Lo único que sí requiere código nuevo es un **rasgo distinto** (p. ej. Zenkai
 4. Ritmo lento: 10 + 0,5·L combates parejos por nivel; el combate aporta ~50 % de la XP.
 
 ## 14. Decisiones cerradas (2.ª ronda)
-1. Vuelo con coste de ki mínimo (0,1 %/s), desgastante pero no castigador.
+1. Vuelo con coste de ki mínimo (0,1 %/s).
 2. Reparto de XP: 50 % combate, 30 % misiones, 20 % entrenamiento.
-3. Los secretos dan recompensas cualitativas, no inflan niveles (ver `CONTENT_DESIGN.md` §2).
+3. Los secretos dan recompensas cualitativas, no inflan niveles (`CONTENT_DESIGN.md` §2).
 
-## 15. Preguntas abiertas
-Ninguna por ahora en este documento.
+## 15. Decisiones cerradas (3.ª ronda)
+1. **Sistema por mejoras estilo Elden Ring / Dragon Block C:** XP como moneda que se gasta en el atributo elegido; el nivel es la suma de mejoras (§2).
+2. El **tope de nivel de la beta queda en el aire** (tú aún no estás seguro). Mientras tanto se trabaja con puertas por nivel total.
+
+## 16. Preguntas abiertas
+1. ¿Coste de mejora **igual para todos los atributos** (propuesta, estilo Elden Ring) o que cada atributo tenga su propio coste (estilo Dragon Block C)?
+2. ¿Quieres un tope blando por atributo (rendimientos decrecientes pasadas ~60 mejoras) además del tope duro de 90?

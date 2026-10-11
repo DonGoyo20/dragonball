@@ -23,7 +23,7 @@ Tú mismo señalaste el riesgo: que algo rompa la progresión. Regla:
 **Los secretos dan recompensas *cualitativas*, no inflación de nivel.**
 - La XP de un jefe secreto sale de la tabla fija como cualquier enemigo (SYSTEMS §2.3). No hay "atajos de niveles".
 - Lo que dan son: técnicas únicas, atajos de dominio de forma, objetos, estética, aliados, acceso a lugares.
-- Los puntos de atributo regalados por secretos tienen **tope global: ≤ 15 % de todos los puntos del juego** (por referencia, 5 por nivel × 99 niveles ≈ 495 puntos → como máximo unos 70 por secretos). El resto se gana subiendo de nivel.
+- Las mejoras de atributo regaladas por secretos tienen **tope global: ≤ 15 % de todas las mejoras del juego** (por referencia, hay ~495 mejoras en total → como máximo unas 70 por secretos). El resto se compra con XP.
 - Esto mantiene que el reparto de XP sea 50 % combate, 30 % misiones y 20 % entrenamiento (tu confirmación).
 
 ## 3. Capas de contenido
@@ -74,7 +74,7 @@ Ejemplos (P, no definitivos): una ruta de un artista marcial rival (escuela de l
 
 - **Diario de ruta:** anota lo que te dicen con las palabras del personaje. Ejemplo: *"Ve a ver a Roshi. Dicen que vive en una isla pequeña, al sur de la ciudad, en mitad del mar."* Sin coordenadas, sin flecha.
 - **Pistas direccionales y de paisaje:** los NPC dan referencias relativas (dirección general, hitos, distancias aproximadas), no posiciones exactas.
-- **Mapa del explorador:** objeto que se va dibujando a medida que recorres el terreno. Muestra lo que ya has visto, incluida tu posición, pero **no pone marcas de objetivos**. Pueden comprarse o encontrarse mapas de una zona que revelan el terreno, sin secretos.
+- **Mapa del explorador:** objeto que se va dibujando a medida que recorres el terreno. Muestra el terreno que ya has visto **y tu posición** (decisión tuya: saber dónde estás sin saber adónde ir), pero **no pone marcas de objetivos**. Pueden comprarse o encontrarse mapas de una zona que revelan el terreno, sin secretos.
 - **Brújula/rumbo** como ayuda simple (norte, este…).
 - **Puntos de referencia visibles de lejos:** el Palacio de Kami flota, la Torre de Karin se divisa, hay torres de ki.
 - **Detector de ki:** estima el nivel de lo cercano (más débil / parejo / más fuerte) pero no su posición exacta.
@@ -96,7 +96,7 @@ Ejemplos (P, no definitivos): una ruta de un artista marcial rival (escuela de l
 | Después | Super y contenido adicional |
 
 ### 8.1 Qué entra en la beta (P)
-- **Niveles 1 a 35** (el tope de la beta es la puerta 2, que queda cerrada). Tiempo aproximado a ritmo de diseño: ~16 h.
+- **Niveles totales 1 a ~171** (la puerta 2 queda cerrada). Tiempo aproximado a ritmo de diseño: ~16 h. **El tope de la beta es provisional**: aún no has decidido el límite, y con el nuevo sistema por mejoras puede definirse como límite de nivel total o por puerta de forma.
 - **Puerta 1:** Kaio-ken (Saiyajin y Terrícola; las demás razas con su forma 2 o equivalente).
 - **Historia:** llegada de los saiyajin: Raditz → entrenamiento (Roshi, Kami, Kaio-sama en el Otro Mundo) → Saibamen y Nappa → **Vegeta** como jefe final.
 - **Maestros:** Roshi, Kami-sama, Kaio-sama, Piccolo.
@@ -115,6 +115,8 @@ El volumen "sin fin" de Elden Ring se construye después, añadiendo datos, no c
 2. Sin marcadores, con diario de ruta y mapa del explorador (§6).
 3. Beta = Saga Saiyan hasta Vegeta; 1.0 = todo Z (§8).
 
-## 10. Preguntas abiertas
-1. ¿Te parece bien que la beta tenga tope en el nivel 35, con Kaio-ken como única forma?
-2. ¿Quieres que el mapa muestre tu posición, o solo el terreno visto?
+## 10. Decisiones y preguntas
+Cerrado: el mapa muestra tu posición, sin marcar objetivos.
+
+Preguntas abiertas:
+1. ¿Cómo prefieres cerrar la beta: por **nivel total máximo** (un número), o por **puerta de forma** (no pasar de la forma 1)? Lo segundo encaja mejor con el diseño actual.
