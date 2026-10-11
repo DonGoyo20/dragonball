@@ -11,7 +11,7 @@
 - **Propuestas, sin confirmar explícitamente:** Minecraft 1.21.1 + NeoForge + Java 21; mod independiente (no ampliar DragonMine Z); no depender de un mod RPG externo para el núcleo; licencia por decidir.
 
 ## Documentos
-GDD.md (diseño), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).
+GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).
 
 ## Problemas conocidos
 - Investigación basada solo en búsquedas; no se leyó código de otros mods.
@@ -22,4 +22,4 @@ GDD.md (diseño), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md 
 Todas las del juego (nada implementado todavía).
 
 ## Próxima tarea
-Revisar contigo el GDD: atributos, etapas, razas iniciales y primera cadena de misiones.
+Cerrar contigo las 5 decisiones de WORLD_DESIGN.md §14.
