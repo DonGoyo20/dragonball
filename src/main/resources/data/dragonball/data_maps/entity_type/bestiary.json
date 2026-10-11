@@ -1,0 +1,208 @@
+{
+  "values": {
+    "dragonball:wild_wolf": {
+      "level": 4,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 10
+    },
+    "minecraft:blaze": {
+      "level": 85,
+      "kind": "normal",
+      "archetype": "tirador",
+      "xp": 265
+    },
+    "minecraft:cave_spider": {
+      "level": 8,
+      "kind": "normal",
+      "archetype": "veloz",
+      "xp": 18
+    },
+    "minecraft:chicken": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
+    "minecraft:cod": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
+    "minecraft:cow": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
+    "minecraft:creeper": {
+      "level": 7,
+      "kind": "normal",
+      "archetype": "bruto",
+      "xp": 16
+    },
+    "minecraft:drowned": {
+      "level": 10,
+      "kind": "normal",
+      "archetype": "bruto",
+      "xp": 23
+    },
+    "minecraft:ender_dragon": {
+      "level": 150,
+      "kind": "boss",
+      "archetype": "bestia",
+      "xp": 5657
+    },
+    "minecraft:enderman": {
+      "level": 26,
+      "kind": "normal",
+      "archetype": "veloz",
+      "xp": 68
+    },
+    "minecraft:evoker": {
+      "level": 40,
+      "kind": "elite",
+      "archetype": "tirador",
+      "xp": 338
+    },
+    "minecraft:ghast": {
+      "level": 90,
+      "kind": "elite",
+      "archetype": "tirador",
+      "xp": 845
+    },
+    "minecraft:hoglin": {
+      "level": 80,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 248
+    },
+    "minecraft:husk": {
+      "level": 12,
+      "kind": "normal",
+      "archetype": "bruto",
+      "xp": 28
+    },
+    "minecraft:magma_cube": {
+      "level": 78,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 241
+    },
+    "minecraft:phantom": {
+      "level": 12,
+      "kind": "normal",
+      "archetype": "veloz",
+      "xp": 28
+    },
+    "minecraft:pig": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
+    "minecraft:piglin": {
+      "level": 75,
+      "kind": "normal",
+      "archetype": "guerrero",
+      "xp": 231
+    },
+    "minecraft:pillager": {
+      "level": 18,
+      "kind": "normal",
+      "archetype": "tirador",
+      "xp": 44
+    },
+    "minecraft:rabbit": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
+    "minecraft:ravager": {
+      "level": 45,
+      "kind": "elite",
+      "archetype": "bruto",
+      "xp": 388
+    },
+    "minecraft:sheep": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
+    "minecraft:shulker": {
+      "level": 120,
+      "kind": "normal",
+      "archetype": "tanque",
+      "xp": 380
+    },
+    "minecraft:skeleton": {
+      "level": 5,
+      "kind": "normal",
+      "archetype": "tirador",
+      "xp": 12
+    },
+    "minecraft:slime": {
+      "level": 6,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 14
+    },
+    "minecraft:spider": {
+      "level": 4,
+      "kind": "normal",
+      "archetype": "veloz",
+      "xp": 10
+    },
+    "minecraft:stray": {
+      "level": 14,
+      "kind": "normal",
+      "archetype": "tirador",
+      "xp": 33
+    },
+    "minecraft:vindicator": {
+      "level": 24,
+      "kind": "normal",
+      "archetype": "bruto",
+      "xp": 61
+    },
+    "minecraft:warden": {
+      "level": 140,
+      "kind": "boss",
+      "archetype": "bruto",
+      "xp": 4748
+    },
+    "minecraft:witch": {
+      "level": 16,
+      "kind": "normal",
+      "archetype": "tirador",
+      "xp": 38
+    },
+    "minecraft:wither": {
+      "level": 130,
+      "kind": "boss",
+      "archetype": "tirador",
+      "xp": 3935
+    },
+    "minecraft:wither_skeleton": {
+      "level": 95,
+      "kind": "elite",
+      "archetype": "guerrero",
+      "xp": 895
+    },
+    "minecraft:zombie": {
+      "level": 3,
+      "kind": "normal",
+      "archetype": "bruto",
+      "xp": 8
+    },
+    "minecraft:zombified_piglin": {
+      "level": 70,
+      "kind": "normal",
+      "archetype": "bruto",
+      "xp": 214
+    }
+  }
+}

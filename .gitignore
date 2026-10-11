@@ -1,0 +1,18 @@
+# Gradle / Minecraft
+.gradle
+build
+run
+runs
+run-data
+repo
+out
+*.iml
+.idea
+.classpath
+.project
+.settings
+bin
+eclipse
+# Python (herramientas de diseño)
+__pycache__/
+*.pyc
