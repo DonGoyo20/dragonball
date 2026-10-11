@@ -49,8 +49,8 @@ Explorar → encontrar amenaza o lugar → luchar / entrenar → gastar puntos �
 ## 4. Sistema de niveles y puertas de forma
 Tres números que no se mezclan:
 - **Nivel (1–100):** visible. Da puntos de atributo y de técnica.
-- **Etapa (0–4):** 20 niveles cada una. Cada etapa multiplica la base de poder (GDD §3).
-- **Nivel de poder (NP):** derivado de atributos × etapa × forma. Es lo que usa el combate por razón de poder.
+- **Etapa (0–4):** 20 niveles cada una; es un tramo de la historia. El poder crece de forma continua con cada nivel (+21,6 %, ver `SYSTEMS.md` §2.1), no a saltos por etapa.
+- **Nivel de poder (NP):** derivado de atributos × factor de nivel × forma. Es lo que usa el combate por razón de poder.
 
 ### 4.1 Experiencia
 `XP para pasar del nivel L al L+1 = 50 · L^1.6` (calculado con script; se reajusta en Fase 2).

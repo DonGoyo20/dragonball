@@ -1,6 +1,6 @@
 # GDD — Documento de diseño del juego
 
-> Estado: **borrador de diseño sobre el papel.** Los números son una primera propuesta
+> Estado: **borrador de diseño sobre el papel.** Las reglas numéricas vigentes están en `SYSTEMS.md` (prevalece sobre este documento). Los números son una primera propuesta
 > sin ajustar (se afinan jugando, Fase 2). Todo lo marcado "(P)" es propuesta pendiente
 > de tu aprobación; lo demás sale de tu documento original.
 
@@ -39,13 +39,13 @@ Con coste exponencial puro `5·1.04^n` por punto, 400 puntos dan solo NP 1.305 y
 ## 3. Etapas de desarrollo (P)
 | Etapa | Tema | NP aprox. |
 |---|---|---|
-| 0 | Terrícola/novato, mobs vanilla | 10 – 500 |
-| 1 | Saga Z inicial (Raditz, Saibaman) | 500 – 10.000 |
-| 2 | Saga Z avanzada (Freezer, Cell) | 10.000 – 10^6 |
-| 3 | Majin Buu / dioses | 10^6 – 10^9 |
-| 4 | Super (Torneo del Poder) | 10^9 – 10^12+ |
+| 0 | Terrícola/novato, mobs vanilla | 48 – 6×10^3 |
+| 1 | Saga Z inicial (Raditz, Saibaman) | 6×10^3 – 5×10^5 |
+| 2 | Saga Z avanzada (Freezer, Cell) | 5×10^5 – 4×10^7 |
+| 3 | Majin Buu / dioses | 4×10^7 – 2×10^9 |
+| 4 | Super (Torneo del Poder) | 2×10^9 – 10^12 (con formas) |
 
-Cada puerta entre etapas se abre desbloqueando una forma/evolución de la raza (ver WORLD_DESIGN.md §4). Los NP son orientativos: lo importante es que cada etapa sea ~100–1000× la anterior y el combate lo normalice por razón.
+Cada puerta entre etapas se abre desbloqueando una forma/evolución de la raza (ver WORLD_DESIGN.md §4). Los NP son orientativos: lo importante es que cada etapa vale ≈ ×50 (ver SYSTEMS.md §2.1) y el combate lo normaliza por razón de poder.
 
 ## 4. Atributos (P)
 Reducidos a lo que tiene consecuencias distintas:
