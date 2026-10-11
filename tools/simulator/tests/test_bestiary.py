@@ -36,7 +36,7 @@ class TestBestiaryData(unittest.TestCase):
 
     def test_story_bosses_are_ordered_by_level(self):
         story = sorted((e for e in DATA["enemies"] if e["kind"] == "story"), key=lambda e: e["level"])
-        self.assertEqual([e["id"] for e in story], ["raditz", "nappa", "vegeta"])
+        self.assertEqual([e["id"] for e in story], ["murasaki", "blue", "metallitron", "buyon", "tao_pai_pai", "tambourine", "piano", "raditz", "nappa", "vegeta"])
 
 
 class TestPassiveAnimalsAndBudget(unittest.TestCase):

@@ -822,7 +822,8 @@
    "notes": "Primera amenaza grande de la historia",
    "named": true,
    "canon": "memoria",
-   "behavior": "guardia"
+   "behavior": "guardia",
+   "power_mult": 1.2
   },
   {
    "id": "saibaman",
@@ -860,7 +861,8 @@
    "notes": "Jefe de arco intermedio",
    "named": true,
    "canon": "memoria",
-   "behavior": "guardia"
+   "behavior": "guardia",
+   "power_mult": 1.05
   },
   {
    "id": "vegeta",
@@ -1171,7 +1173,8 @@
    "behavior": "territorial",
    "drops": [
     "carne"
-   ]
+   ],
+   "power_mult": 0.9
   },
   {
    "id": "rinoceronte",
@@ -1243,7 +1246,8 @@
    "behavior": "territorial",
    "drops": [
     "cuero"
-   ]
+   ],
+   "power_mult": 0.85
   },
   {
    "id": "oso_gigante",
@@ -1262,7 +1266,8 @@
    "behavior": "territorial",
    "secret_hint": "Los leñadores dicen que algo enorme duerme en lo alto de la montaña y que los árboles allí están marcados con garras del tamaño de un hombre.",
    "reward": "Pelaje de la montaña: material para equipo de entrenamiento resistente al frío (sin bonus de XP)",
-   "canon": "original"
+   "canon": "original",
+   "power_mult": 1.4
   },
   {
    "id": "bandido_armado",
@@ -1300,7 +1305,8 @@
    ],
    "behavior": "guardia",
    "canon": "original",
-   "notes": "Protege su campamento; puede tener cofre y recursos"
+   "notes": "Protege su campamento; puede tener cofre y recursos",
+   "power_mult": 0.95
   },
   {
    "id": "soldado_pilaf",
@@ -1367,7 +1373,8 @@
     "pilaf"
    ],
    "behavior": "guardia",
-   "canon": "memoria"
+   "canon": "memoria",
+   "power_mult": 1.05
   },
   {
    "id": "shu",
@@ -1386,7 +1393,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "memoria",
-   "notes": "Puede combatir o ser personaje de misión"
+   "notes": "Puede combatir o ser personaje de misión",
+   "power_mult": 1.05
   },
   {
    "id": "mai",
@@ -1405,7 +1413,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "memoria",
-   "notes": "Puede combatir o ser personaje de misión"
+   "notes": "Puede combatir o ser personaje de misión",
+   "power_mult": 0.95
   },
   {
    "id": "pilaf",
@@ -1491,7 +1500,8 @@
     "rr"
    ],
    "behavior": "patrulla",
-   "canon": "memoria"
+   "canon": "memoria",
+   "power_mult": 0.95
   },
   {
    "id": "robot_rr",
@@ -1508,7 +1518,8 @@
     "rr"
    ],
    "behavior": "guardia",
-   "canon": "memoria"
+   "canon": "memoria",
+   "power_mult": 1.05
   },
   {
    "id": "silver",
@@ -1527,7 +1538,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "notes": "Comandante de una base; su derrota desmantela la instalación"
+   "notes": "Comandante de una base; su derrota desmantela la instalación",
+   "power_mult": 1.1
   },
   {
    "id": "murasaki",
@@ -1546,7 +1558,8 @@
    "behavior": "emboscada",
    "named": true,
    "canon": "verificado",
-   "notes": "Miniboss de la Torre Musculo"
+   "notes": "Miniboss de la Torre Musculo",
+   "power_mult": 0.9
   },
   {
    "id": "blue",
@@ -1565,7 +1578,8 @@
    ],
    "behavior": "guardia",
    "named": true,
-   "canon": "verificado"
+   "canon": "verificado",
+   "power_mult": 0.9
   },
   {
    "id": "metallitron",
@@ -1584,7 +1598,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "notes": "Máquina; su comportamiento es de robot"
+   "notes": "Máquina; su comportamiento es de robot",
+   "power_mult": 0.95
   },
   {
    "id": "buyon",
@@ -1603,7 +1618,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "notes": "Monstruo grande; su poder real no está claro en las fuentes (decisión de diseño: nivel entre Metallitron y Tao)"
+   "notes": "Monstruo grande; su poder real no está claro en las fuentes (decisión de diseño: nivel entre Metallitron y Tao)",
+   "power_mult": 0.7
   },
   {
    "id": "tao_pai_pai",
@@ -1623,7 +1639,8 @@
    "behavior": "emboscada",
    "named": true,
    "canon": "verificado",
-   "notes": "Asesino a sueldo; jefe de la línea del Red Ribbon"
+   "notes": "Asesino a sueldo; jefe de la línea del Red Ribbon",
+   "power_mult": 0.85
   },
   {
    "id": "black",
@@ -1678,7 +1695,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "special": "Drenaje de energía (decisión de diseño: la fuente solo confirma que es un luchador con mordisco)"
+   "special": "Drenaje de energía (decisión de diseño: la fuente solo confirma que es un luchador con mordisco)",
+   "power_mult": 1.0
   },
   {
    "id": "see_through",
@@ -1697,7 +1715,8 @@
    "behavior": "emboscada",
    "named": true,
    "canon": "verificado",
-   "special": "Invisibilidad temporal (confirmado por la fuente: el combate gira en torno a localizarlo); su duración y el contraataque por sonido son decisión de diseño"
+   "special": "Invisibilidad temporal (confirmado por la fuente: el combate gira en torno a localizarlo); su duración y el contraataque por sonido son decisión de diseño",
+   "power_mult": 1.05
   },
   {
    "id": "bandages",
@@ -1716,7 +1735,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "special": "Ataques de agarre (decisión de diseño); combate en la arena 'Devil's Toilet' de la fuente"
+   "special": "Ataques de agarre (decisión de diseño); combate en la arena 'Devil's Toilet' de la fuente",
+   "power_mult": 1.45
   },
   {
    "id": "spike",
@@ -1735,7 +1755,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "special": "Rayo Devilmite: amplifica el mal del objetivo (confirmado); en el juego, daño de ki que ignora parte de la defensa de quien tenga el control bajo (adaptación de diseño)"
+   "special": "Rayo Devilmite: amplifica el mal del objetivo (confirmado); en el juego, daño de ki que ignora parte de la defensa de quien tenga el control bajo (adaptación de diseño)",
+   "power_mult": 2.15
   },
   {
    "id": "tambourine",
@@ -1755,7 +1776,8 @@
    "behavior": "emboscada",
    "named": true,
    "canon": "verificado",
-   "notes": "Creado para cazar a los participantes del torneo; persigue al jugador"
+   "notes": "Creado para cazar a los participantes del torneo; persigue al jugador",
+   "power_mult": 0.8
   },
   {
    "id": "cymbal",
@@ -1774,7 +1796,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "notes": "Creado para reunir las esferas del dragón; encuentro de caza"
+   "notes": "Creado para reunir las esferas del dragón; encuentro de caza",
+   "power_mult": 1.65
   },
   {
    "id": "drum",
@@ -1793,7 +1816,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "notes": "Creado para combatir a Tenshinhan; encuentro especial"
+   "notes": "Creado para combatir a Tenshinhan; encuentro especial",
+   "power_mult": 1.45
   },
   {
    "id": "piano",
@@ -1813,7 +1837,8 @@
    "behavior": "guardia",
    "named": true,
    "canon": "verificado",
-   "notes": "Mano derecha del Rey Demonio; cierra la categoría"
+   "notes": "Mano derecha del Rey Demonio; cierra la categoría",
+   "power_mult": 1.1
   },
   {
    "id": "saiyajin_generico",
@@ -1832,7 +1857,8 @@
    ],
    "behavior": "patrulla",
    "canon": "original",
-   "notes": "Contenido original, claramente distinto de los personajes canónicos"
+   "notes": "Contenido original, claramente distinto de los personajes canónicos",
+   "power_mult": 1.55
   }
  ]
 }

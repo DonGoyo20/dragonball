@@ -16,10 +16,11 @@
 - **Decisiones del usuario (5.ª ronda):** Kaio-ken hasta "×3" con nombres no literales; requisitos siempre visibles; las habilidades se compran con XP (XP = moneda del juego) y los atributos se exigen para usarlas; Vitalidad = resistencia.
 - **Decisiones del usuario (6.ª ronda):** aceptadas las cinco propuestas previas a Saiyajin/Humano (origen, combate en tiempo real con teclas, creación limitada, topes de Zenkai y Aprendiz nato, simulador).
 - **Decisiones del usuario (7.ª ronda):** el Humano no se compensa; los especialistas pueden superar al equilibrado; garantía de historia (cualquier build debe poder avanzar, medida en el simulador); al Otro Mundo solo se va muriendo; teletransportación a NPC después de la beta.
+- **Decisiones del usuario (8.ª ronda):** los mobs de Minecraft con nivel fijo (una vaca o un cerdo mueren casi de un golpe al inicio); jefes vanilla se quedan pero se quitan si complican el código; Saibamen en grupos de 3. Alcance de la beta ampliado: **Dragon Ball clásico hasta la saga Saiyan** (Pilaf, Red Ribbon, luchadores de Baba, hijos de Piccolo Daimaō, saga Saiyan); fuera Freezer, Cell, Buu, GT, Super.
 - **Propuestas, sin confirmar explícitamente:** Minecraft 1.21.1 + NeoForge + Java 21; mod independiente (no ampliar DragonMine Z); no depender de un mod RPG externo para el núcleo; licencia por decidir.
 
 ## Documentos
-GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas en detalle), SYSTEMS.md (reglas base: niveles, ki, combate, comida, entrenamiento), CONTENT_DESIGN.md (exploración, jefes secretos, rutas de personaje), ABILITIES.md (habilidades, formas y requisitos), BETA_RACES.md (Saiyajin y Humano en la beta), BESTIARY.md (enemigos y jefes de la beta; datos en design_data/beta/bestiary.json), tools/simulator (simulador de equilibrio en Python), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).
+GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas en detalle), SYSTEMS.md (reglas base: niveles, ki, combate, comida, entrenamiento), CONTENT_DESIGN.md (exploración, jefes secretos, rutas de personaje), ABILITIES.md (habilidades, formas y requisitos), BETA_RACES.md (Saiyajin y Humano en la beta), BESTIARY.md (enemigos y jefes de la beta; datos en design_data/beta/bestiary.json), BESTIARY_PLAN.md (análisis técnico y plan de implementación del bestiario), tools/simulator (simulador de equilibrio en Python), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).
 
 ## Problemas conocidos
 - Investigación basada solo en búsquedas; no se leyó código de otros mods.
@@ -31,4 +32,4 @@ GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas
 Todas las del juego (nada implementado todavía).
 
 ## Próxima tarea
-Resolver las 3 preguntas de BESTIARY.md §11; después, maestros de la beta o primera cadena de misiones de Roshi; completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).
+Aprobaciones de BESTIARY_PLAN.md §5 (plataforma, red/PC, arte, alcance por etapas) para empezar la Fase 1; preguntas de BESTIARY.md §15; completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).
