@@ -72,13 +72,15 @@ Lectura:
 **Escalera de formas (P)**
 | Puerta | Forma | Hito de desbloqueo (P) | Notas |
 |---|---|---|---|
-| 1 | Super Saiyajin | Sobrevivir a un jefe poderoso con vida < 10 %, o entrenar con un maestro saiyajin (p. ej. Vegeta) | Mecánica clásica de "furia" |
-| 2 | Super Saiyajin 2 | Dominio SSJ ≥ 60 % + prueba de resistencia | |
-| 3 | Super Saiyajin 3 / Dios | Misión de arco largo | Coste de ki muy alto |
-| 4 | Azul | Entrenamiento divino (Whis) | |
-| 5 | Ultra Instinto | Prueba final | Forma suprema |
+| 1 | Kaio-ken | Entrenar con Kaio-sama en el Otro Mundo (final del Camino de la Serpiente) | Multiplicador temporal con coste de vida; **entra en la beta** |
+| 2 | Super Saiyajin | Dominio de Kaio-ken ≥ 60 % + sobrevivir a un jefe poderoso con vida < 10 % | Mecánica de furia; **fuera de la beta** |
+| 3 | Super Saiyajin 2 | Dominio SSJ ≥ 60 % + prueba de resistencia | |
+| 4 | Super Saiyajin 3 / Dios | Misión de arco largo | Coste de ki muy alto |
+| 5 | Azul / Ultra Instinto | Entrenamiento divino (Whis) y prueba final | Forma suprema |
 
 **Identidad visual:** pelo que se alza, aura dorada y luego azul/plateada, chispas eléctricas, ojos que cambian de color.
+
+> **Cambio (2026-10-11):** la primera puerta (nivel 15, ~5 h de juego) es temprana para el Super Saiyajin, que en la serie llega tras Vegeta. Para la beta (Saga Saiyan, hasta Vegeta, nivel 35) solo se usa la **puerta 1**. En Saiyajin y Terrícola la forma 1 es el **Kaio-ken**.
 
 ## 4. Raza de Freezer (Arcosiano)
 

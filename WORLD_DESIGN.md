@@ -72,11 +72,11 @@ Hasta que desbloqueas la forma, la XP se acumula pero el nivel no sube de la pue
 ### 4.3 Escalera de formas por raza (provisional, se concreta en la fase de razas)
 | Puerta | Saiyajin | Raza de Freezer | Terrícola | Namekiano |
 |---|---|---|---|---|
-| 1 | Super Saiyajin | Forma 2 | Kaio-ken | Gigante / fusión |
-| 2 | Super Saiyajin 2 | Forma 3 | Potencial liberado | Súper Namekiano |
-| 3 | Super Saiyajin 3 / Dios | Forma final | Ultimate | por definir |
-| 4 | Azul / Ultra Instinto | Forma completa | Bestia | por definir |
-| 5 | Ultra Instinto dominado | Golden | por definir | por definir |
+| 1 | Kaio-ken | Forma 2 | Kaio-ken | Gigante / fusión |
+| 2 | Super Saiyajin | Forma 3 | Potencial liberado | Súper Namekiano |
+| 3 | Super Saiyajin 2 | Forma final | Ultimate | por definir |
+| 4 | Super Saiyajin 3 / Dios | Forma completa | Bestia | por definir |
+| 5 | Azul / Ultra Instinto | Golden | por definir | por definir |
 
 Majin y Androide: por diseñar. No todas las razas tienen que tener 5.
 

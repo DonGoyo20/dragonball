@@ -71,7 +71,7 @@ Cada tipo de enemigo tiene un **nivel** y una **XP fija** escritos a mano en el 
 | 75 | 1.053 | 47,5 |
 | 100 | 1.321 | 60 |
 
-Ritmo: unos 3.465 combates parejos hasta el nivel 100. Con ~90 s por combate, serían ~87 h luchando solo. **El objetivo es que el combate aporte ~50 % de la XP**, el resto sale de misiones, entrenamiento y descubrimientos: unas 40–50 h hasta el nivel 100 como referencia, sin contar contenido narrativo (a validar jugando).
+Ritmo: unos 3.465 combates parejos hasta el nivel 100. Con ~90 s por combate son ~87 h si **toda** la XP viniera del combate. Si misiones y entrenamiento dan XP al mismo ritmo por hora que el combate, el total sigue siendo ~87 h (el reparto 50/30/20 dice *de dónde* viene la XP, no cuánto dura). Tiempo acumulado aproximado a ese ritmo: nivel 15 ≈ 5 h; nivel 35 ≈ 16 h; nivel 55 ≈ 32 h; nivel 100 ≈ 87 h. *Corrección: una versión anterior de este documento decía 40–50 h; suponía que la mitad de la XP llegaba sin tiempo, lo cual no es cierto.* Cifras a validar jugando.
 
 La XP de misiones y entrenamiento se reparte con el mismo criterio: valores fijos en los datos, no fórmulas ocultas.
 

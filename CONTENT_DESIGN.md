@@ -69,13 +69,17 @@ Reglas:
 
 Ejemplos (P, no definitivos): una ruta de un artista marcial rival (escuela de la grulla), un cazarrecompensas que cambia de bando, un científico con módulos para androides, un guerrero saiyajin exiliado.
 
-## 6. Descubrimiento sin marcadores (P)
-- **Puntos de referencia visibles:** el Palacio de Kami flota y se ve de lejos; la Torre de Karin se divisa; hay formaciones y torres de ki visibles.
-- **Diario automático:** apunta pistas oídas y lugares vistos con una descripción, sin posición exacta.
-- **Detector de ki:** da una estimación del nivel de lo que hay cerca (más débil / parejo / más fuerte), no su posición exacta.
+## 6. Diario de ruta y orientación (decisión tuya)
+**Sin marcadores y sin coordenadas.** El juego te dice *adónde ir*, nunca *dónde está*. El jugador se orienta con el mundo.
+
+- **Diario de ruta:** anota lo que te dicen con las palabras del personaje. Ejemplo: *"Ve a ver a Roshi. Dicen que vive en una isla pequeña, al sur de la ciudad, en mitad del mar."* Sin coordenadas, sin flecha.
+- **Pistas direccionales y de paisaje:** los NPC dan referencias relativas (dirección general, hitos, distancias aproximadas), no posiciones exactas.
+- **Mapa del explorador:** objeto que se va dibujando a medida que recorres el terreno. Muestra lo que ya has visto, incluida tu posición, pero **no pone marcas de objetivos**. Pueden comprarse o encontrarse mapas de una zona que revelan el terreno, sin secretos.
+- **Brújula/rumbo** como ayuda simple (norte, este…).
+- **Puntos de referencia visibles de lejos:** el Palacio de Kami flota, la Torre de Karin se divisa, hay torres de ki.
+- **Detector de ki:** estima el nivel de lo cercano (más débil / parejo / más fuerte) pero no su posición exacta.
 - **Radar del Dragón:** solo para las esferas del dragón.
-- **Mapas comprables o encontrables** que revelan una zona, sin marcar secretos.
-- **Opción de accesibilidad:** marcadores opcionales para quien los quiera.
+- **Opcional:** un ajuste de accesibilidad para quien quiera marcadores, apagado por defecto.
 
 ## 7. Implicaciones técnicas (para TECHNICAL_DESIGN)
 - **Jefes y rutas son datos:** nivel, arquetipo, XP fija, tabla de recompensas, pista de descubrimiento, marca de "derrotado" por mundo.
@@ -84,16 +88,33 @@ Ejemplos (P, no definitivos): una ruta de un artista marcial rival (escuela de l
 - **Misiones con ramas:** el sistema de misiones debe admitir ramas, fallos y condiciones ocultas desde el diseño (TECHNICAL_DESIGN §8 se amplía).
 - **Tablas de recompensas** con tope global para los puntos de atributo (§2).
 
-## 8. Alcance de la primera versión (P)
-La primera versión solo necesita **demostrar el concepto**:
-- 1 arco inicial corto como columna vertebral.
-- 2–3 jefes secretos con pistas y recompensas distintas.
-- 1 ruta de personaje con una elección.
-- Sin generación avanzada: estructuras colocadas con reglas simples.
+## 8. Versiones del proyecto (decisión tuya)
+| Versión | Alcance |
+|---|---|
+| **Beta** | Hasta la **Saga Saiyan, con Vegeta como jefe final**. Cubre los puntos principales: entrenamiento con maestros, personajes principales y el Otro Mundo |
+| **1.0** | Todo el arco Z |
+| Después | Super y contenido adicional |
 
-El volumen "sin fin" de Elden Ring se construye después, añadiendo datos, no código, que es la razón de la arquitectura basada en datos.
+### 8.1 Qué entra en la beta (P)
+- **Niveles 1 a 35** (el tope de la beta es la puerta 2, que queda cerrada). Tiempo aproximado a ritmo de diseño: ~16 h.
+- **Puerta 1:** Kaio-ken (Saiyajin y Terrícola; las demás razas con su forma 2 o equivalente).
+- **Historia:** llegada de los saiyajin: Raditz → entrenamiento (Roshi, Kami, Kaio-sama en el Otro Mundo) → Saibamen y Nappa → **Vegeta** como jefe final.
+- **Maestros:** Roshi, Kami-sama, Kaio-sama, Piccolo.
+- **Otro Mundo** con Camino de la Serpiente y el planeta de Kaio.
+- **Razas jugables:** Saiyajin y Terrícola (RACES §11).
+- **Secretos mínimos para probar el concepto:** 2–3 jefes secretos con pistas, 1 ruta de personaje con una elección.
+- **Sistemas:** niveles, ki, agotamiento, comida, entrenamiento con penalización, diario y mapa.
 
-## 9. Preguntas abiertas
-1. ¿"Runs de personajes" = rutas de misiones de NPC, como las interpreté?
-2. ¿Marcadores desactivados por defecto (como en esos juegos) con opción para activarlos?
-3. ¿Cuántos arcos de la serie quieres cubrir en la primera versión completa, y cuáles?
+### 8.2 Lo que NO entra en la beta
+Super Saiyajin y siguientes, Namek, Freezer, Androides, Majin Buu, Dioses, resto de razas, torneos avanzados.
+
+El volumen "sin fin" de Elden Ring se construye después, añadiendo datos, no código.
+
+## 9. Decisiones cerradas
+1. "Runs de personajes" = rutas de misiones de un NPC (§5).
+2. Sin marcadores, con diario de ruta y mapa del explorador (§6).
+3. Beta = Saga Saiyan hasta Vegeta; 1.0 = todo Z (§8).
+
+## 10. Preguntas abiertas
+1. ¿Te parece bien que la beta tenga tope en el nivel 35, con Kaio-ken como única forma?
+2. ¿Quieres que el mapa muestre tu posición, o solo el terreno visto?
