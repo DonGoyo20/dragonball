@@ -45,7 +45,7 @@ Con coste exponencial puro `5·1.04^n` por punto, 400 puntos dan solo NP 1.305 y
 | 3 | Majin Buu / dioses | 10^6 – 10^9 |
 | 4 | Super (Torneo del Poder) | 10^9 – 10^12+ |
 
-Los NP son orientativos: lo importante es que cada etapa sea ~100–1000× la anterior y el combate lo normalice por razón.
+Cada puerta entre etapas se abre desbloqueando una forma/evolución de la raza (ver WORLD_DESIGN.md §4). Los NP son orientativos: lo importante es que cada etapa sea ~100–1000× la anterior y el combate lo normalice por razón.
 
 ## 4. Atributos (P)
 Reducidos a lo que tiene consecuencias distintas:

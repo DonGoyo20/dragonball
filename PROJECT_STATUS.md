@@ -7,7 +7,7 @@
 - **Red restringida:** bloqueados maven.neoforged.net, modrinth.com, api.github.com; Maven Central dio 429. No se puede descargar NeoForge/Minecraft en esta sesión hasta ampliar la red.
 
 ## Decisiones
-- **Aprobadas por el usuario:** trabajar sobre el papel hasta tener PC; enfoque de datos JSON para contenido; separar escala de poder (NP) del combate por razón de poder.
+- **Aprobadas por el usuario:** trabajar sobre el papel hasta tener PC; enfoque de datos JSON para contenido; separar escala de poder (NP) del combate por razón de poder; mundo = Overworld con localizaciones especiales; muerte → Otro Mundo con temporizador y sin pérdida de zeni; sin fatiga, entrenamiento con penalizaciones que dan más XP; niveles bloqueados por evoluciones/formas de cada raza; esferas del dragón con deseos propios y limitados.
 - **Propuestas, sin confirmar explícitamente:** Minecraft 1.21.1 + NeoForge + Java 21; mod independiente (no ampliar DragonMine Z); no depender de un mod RPG externo para el núcleo; licencia por decidir.
 
 ## Documentos
@@ -22,4 +22,4 @@ GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), TECHNICAL_DESIG
 Todas las del juego (nada implementado todavía).
 
 ## Próxima tarea
-Cerrar contigo las 5 decisiones de WORLD_DESIGN.md §14.
+Resolver las 3 preguntas abiertas de WORLD_DESIGN.md §14 y detallar la escalera de formas por raza.
