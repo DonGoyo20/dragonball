@@ -1,0 +1,51 @@
+# HANDOFF — Visión del proyecto y estado (2026-10-11)
+Para alinear a otra IA con la visión del usuario y con el código actual. Rama: `claude/dragon-ball-minecraft-mod-dk0cgl` (repo `dongoyo20/dragonball`). Documentos en español. Prevalece `SYSTEMS.md` sobre `GDD.md` si discrepan.
+
+## 1. Qué quiere el usuario
+Mod de **Dragon Ball RPG para Minecraft Java 1.21.1 + NeoForge 21.1.259** (Java 21), mundo de un solo jugador, mod independiente. Núcleo = **progresión RPG**. Beta: **Dragon Ball clásico hasta la saga Saiyan; termina al derrotar a Vegeta**. Razas jugables en la beta: **Saiyajin y Humano**. La 1.0 será todo Z; Super después.
+
+## 2. Mundo y gameplay (decisiones del usuario)
+- **Mundo:** el Overworld de Minecraft se fusiona con el de Dragon Ball; estructuras únicas (una por mundo), lejos del inicio, que se localizan con pistas/radar.
+- **Exploración sin marcadores:** un diario de ruta (solo palabras del NPC) y un mapa del explorador que se dibuja al recorrer. Importa saber **dónde estás**, no necesariamente adónde vas.
+- **Muerte:** vas al **Otro Mundo** (Yemma, Camino de la Serpiente). Hay una espera mínima (15 min reales por defecto) antes de poder reaparecer, y luego tú decides cuándo volver; sirve para fomentar explorarlo. No pierdes zeni, nivel ni objetos. Al Otro Mundo solo se va muriendo. Teletransporte a NPC: después de la beta.
+- **Sin fatiga clásica:** el cansancio es agotamiento por quedarte sin ki; entrenar con penalizaciones da más XP. Esferas del dragón con deseos propios y limitados.
+- **Estilo de juego:** como Elden Ring / Breath of the Wild: historia como columna vertebral, muchos jefes secretos y rutas de personaje con buenas recompensas. Garantía de historia: cualquier build debe poder avanzar.
+- **Combate en tiempo real con teclas.** Los **mobs de Minecraft** tienen nivel fijo (una vaca o un cerdo mueren casi de un golpe al inicio); los jefes vanilla se quedan pero se quitan si complican el código; los Saibamen van en grupos de 3.
+
+## 3. Sistema de progresión (SYSTEMS.md v3)
+- **7 atributos** (no 5): VIT (vitalidad), FUE (fuerza), DEF (defensa), VEL (velocidad), KI (ki máximo), POD (poder de ki), CON (control). Tope **99** por atributo (valor, no número de mejoras).
+- **XP = moneda.** Se gasta en subir un atributo y en comprar habilidades. **Nivel total = 1 + nº de mejoras.** Coste de la siguiente mejora `10 × (1 + T/5)^1,6` (igual para todos los atributos). El progreso es lento y desgastante, pero con un mínimo de ritmo.
+- **Poder efectivo** `E = valor × 1,0399^T × forma`. Daño por golpe como % de vida: `0,05 × clamp((A/D)^0,75)`, defensas `D = DEF^0,7 × VIT^0,3` (físico) y `DEF^0,4 × CON^0,3 × VIT^0,3` (ki). Esquiva por VEL (solo esquiva, sin dar acciones extra).
+- **Ki:** barra, reserva `50 + 10 × KI`, costes de técnica **absolutos** reducidos por CON.
+- **Habilidades:** se compran con XP, pero **usarlas exige atributos mínimos** (Kamehameha → CON/POD, Kaio-ken → VIT). Los requisitos se muestran siempre. Kaio-ken hasta "×3" con nombres no literales; es la puerta 1 y entra en la beta; Super Saiyajin queda fuera de la beta.
+- **XP:** presupuesto 50 % combate / 30 % misiones / 20 % entrenamiento; recompensa fija por enemigo, anti-granjas (spawners ×0,25, rendimientos decrecientes).
+- **Razas:** Saiyajin y Humano tienen valores base y crecimiento distintos (BETA_RACES.md). Rasgos: Zenkai (Saiyajin), Aprendiz nato (Humano).
+- **Vida (decisión reciente):** vida como **fracción 0–1**; el jugador siempre tiene 20 HP vanilla y la "vida real" es derivada. Este ciclo: solo **VIT → salud**, tope 99 en `tryUpgrade`, VEL solo esquiva, sin HUD, razas no son prerrequisito.
+
+## 4. Estado real (distinguiendo)
+| Sistema | Diseñado | Implementado | Verificado |
+|---|---|---|---|
+| XP, mejoras, nivel total, logros de nivel (`level_2/5/10`) | sí | sí | JUnit (5) + GameTest + en juego |
+| Bestiario como Data Map (34 de 94 entradas exportadas) | sí | parcial | GameTest; la XP por kill funciona en juego |
+| Lobo salvaje (GeckoLib: modelo, caminar, atacar, botín) | sí | sí | en juego por el usuario; **la animación de mordisco no se ve** (reforzada, sin confirmar) |
+| Patchouli: libro `dragonball:guia` | sí | sí (datos) | se abre en juego |
+| FTB Quests: capítulo de prueba con 3 misiones | sí | datos | las 3 se completan en juego |
+| KubeJS: script que cambia la XP de la araña | sí | datos | verificado (49 XP en vez de 10) |
+| Traducciones | — | es_es + variantes es_mx/ar/cl/uy/ve/ec | **por verificar en el PC** |
+| Efecto de atributos en combate, ki, técnicas, razas, formas, maestros, Otro Mundo, HUD, sincronización al cliente | sí | **no** | — |
+Código: Java en `src/main/java/com/dongoyo20/dragonball/` (`core/Progression` puro; `game/progress`, `game/bestiary`, `game/entity`, `game/command`, `game/advancement`; `client/WildWolfRenderer`). Comandos: `/dragonball progress | upgrade <vit|fue|def|vel|ki|pod|con> | givexp <n>`.
+Tests: `./gradlew build` (JUnit), `./gradlew runGameTestServer` (6 GameTest), `tools/verify_integrations.sh` (núcleo + FTB + KubeJS). Simulador de equilibrio en Python (`tools/simulator`, 29 pruebas), datos en `design_data/beta/bestiary.json`.
+Entorno: la nube no ve Minecraft con pantalla real; lo visual lo prueba el usuario en su PC (Windows). Hay una demo con pantalla virtual (`runClientDemo`, solo ayuda).
+
+## 5. Integraciones (todas por datos salvo GeckoLib)
+GeckoLib 4.9.3 (MIT, obligatoria), Patchouli 1.21.1-93 (CC-BY-NC-SA 3.0), FTB Quests 2101.1.36 (All Rights Reserved; solo datos), KubeJS 2101.7.2 (LGPL). **No adoptadas:** TerraBlender (sin biomas propios) y Curios (sin accesorios). Detalle en `INTEGRATIONS.md`. DragonMine Z (GPL-3.0) es solo referencia: no se copia código.
+
+## 6. Reglas que debe respetar otra IA
+- No cambiar Minecraft 1.21.1 ni NeoForge; no inventar APIs, versiones ni resultados de pruebas; no declarar funcional algo que solo compila.
+- Distinguir siempre: diseñado / implementado / compilado / verificado en juego.
+- No copiar código ni arte de otros mods; arte original, estilo bloque.
+- Explicar con palabras simples (el usuario es principiante); preguntar solo lo que es decisión suya.
+- Datos antes que código (JSON/data maps) cuando sea posible; no meter lógica crítica en KubeJS.
+
+## 7. Próximo paso
+Implementar **VIT → salud** según `HEALTH_FEASIBILITY.md` (evento `LivingDamageEvent.Pre`, `core/HealthSystem`, sin guardar vida real aparte). Esperan 4 confirmaciones del usuario: derivar la vida real de la vanilla, fórmula lineal provisional de VIT, daño de entorno sin escalar, base universal = valores del Saiyajin. Preguntas de diseño aún abiertas: `BESTIARY.md` §15, licencia del mod, GPU del usuario.
