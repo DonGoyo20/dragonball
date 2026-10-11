@@ -13,6 +13,7 @@
 - **Alcance (usuario):** beta = Saga Saiyan hasta Vegeta (niveles 1–35); 1.0 = todo Z. Sin marcadores: diario de ruta (solo palabras del NPC) + mapa del explorador que se dibuja al recorrer. Rutas de personaje = misiones de NPC.
 - **Sistema de niveles (usuario, 3.ª ronda):** estilo Elden Ring / Dragon Block C: la XP es una moneda que se gasta en el atributo elegido; nivel total = 1 + mejoras; tope de la beta aún sin decidir; el mapa muestra tu posición.
 - **Decisiones del usuario (4.ª ronda):** coste de mejora igual para todos los atributos; tope de 99 por atributo; la beta termina al derrotar a Vegeta; toda habilidad exige atributos mínimos (Kamehameha → control de ki, Kaio-ken → resistencia).
+- **Decisiones del usuario (5.ª ronda):** Kaio-ken hasta "×3" con nombres no literales; requisitos siempre visibles; las habilidades se compran con XP (XP = moneda del juego) y los atributos se exigen para usarlas; Vitalidad = resistencia.
 - **Propuestas, sin confirmar explícitamente:** Minecraft 1.21.1 + NeoForge + Java 21; mod independiente (no ampliar DragonMine Z); no depender de un mod RPG externo para el núcleo; licencia por decidir.
 
 ## Documentos
@@ -27,4 +28,4 @@ GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas
 Todas las del juego (nada implementado todavía).
 
 ## Próxima tarea
-Resolver las 3 preguntas de ABILITIES.md §9; ajustar RACES.md a esos parámetros (XP de raza, agotamiento); completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).
+Validar con el usuario los puntos previos a Saiyajin y Humano; ajustar RACES.md a esos parámetros (XP de raza, agotamiento); completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).

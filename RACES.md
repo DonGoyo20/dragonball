@@ -132,7 +132,7 @@ Lectura:
 | 1,10 | 1,00 | 1,00 | 1,10 | 1,00 | 1,00 | 1,30 |
 
 **Rasgos**
-- **Aprendiz nato (ventaja):** +30 % de XP en entrenamientos con maestros y −25 % de coste de puntos de técnica.
+- **Aprendiz nato (ventaja):** +30 % de XP en entrenamientos con maestros y −25 % de precio en XP al comprar habilidades.
 - **Versátil (ventaja):** puede aprender **cualquier técnica** que no esté marcada como racial exclusiva. Las demás razas tienen restricciones.
 - **Voluntad (ventaja):** al caer por debajo del 15 % de vida, un breve bonus de DEF y regeneración de ki (una vez por combate).
 - **Frágil (desventaja):** atributos base bajos y sin rasgo defensivo; los primeros niveles son duros.

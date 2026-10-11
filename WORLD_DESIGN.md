@@ -83,7 +83,7 @@ Usar una forma sube su **dominio** (0–100 %): baja el coste de ki, sube un poc
 
 ### 4.5 Puntos
 - **Mejoras de atributo:** se compran con XP (SYSTEMS §2.1).
-- **Puntos de técnica:** 1 cada 5 niveles totales + maestros y misiones.
+- **Habilidades:** se compran con XP (ABILITIES §3).
 - **Reasignar:** con un objeto o maestro, con coste (SYSTEMS §2.7).
 
 ## 5. Entrenamiento con penalización (respuesta a tu decisión 3)

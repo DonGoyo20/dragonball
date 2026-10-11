@@ -24,7 +24,7 @@
 > **Cambio de la v3 (2026-10-11):** ya no se "sube de nivel y se reparten 5 puntos". La experiencia es una **moneda**: se gasta para mejorar el atributo que quieras. El nivel es la suma de mejoras. Así el jugador decide su tipo de personaje (fuerza, control de ki extremo, mucho ki…).
 
 ### 2.1 Cómo funciona
-- **XP** = moneda. Se gana con combates, misiones y entrenamiento (§2.5).
+- **XP** = moneda del juego. Se gana con combates, misiones y entrenamiento (§2.5) y se gasta en **mejoras de atributo** y en **comprar habilidades** (§2.8). Gastarla en habilidades no baja el nivel, pero no se puede gastar dos veces.
 - **Mejora:** pagas XP y subes **un** atributo de los 7. El atributo sube en el valor de crecimiento de tu raza (p. ej. Saiyajin: FUE +1,25 por mejora).
 - **Nivel total `N` = 1 + número de mejoras.** Es lo que se muestra y lo que usa el juego para escalar el mundo. Referencia de diseño para la versión 1.0 (todo Z): **N ≈ 496**. El máximo real depende de la raza (todos los atributos a 99: entre ~616 y ~742); lo que sobra queda para ampliaciones (Super).
 - **Tope por atributo: valor 99** (decisión tuya, como en Elden Ring). Cuántas mejoras hacen falta para llegar depende de la raza (por su crecimiento). Para tener los siete atributos en 99 hacen falta entre ~615 mejoras (Terrícola) y ~741 (Raza de Freezer); en la práctica, los personajes extremos llevan unos atributos al máximo y descuidan otros.
@@ -109,8 +109,8 @@ Enemigos 33 o más niveles por debajo, animales pasivos, muertes que no cause el
 ### 2.7 Reasignar (respec)
 Con un objeto raro o un maestro, se redistribuyen las mejoras ya hechas (el nivel total no cambia). Tiene coste para que no sea trivial cambiar de build cada combate.
 
-### 2.8 Puntos de técnica
-1 punto de técnica cada 5 niveles totales, más los que den maestros y misiones. Se gastan en aprender o mejorar técnicas.
+### 2.8 Comprar habilidades con XP
+Ya no hay "puntos de técnica": las habilidades (técnicas, especiales, formas) se **compran con XP** a un maestro, misión u objeto (decisión tuya, como Elden Ring). Precio como % de la XP acumulada y requisitos de uso por atributo: ver `ABILITIES.md` §3.
 
 ## 3. Combate
 
@@ -260,5 +260,9 @@ Lo único que sí requiere código nuevo es un **rasgo distinto** (p. ej. Zenkai
 3. **La beta termina al derrotar a Vegeta** (condición de historia, no un número). Como la puerta 2 queda cerrada en la beta, el nivel total efectivo ronda ~171.
 4. **Requisitos de atributo para toda habilidad** (técnicas, formas, especiales): ver `ABILITIES.md`.
 
-## 17. Preguntas abiertas
-Ver `ABILITIES.md` §9.
+## 17. Decisiones cerradas (5.ª ronda)
+1. La XP es también moneda para comprar habilidades (necesitan una fuente: maestro, misión u objeto). Requisitos de atributo solo para **usar**.
+2. Kaio-ken hasta "×3" con nombres no literales.
+
+## 18. Preguntas abiertas
+Ver el final de la conversación (validaciones previas a Saiyajin y Humano).
