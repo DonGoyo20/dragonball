@@ -79,3 +79,6 @@ Objetivos iniciales: pocos NPC activos, sin efectos pesados; límite de partícu
 
 ## 11. Multijugador
 No es requisito. Se separa lógica de servidor (`game`) y de cliente (`client`) desde el principio, porque es barato y evita reescribir después.
+
+## 12. Requisitos de habilidad (añadido 2026-10-11)
+Toda habilidad (técnica, especial, forma, pasiva) se carga desde datos y tiene requisitos de atributo, de fuente y de raza (ver `ABILITIES.md`). El motor de requisitos vive en `core` (Java puro) y se prueba con tests: comprobar requisitos al aprender y al usar, bloquear sin perder, y el **test de accesibilidad de puertas** (la forma de cada puerta debe costar ≤ 15 % de las mejoras para cualquier build).

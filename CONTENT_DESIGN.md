@@ -91,12 +91,12 @@ Ejemplos (P, no definitivos): una ruta de un artista marcial rival (escuela de l
 ## 8. Versiones del proyecto (decisión tuya)
 | Versión | Alcance |
 |---|---|
-| **Beta** | Hasta la **Saga Saiyan, con Vegeta como jefe final**. Cubre los puntos principales: entrenamiento con maestros, personajes principales y el Otro Mundo |
+| **Beta** | Hasta la **Saga Saiyan, con Vegeta como jefe final**: **la beta termina al derrotar a Vegeta**. Cubre los puntos principales: entrenamiento con maestros, personajes principales y el Otro Mundo |
 | **1.0** | Todo el arco Z |
 | Después | Super y contenido adicional |
 
 ### 8.1 Qué entra en la beta (P)
-- **Niveles totales 1 a ~171** (la puerta 2 queda cerrada). Tiempo aproximado a ritmo de diseño: ~16 h. **El tope de la beta es provisional**: aún no has decidido el límite, y con el nuevo sistema por mejoras puede definirse como límite de nivel total o por puerta de forma.
+- **Niveles totales 1 a ~171** (la puerta 2 queda cerrada). Tiempo aproximado a ritmo de diseño: ~16 h. **Cierre de la beta (decisión tuya):** se acaba al derrotar a Vegeta, no por un número. Como la puerta 2 (Super Saiyajin) no existe en la beta, el nivel total queda en la práctica en ~171 sin necesidad de un tope explícito.
 - **Puerta 1:** Kaio-ken (Saiyajin y Terrícola; las demás razas con su forma 2 o equivalente).
 - **Historia:** llegada de los saiyajin: Raditz → entrenamiento (Roshi, Kami, Kaio-sama en el Otro Mundo) → Saibamen y Nappa → **Vegeta** como jefe final.
 - **Maestros:** Roshi, Kami-sama, Kaio-sama, Piccolo.
@@ -116,7 +116,6 @@ El volumen "sin fin" de Elden Ring se construye después, añadiendo datos, no c
 3. Beta = Saga Saiyan hasta Vegeta; 1.0 = todo Z (§8).
 
 ## 10. Decisiones y preguntas
-Cerrado: el mapa muestra tu posición, sin marcar objetivos.
+Cerrado: el mapa muestra tu posición y el terreno visto, sin marcar objetivos; la beta termina al derrotar a Vegeta.
 
-Preguntas abiertas:
-1. ¿Cómo prefieres cerrar la beta: por **nivel total máximo** (un número), o por **puerta de forma** (no pasar de la forma 1)? Lo segundo encaja mejor con el diseño actual.
+Preguntas abiertas: ninguna por ahora en este documento.

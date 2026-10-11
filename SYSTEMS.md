@@ -26,8 +26,8 @@
 ### 2.1 Cómo funciona
 - **XP** = moneda. Se gana con combates, misiones y entrenamiento (§2.5).
 - **Mejora:** pagas XP y subes **un** atributo de los 7. El atributo sube en el valor de crecimiento de tu raza (p. ej. Saiyajin: FUE +1,25 por mejora).
-- **Nivel total `N` = 1 + número de mejoras.** Es lo que se muestra y lo que usa el juego para escalar el mundo. Máximo de diseño: **N = 496** (495 mejoras).
-- **Tope por atributo:** 90 mejoras. Para tener cinco atributos al máximo hacen falta 450 mejoras: los personajes extremos son posibles, pero solo a costa de abandonar otros atributos.
+- **Nivel total `N` = 1 + número de mejoras.** Es lo que se muestra y lo que usa el juego para escalar el mundo. Referencia de diseño para la versión 1.0 (todo Z): **N ≈ 496**. El máximo real depende de la raza (todos los atributos a 99: entre ~616 y ~742); lo que sobra queda para ampliaciones (Super).
+- **Tope por atributo: valor 99** (decisión tuya, como en Elden Ring). Cuántas mejoras hacen falta para llegar depende de la raza (por su crecimiento). Para tener los siete atributos en 99 hacen falta entre ~615 mejoras (Terrícola) y ~741 (Raza de Freezer); en la práctica, los personajes extremos llevan unos atributos al máximo y descuidan otros.
 - **Coste de la siguiente mejora** (igual para cualquier atributo, como en Elden Ring; depende solo de tu nivel total): `coste(T) = 10 × (1 + T/5)^1,6`, con `T = N − 1`.
 
 | Nivel total N | Coste de la mejora | XP acumulada |
@@ -40,7 +40,7 @@
 | 175 | 3.063 | 212.427 |
 | 246 | 5.228 | 505.314 |
 | 371 | 10.002 | 1.447.623 |
-| 496 | ~15.000 | ~3.000.000 |
+| 496 (referencia 1.0) | ~15.000 | ~3.000.000 |
 
 ### 2.2 Poder efectivo
 `E_atributo = valor_atributo × 1,0399^T × M_forma`
@@ -193,6 +193,7 @@ Saiyajin: apetito ×1,5 pero buff ×1,5. Namekiano: modo **agua** en vez de comi
 - **Regeneración racial:** Namekiano, Majin y otros suman por encima de esto (ver §11).
 
 ## 8. Formas y dominio
+- Excepción: algunas formas, como el Kaio-ken, tienen `can_stabilize: false` (no se estabilizan nunca; ver `ABILITIES.md` §7).
 - Cada forma tiene: multiplicador `M`, coste de ki por segundo (% de reserva), efectos secundarios y condiciones de desbloqueo.
 - **Dominio:** sube con el tiempo en la forma, en combate. Efectos: baja el coste de ki, sube `M` hasta un +25 % y reduce el agotamiento al quedarte sin ki (§5).
 - Al **100 % de dominio** la forma pasa a **estable**: sin coste de ki y el **10 % de su multiplicador pasa a la base** (permanente).
@@ -253,6 +254,11 @@ Lo único que sí requiere código nuevo es un **rasgo distinto** (p. ej. Zenkai
 1. **Sistema por mejoras estilo Elden Ring / Dragon Block C:** XP como moneda que se gasta en el atributo elegido; el nivel es la suma de mejoras (§2).
 2. El **tope de nivel de la beta queda en el aire** (tú aún no estás seguro). Mientras tanto se trabaja con puertas por nivel total.
 
-## 16. Preguntas abiertas
-1. ¿Coste de mejora **igual para todos los atributos** (propuesta, estilo Elden Ring) o que cada atributo tenga su propio coste (estilo Dragon Block C)?
-2. ¿Quieres un tope blando por atributo (rendimientos decrecientes pasadas ~60 mejoras) además del tope duro de 90?
+## 16. Decisiones cerradas (4.ª ronda)
+1. Coste de mejora **igual para todos los atributos** (§2.1).
+2. **Tope de 99 por atributo**, sin tope blando (§2.1).
+3. **La beta termina al derrotar a Vegeta** (condición de historia, no un número). Como la puerta 2 queda cerrada en la beta, el nivel total efectivo ronda ~171.
+4. **Requisitos de atributo para toda habilidad** (técnicas, formas, especiales): ver `ABILITIES.md`.
+
+## 17. Preguntas abiertas
+Ver `ABILITIES.md` §9.
