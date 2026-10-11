@@ -24,7 +24,7 @@ Saiyajin + Terrícola; comprobar que añadir una raza = añadir un archivo.
 Roshi y primera cadena de misiones, técnicas con requisitos.
 
 ## Fase 5 — Transformaciones
-Super Saiyajin como forma representativa.
+Kaio-ken como primera forma representativa (puerta 1, entra en la beta); Super Saiyajin después (puerta 2, fuera de la beta).
 
 ## Fase 6 — Mundo
 NPC, enemigos, lugares de entrenamiento, jefes.
