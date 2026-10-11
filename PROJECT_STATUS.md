@@ -29,6 +29,9 @@ Ver `INTEGRATIONS.md`.
 - **Decisiones del usuario (8.ª ronda):** los mobs de Minecraft con nivel fijo (una vaca o un cerdo mueren casi de un golpe al inicio); jefes vanilla se quedan pero se quitan si complican el código; Saibamen en grupos de 3. Alcance de la beta ampliado: **Dragon Ball clásico hasta la saga Saiyan** (Pilaf, Red Ribbon, luchadores de Baba, hijos de Piccolo Daimaō, saga Saiyan); fuera Freezer, Cell, Buu, GT, Super.
 - **Propuestas, sin confirmar explícitamente:** Minecraft 1.21.1 + NeoForge + Java 21; mod independiente (no ampliar DragonMine Z); no depender de un mod RPG externo para el núcleo; licencia por decidir.
 
+## Auditoría de atributos (2026-10-11)
+Completada: ver `ATTRIBUTE_AUDIT.md`. Hay 7 atributos (no 5), sin ningún efecto en combate todavía, sin HUD, tope 99 definido pero no aplicado y sin razas en código. **Siguiente paso:** implementación de efectos de los atributos en combate, tras resolver las preguntas abiertas (§G de la auditoría).
+
 ## Documentos
 GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas en detalle), SYSTEMS.md (reglas base: niveles, ki, combate, comida, entrenamiento), CONTENT_DESIGN.md (exploración, jefes secretos, rutas de personaje), ABILITIES.md (habilidades, formas y requisitos), BETA_RACES.md (Saiyajin y Humano en la beta), BESTIARY.md (enemigos y jefes de la beta; datos en design_data/beta/bestiary.json), BESTIARY_PLAN.md (análisis técnico y plan de implementación del bestiario), tools/simulator (simulador de equilibrio en Python), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).
 
