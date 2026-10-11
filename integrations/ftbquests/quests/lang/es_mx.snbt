@@ -1,0 +1,15 @@
+{
+	"chapter.7A3F10C2D4E80001.title": "Prueba: Despertar"
+	"quest.7A3F10C2D4E80011.title": "Primera cacería"
+	"quest.7A3F10C2D4E80011.quest_desc": [
+		"MISIÓN DE PRUEBA (no es contenido final)."
+		"Derrota a un lobo salvaje. Da XP del RPG mediante la recompensa de comando de la misión."
+	]
+	"quest.7A3F10C2D4E80012.title": "Un cuerpo más fuerte"
+	"quest.7A3F10C2D4E80012.quest_desc": [
+		"MISIÓN DE PRUEBA. Gasta tu XP con /dragonball upgrade <atributo> para llegar al nivel total 2."
+		"Esta tarea se completa mediante el logro dragonball:level_2."
+	]
+	"quest.7A3F10C2D4E80013.title": "Poder creciente"
+	"quest.7A3F10C2D4E80013.quest_desc": [ "MISIÓN DE PRUEBA. Alcanza el nivel total 5." ]
+}

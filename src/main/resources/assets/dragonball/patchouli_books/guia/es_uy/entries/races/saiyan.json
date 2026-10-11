@@ -1,0 +1,11 @@
+{
+  "name": "Saiyajin",
+  "icon": "minecraft:iron_sword",
+  "category": "dragonball:races",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)En desarrollo.$() El Saiyajin empezará fuerte en Fuerza y crecerá tarde, con una bonificación Zenkai al sobrevivir a un combate duro.$(br2)Todavía no se puede jugar en esta versión."
+    }
+  ]
+}

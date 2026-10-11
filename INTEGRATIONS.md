@@ -40,5 +40,6 @@ Solo GeckoLib es dependencia obligatoria del mod. Patchouli, FTB Quests y KubeJS
 - `/dragonball givexp`, `upgrade vit`, `progress`: funcionan; XP subió de 90 a 160 tras combatir lobos.
 - Lobo: camina, ataca (en supervivencia) y suelta objetos.
 - Libro de Patchouli: se abre y se ve.
-- FTB Quests: las 3 misiones del capítulo de prueba se completaron en juego (capturas del usuario). La tercera no tiene recompensa, a propósito. Los textos de misión salen en inglés aunque el juego esté en español: la traducción `es_es.snbt` no se aplica todavía (pendiente de investigar).
+- FTB Quests: las 3 misiones del capítulo de prueba se completaron en juego (capturas del usuario). La tercera no tiene recompensa, a propósito. Los textos salían en inglés porque solo existía `es_es`; Minecraft no usa `es_es` si el idioma es otra variante (es_mx, es_ar...). Se añadieron copias para es_mx, es_ar, es_cl, es_uy, es_ve y es_ec (mod, libro y misiones). **Por verificar en el PC del usuario.** Los IDs de las claves de traducción coinciden con los de las misiones.
+- Animación de mordisco: el usuario reporta que no se ve; la original era muy sutil (cabeza 25°). Se reforzó (cabeza y cuerpo, 0,5 s). **Sin verificar**: la captura en pantalla virtual fue demasiado lenta para ver un mordisco.
 - KubeJS: al matar una araña (XP base 10 en el JSON del mod) el usuario ganó 49 XP (715 → 764), coherente con los 50 del script y el factor de nivel 0,97. KubeJS sobrescribe el bestiario en juego.

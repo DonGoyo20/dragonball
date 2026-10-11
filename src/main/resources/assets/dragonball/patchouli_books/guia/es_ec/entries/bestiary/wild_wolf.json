@@ -1,0 +1,16 @@
+{
+  "name": "Lobo salvaje",
+  "icon": "minecraft:bone",
+  "category": "dragonball:bestiary",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Nivel 4 · 10 XP.$() Un animal de manada hostil de llanuras, bosques y praderas.$(br2)Muerde. Derrótalo para conseguir ternera cruda y, a veces, cuero."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "minecraft:beef",
+      "text": "La carne de un lobo salvaje."
+    }
+  ]
+}

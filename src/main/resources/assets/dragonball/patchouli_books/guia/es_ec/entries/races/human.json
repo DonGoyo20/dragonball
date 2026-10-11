@@ -1,0 +1,11 @@
+{
+  "name": "Humano",
+  "icon": "minecraft:bow",
+  "category": "dragonball:races",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)En desarrollo.$() El Humano empieza modesto pero aprende más rápido de los maestros y paga menos por las habilidades.$(br2)Todavía no se puede jugar en esta versión."
+    }
+  ]
+}

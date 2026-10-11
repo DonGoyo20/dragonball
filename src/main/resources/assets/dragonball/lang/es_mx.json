@@ -1,0 +1,11 @@
+{
+ "mod.dragonball.name": "Dragon Ball RPG",
+ "entity.dragonball.wild_wolf": "Lobo salvaje",
+ "item.dragonball.wild_wolf_spawn_egg": "Huevo generador de lobo salvaje",
+ "message.dragonball.xp_gained": "+%s XP",
+ "command.dragonball.progress": "Nivel total %s | XP %s | la próxima mejora cuesta %s | mejoras %s",
+ "command.dragonball.unknown_attribute": "Atributo desconocido: %s",
+ "command.dragonball.not_enough_xp": "No hay XP suficiente (la próxima mejora cuesta %s)",
+ "command.dragonball.upgraded": "Mejorado %s. El nivel total es ahora %s",
+ "command.dragonball.gave_xp": "Se dieron %s de XP"
+}

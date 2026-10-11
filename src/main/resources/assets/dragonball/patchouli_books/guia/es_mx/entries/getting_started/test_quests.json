@@ -1,0 +1,11 @@
+{
+  "name": "Misiones de prueba",
+  "icon": "minecraft:map",
+  "category": "dragonball:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Si tienes FTB Quests instalado, el capítulo $(thing)Prueba: Despertar$() es una $(thing)prueba$(): derrota a un lobo salvaje, llega al nivel total 2 y después al 5.$(br2)Estas misiones solo demuestran que la conexión funciona; no son contenido final de la historia."
+    }
+  ]
+}
