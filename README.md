@@ -11,7 +11,7 @@ Java 21. La primera compilación descarga dependencias (necesita red).
 ./gradlew runClient             # juego con el mod (+ Patchouli)
 ./gradlew runGameTestServer     # 6 pruebas en juego (núcleo)
 tools/verify_integrations.sh    # núcleo + FTB Quests + KubeJS, con comprobación de logs
-./gradlew runClient -PwithFtbQuests -PwithKubeJs   # con FTB Quests y KubeJS (instala antes con installDevQuests / installDevKubeJs)
+./gradlew runClient -PwithFtbQuests -PwithKubeJs   # con FTB Quests y KubeJS (copia solos los datos de misiones y scripts a run/)
 ```
 En el juego: `/dragonball progress | upgrade <atributo> | givexp <n>`; huevo de aparición del Lobo salvaje en creativo; la guía de Patchouli sale con la receta `guide_book`.
 
