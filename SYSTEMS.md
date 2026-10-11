@@ -50,21 +50,23 @@
 - `M_forma`: forma activa × dominio (§8). Sin forma = 1.
 - **Nivel de poder (NP)** = suma de los `E`.
 
-### 2.3 Especializar vale la pena, sin romper nada (prueba numérica)
-Tres personajes Saiyajin con el mismo nivel total (N = 171, ~16 h de juego):
+### 2.3 Especializar: lo que dice el simulador (2026-10-11)
+Tres personajes Saiyajin con el mismo nivel total (N = 171, ~16 h de juego), probados con `tools/simulator` (1.000 duelos por pareja, orden aleatorio):
 
-| Build | Mejoras | NP total | Resultado |
-|---|---|---|---|
-| Equilibrado | 24 en cada uno | 173.000 | — |
-| Guerrero | VIT 30, FUE 60, DEF 35, VEL 45 | 183.000 | FUE ×2,1 respecto al equilibrado |
-| Maestro de ki | VIT 20, KI 50, POD 55, CON 45 | 165.000 | POD ×2,0 respecto al equilibrado |
+| Build | Mejoras | NP total |
+|---|---|---|
+| Equilibrado | 24 en cada uno | 173.000 |
+| Guerrero | VIT 35, FUE 55, DEF 40, VEL 40 | 182.000 |
+| Maestro de ki | VIT 30, DEF 20, KI 35, POD 45, CON 40 | 166.000 |
 
-Duelos (golpes necesarios para vencer; menos = más fuerte):
-- Guerrero vence al Equilibrado en **9** golpes; el Equilibrado al Guerrero en 20.
-- Guerrero vence al Maestro de ki en **4** golpes cuerpo a cuerpo; el Maestro de ki al Guerrero en **8** golpes de ki (con la defensa contra ki de §3.2; sin ella eran 13).
-- Maestro de ki vence al Equilibrado en 10; el Equilibrado en 12.
+Hallazgos:
+1. **El poder total es parecido (±5 %):** especializar mueve el poder de sitio, no lo crea.
+2. **Sin habilidades de especialista, el equilibrado domina** (65–92 % de victorias). El daño es ataque ÷ defensa, así que gana quien tenga más ataque × defensa, y eso se maximiza repartiendo. Solo con números, especializarse no compensa.
+3. **La ventaja del especialista debe venir de habilidades que solo él puede usar** (requisitos altos, `ABILITIES.md` §5): con ellas, Equilibrado 35 % / Guerrero 55 % / Maestro de ki 60 % de victorias medias.
+4. **Hacer que la velocidad dé más acciones por segundo rompe el equilibrio** (el Maestro de ki cae al 0–5 %): no se adopta.
+5. Esto es una medida de equilibrio relativo, sin alcance ni movimiento. Se revalida con combate real en la Fase 2.
 
-Lectura honesta: la especialización importa de verdad. En un cuerpo a cuerpo directo, el Guerrero domina al Maestro de ki. El Maestro de ki debe compensar con **alcance, vuelo y daño explosivo**, cosa que esta cuenta no modela. Se ajusta con combate real en la Fase 2.
+*Corrección:* una versión anterior de este apartado se basaba en golpes aislados y daba una imagen demasiado optimista de las especializaciones, y la primera versión del simulador tenía un sesgo de quién ataca primero. Ambos errores están corregidos.
 
 ### 2.4 Puertas de forma (en nivel total)
 | Puerta | Se alcanza en | Para pasar |
@@ -137,10 +139,10 @@ Cada tipo de enemigo se define por **atributos efectivos** propios (`E`) en un a
 ## 4. Ki
 
 ### 4.1 Reserva
-`ki_máximo = 50 + 10 × stat_KI` (no escala con el nivel; los costes sí son porcentajes de la reserva, así que todo escala solo).
+`ki_máximo = 50 + 10 × stat_KI` (no escala con el nivel). **Los costes de técnica son absolutos** (unidades de ki), no porcentajes: si fueran un % de la reserva, el atributo KI no cambiaría cuántas técnicas lanzas (fallo que detectó el simulador). Las técnicas más poderosas cuestan más ki, y la reserva grande permite lanzarlas más veces.
 
 ### 4.2 Costes y eficiencia
-- Toda técnica cuesta un **% de la reserva**.
+- Toda técnica cuesta una cantidad **absoluta** de ki (p. ej. Ráfaga 4, Kamehameha 120, Makankosappo 200).
 - El control reduce el coste: `coste = base × 1 / (1 + stat_CON/60)`. CON 4 → ×0,94; CON 60 → ×0,50; CON 100 → ×0,375. (El valor `stat_CON` es el base, sin el factor de nivel.)
 - **Daño de la técnica** = `E_POD × multiplicador_técnica`. Gastar más ki en una técnica la hace más fuerte (carga) hasta un tope.
 
@@ -150,7 +152,7 @@ Cada tipo de enemigo se define por **atributos efectivos** propios (`E`) en un a
 - **Comer** suma recuperación (§6).
 
 ### 4.4 Vuelo
-Coste muy bajo, 0,1 %/s de la reserva, reducido por CON (mayor velocidad, algo más de coste). Sin ki no se vuela y se cae. *Tu descripción mencionaba solo ataques de ki y transformaciones; mantengo un coste mínimo de vuelo para que el ki importe al explorar. Dime si prefieres vuelo gratis.*
+Coste muy bajo, 0,6 de ki por segundo, reducido por CON (mayor velocidad, algo más de coste). Sin ki no se vuela y se cae. *Tu descripción mencionaba solo ataques de ki y transformaciones; mantengo un coste mínimo de vuelo para que el ki importe al explorar. Dime si prefieres vuelo gratis.*
 
 ### 4.5 Ki agotado
 A 0 %: se desactivan técnicas y formas, y empieza el **agotamiento** (§5).
@@ -194,7 +196,7 @@ Saiyajin: apetito ×1,5 pero buff ×1,5. Namekiano: modo **agua** en vez de comi
 
 ## 8. Formas y dominio
 - Excepción: algunas formas, como el Kaio-ken, tienen `can_stabilize: false` (no se estabilizan nunca; ver `ABILITIES.md` §7).
-- Cada forma tiene: multiplicador `M`, coste de ki por segundo (% de reserva), efectos secundarios y condiciones de desbloqueo.
+- Cada forma tiene: multiplicador `M`, coste de ki por segundo (absoluto), efectos secundarios y condiciones de desbloqueo.
 - **Dominio:** sube con el tiempo en la forma, en combate. Efectos: baja el coste de ki, sube `M` hasta un +25 % y reduce el agotamiento al quedarte sin ki (§5).
 - Al **100 % de dominio** la forma pasa a **estable**: sin coste de ki y el **10 % de su multiplicador pasa a la base** (permanente).
 - Multiplicadores propuestos de referencia por puerta: ×1,6 / 2,4 / 3,5 / 5 / 7 (una raza puede variar).
@@ -264,5 +266,9 @@ Lo único que sí requiere código nuevo es un **rasgo distinto** (p. ej. Zenkai
 1. La XP es también moneda para comprar habilidades (necesitan una fuente: maestro, misión u objeto). Requisitos de atributo solo para **usar**.
 2. Kaio-ken hasta "×3" con nombres no literales.
 
-## 18. Preguntas abiertas
-Ver el final de la conversación (validaciones previas a Saiyajin y Humano).
+## 18. Decisiones cerradas (6.ª ronda)
+1. Aceptadas las cinco propuestas previas a Saiyajin y Humano (`BETA_RACES.md`).
+2. Costes de técnica absolutos; técnicas de especialista obligatorias para que especializarse compense (§2.3).
+
+## 19. Preguntas abiertas
+Ver `BETA_RACES.md` §9.

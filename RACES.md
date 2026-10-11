@@ -1,6 +1,6 @@
 # RACES — Diseño detallado de razas
 
-> Estado: **borrador v1 (2026-10-11), sobre el papel.** Todo es propuesta (P) hasta que lo
+> Estado: **borrador v1 (2026-10-11), sobre el papel.** Las fichas concretas de las dos razas de la beta están en `BETA_RACES.md`. Todo es propuesta (P) hasta que lo
 > apruebes. Los números son iniciales y se ajustan jugando (Fase 2–3). Se apoya en
 > `GDD.md` (atributos, escala de poder) y `WORLD_DESIGN.md` (puertas de forma, dominio de forma).
 > Las referencias a la serie son de memoria; no consulté fuentes durante esta sesión.

@@ -58,7 +58,7 @@ Tú quieres personajes extremos (fuerza pura, o control de ki enorme). Los requi
 2. **Habilidades opcionales y de poder** pueden exigir más y deben hacerlo: son lo que define tu especialidad.
 3. **Prueba automática:** un script (y un test en `core`) comprueba, para cada raza, que la forma de cada puerta cumple la regla 1 con un personaje que haya puesto todas sus mejoras en otros atributos. Si no, falla la compilación del contenido.
 
-Comprobación hecha con un Saiyajin: el Kaio-ken grado 1 exige Vitalidad 18, que cuesta 10 mejoras = 14 % de las 70 de la puerta 1. Cumple.
+Comprobación hecha con un Saiyajin: el Kaio-ken grado 1 exige Vitalidad 16, que cuesta 8 mejoras = 11,4 % de las 70 de la puerta 1. Para un Humano son 10 mejoras = 14,3 %. Cumplen las dos razas. *(Con VIT 18 el Humano pagaba el 15,7 %: lo detectó el simulador y se bajó a 16.)*
 
 ## 5. Tabla inicial de habilidades de la beta (P)
 Atributos: VIT, FUE, DEF, VEL, KI, POD, CON. "Fuente" es quien enseña. "Precio" en XP, calculado para el nivel de compra indicado (§3.1). Valores de partida para ajustar.
@@ -71,11 +71,16 @@ Atributos: VIT, FUE, DEF, VEL, KI, POD, CON. "Fuente" es quien enseña. "Precio"
 | Imagen residual | Especial | VEL ≥ 40 | Piccolo | ~50 | 910 |
 | Kamehameha | Técnica | CON ≥ 20, POD ≥ 20 | Roshi | ~46 | 1.120 |
 | Galick Ho | Técnica | POD ≥ 25, KI ≥ 20 | Saiyajin (racial, incluida) | — | incluida |
-| Makankosappo | Técnica | POD ≥ 45, CON ≥ 35 | Piccolo | ~120 | 16.070 |
+| Makankosappo | Técnica de especialista (ki) | POD ≥ 45, CON ≥ 35 | Piccolo | ~120 | 16.070 |
+| Combo furioso | Técnica de especialista (físico) | FUE ≥ 55, VEL ≥ 45 | Goku (duelos de entrenamiento) | ~100 | 10.150 |
 | Genkidama | Técnica | KI ≥ 45, CON ≥ 40, POD ≥ 35 | Kaio-sama (ruta difícil) | ~150 | 28.280 |
-| **Kaio-ken** (grado 1) | Forma (puerta 1) | VIT ≥ 18 | Kaio-sama | 71 | 4.320 |
+| **Kaio-ken** (grado 1) | Forma (puerta 1) | VIT ≥ 16 | Kaio-sama | 71 | 4.320 |
 | Kaio-ken ×2 | Grado | VIT ≥ 30, CON ≥ 20 | Kaio-sama | ~100 | 4.060 |
 | Kaio-ken ×3 | Grado | VIT ≥ 45, CON ≥ 30 | Kaio-sama | ~140 | 9.500 |
+
+**Costes y multiplicadores que usa el simulador** (propuesta, a ajustar): Ráfaga de ki coste 4, ×1,5; Kamehameha coste 120, ×3; Combo furioso coste 30, ×3 (físico, sobre FUE); Makankosappo coste 200, ×5.
+
+**Regla de diseño (la dio el simulador):** cada estilo necesita técnicas de **requisitos altos y multiplicador alto** que un personaje equilibrado no pueda usar. Sin ellas, el equilibrado gana el 65–92 % de los duelos y especializarse no compensa (`SYSTEMS.md` §2.3). Hay que dar al menos una técnica de especialista a cada estilo de combate de cada raza.
 
 Ejemplo con tres Saiyajin del mismo nivel total (171):
 | Build | Kamehameha | Galick Ho | Kaio-ken grado 1 | Kaio-ken grado 2 |
@@ -98,7 +103,7 @@ Lectura: el Guerrero puro no puede usar técnicas de ki, y el Maestro de ki no l
     "total_level": null
   },
   "price_xp": 1120,
-  "cost": { "ki_pct": 25 },
+  "cost": { "ki": 120 },
   "scaling": { "damage_attribute": "POD", "multiplier": 3.0 },
   "effects": ["beam"],
   "drawbacks": []
@@ -112,12 +117,12 @@ Lectura: el Guerrero puro no puede usar técnicas de ki, y el Maestro de ki no l
   "price_xp": 4320,
   "can_stabilize": false,
   "grades": [
-    { "grade": 1, "name": "Kaio-ken",    "multiplier": 1.6, "requires": { "VIT": 18 } },
+    { "grade": 1, "name": "Kaio-ken",    "multiplier": 1.6, "requires": { "VIT": 16 } },
     { "grade": 2, "name": "Kaio-ken ×2", "multiplier": 2.0, "requires": { "VIT": 30, "CON": 20 }, "price_xp": 4060 },
     { "grade": 3, "name": "Kaio-ken ×3", "multiplier": 2.5, "requires": { "VIT": 45, "CON": 30 }, "price_xp": 9500 }
   ],
   "drain": { "hp_pct_per_s_base": 0.5, "formula": "base * grade^2 * 50 / (50 + VIT)" },
-  "cost": { "ki_pct_per_s": 1.0 }
+  "cost": { "ki_per_s": 1.5 }
 }
 ```
 Ninguna regla de habilidad vive en el código: solo se leen estos campos. Lo único con código propio son los **efectos** (haz, esfera, disco…), que se reutilizan entre habilidades.
@@ -127,7 +132,7 @@ La puerta 1 de Saiyajin y Terrícola, y el **primer caso de prueba** de las tran
 
 | Grado | Nombre | Multiplicador real | Requisitos de uso | Vida perdida (VIT típica) |
 |---|---|---|---|---|
-| 1 | Kaio-ken | ×1,6 | VIT ≥ 18 | 0,28 %/s (VIT 38) → ~6 min |
+| 1 | Kaio-ken | ×1,6 | VIT ≥ 16 | 0,28 %/s (VIT 38) → ~6 min |
 | 2 | Kaio-ken ×2 | ×2,0 | VIT ≥ 30, CON ≥ 20 | 1,05 %/s (VIT 45) → ~95 s |
 | 3 | Kaio-ken ×3 | ×2,5 | VIT ≥ 45, CON ≥ 30 | 2,05 %/s (VIT 60) → ~49 s |
 
@@ -135,7 +140,7 @@ La puerta 1 de Saiyajin y Terrícola, y el **primer caso de prueba** de las tran
 
 Reglas:
 - **Desgaste físico:** la Vitalidad reduce la vida que pierdes (fórmula `0,5 % × grado² × 50 / (50 + VIT)` por segundo). Es el efecto "desgasta físicamente al usuario".
-- **También gasta ki** (1 % por segundo en el borrador), con las reglas de agotamiento de SYSTEMS §5.
+- **También gasta ki** (1,5 por segundo en el borrador, reducido por CON), con las reglas de agotamiento de SYSTEMS §5.
 - **Seguridad:** el Kaio-ken se desactiva solo cuando tu vida baja del **10 %** (no te mata por sí mismo).
 - **No se estabiliza:** el dominio reduce el drenaje de vida hasta un −50 % y el coste de ki, pero **nunca pasa a coste cero** (`can_stabilize: false`). Es una técnica de esfuerzo, no un estado normal.
 - **Cómo se obtiene:** hito de entrenamiento con Kaio-sama al final del Camino de la Serpiente + **compra con XP** (4.320). Los grados ×2 y ×3 se compran después y piden dominio ≥ 50 % del grado anterior, además de los requisitos de atributo para usarlos.

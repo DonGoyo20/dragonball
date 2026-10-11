@@ -35,8 +35,11 @@ Modelos, animaciones, efectos, equilibrio, rendimiento.
 ## Hitos de versión (decisión del usuario, 2026-10-11)
 | Versión | Alcance |
 |---|---|
-| **Beta** | Saga Saiyan hasta Vegeta (jefe final). Niveles 1–35, Kaio-ken como puerta 1, Saiyajin y Terrícola, maestros (Roshi, Kami, Kaio-sama, Piccolo), Otro Mundo, 2–3 jefes secretos y 1 ruta de personaje. Ver `CONTENT_DESIGN.md` §8 |
+| **Beta** | Saga Saiyan hasta Vegeta (jefe final). La beta termina al derrotar a Vegeta (nivel total efectivo ~171), Kaio-ken como puerta 1, Saiyajin y Terrícola, maestros (Roshi, Kami, Kaio-sama, Piccolo), Otro Mundo, 2–3 jefes secretos y 1 ruta de personaje. Ver `CONTENT_DESIGN.md` §8 |
 | **1.0** | Todo el arco Z |
 | Después | Super y contenido adicional |
 
 La beta cae principalmente entre las Fases 2 y 6 del plan anterior, con contenido recortado.
+
+## Hecho sobre el papel (sin PC)
+- Simulador de equilibrio en Python con 13 pruebas automáticas (`tools/simulator`).
