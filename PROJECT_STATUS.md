@@ -32,6 +32,10 @@ Ver `INTEGRATIONS.md`.
 ## Auditoría de atributos (2026-10-11)
 Completada: ver `ATTRIBUTE_AUDIT.md`. Hay 7 atributos (no 5), sin ningún efecto en combate todavía, sin HUD, tope 99 definido pero no aplicado y sin razas en código. **Siguiente paso:** implementación de efectos de los atributos en combate, tras resolver las preguntas abiertas (§G de la auditoría).
 
+## Decisiones de salud (2026-10-11) y viabilidad técnica
+Decisiones del usuario: vida con fracción 0–1 (20 HP vanilla reales; vida real derivada), este ciclo solo VIT → salud, tope 99 en `tryUpgrade`, VEL solo esquiva, razas no son prerrequisito (valores base universales), sin HUD este ciclo, traducciones EN/ES de los 7 atributos.
+Viabilidad verificada en el código fuente de NeoForge 21.1.259: `LivingDamageEvent.Pre` (+ `LivingIncomingDamageEvent`), `LivingHealEvent`, `LivingDeathEvent`, `PlayerEvent.Clone`, `PlayerLoggedInEvent`, `PlayerTickEvent.Pre/Post`, `getHealth/setHealth`, sincronización con `AttachmentType.Builder.sync(StreamCodec)`. Detalle, flujo, valores provisionales y plan de pruebas en `HEALTH_FEASIBILITY.md`. Pendiente de confirmación: 4 puntos al final de ese documento. No hay código nuevo todavía.
+
 ## Documentos
 GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas en detalle), SYSTEMS.md (reglas base: niveles, ki, combate, comida, entrenamiento), CONTENT_DESIGN.md (exploración, jefes secretos, rutas de personaje), ABILITIES.md (habilidades, formas y requisitos), BETA_RACES.md (Saiyajin y Humano en la beta), BESTIARY.md (enemigos y jefes de la beta; datos en design_data/beta/bestiary.json), BESTIARY_PLAN.md (análisis técnico y plan de implementación del bestiario), tools/simulator (simulador de equilibrio en Python), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).
 
