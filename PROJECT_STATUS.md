@@ -8,7 +8,7 @@
 | XP, mejoras, nivel total, logros de nivel | sí | sí | sí | pruebas automáticas (JUnit + GameTest) |
 | Bestiario como Data Map (34 entradas exportadas de 94) | sí | parcial | sí | GameTest |
 | Lobo salvaje (GeckoLib) | sí | sí | sí | verificado en juego por el usuario: se mueve, ataca, suelta objetos, da XP |
-| FTB Quests, Patchouli, KubeJS | sí | solo como datos | sí | Patchouli y FTB Quests verificados en juego (libro abre; 3 misiones completadas); KubeJS: carga verificada por prueba, en juego **no verificado** |
+| FTB Quests, Patchouli, KubeJS | sí | solo como datos | sí | Patchouli y FTB Quests verificados en juego (libro abre; 3 misiones completadas); KubeJS verificado en juego (araña 10→~50 XP) |
 | Atributos con efecto en combate, ki, habilidades, razas, Kaio-ken, maestros, Otro Mundo | sí | **no** | — | — |
 Ver `INTEGRATIONS.md`.
 
@@ -39,7 +39,7 @@ GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas
 - Nombres de APIs de NeoForge de memoria; a verificar en Fase 1.
 
 ## Pruebas pendientes
-KubeJS en juego, y todo lo no implementado. Lo visual se prueba en el PC del usuario.
+y todo lo no implementado. Lo visual se prueba en el PC del usuario.
 
 ## Próxima tarea
 Aprobaciones de BESTIARY_PLAN.md §5 (plataforma, red/PC, arte, alcance por etapas) para empezar la Fase 1; preguntas de BESTIARY.md §15; completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).
