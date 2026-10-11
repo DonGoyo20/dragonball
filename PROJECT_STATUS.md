@@ -8,6 +8,7 @@
 
 ## Decisiones
 - **Aprobadas por el usuario:** trabajar sobre el papel hasta tener PC; enfoque de datos JSON para contenido; separar escala de poder (NP) del combate por razón de poder; mundo = Overworld con localizaciones especiales; muerte → Otro Mundo con temporizador y sin pérdida de zeni; sin fatiga, entrenamiento con penalizaciones que dan más XP; niveles bloqueados por evoluciones/formas de cada raza; esferas del dragón con deseos propios y limitados; Otro Mundo con espera mínima antes de poder reaparecer (no te expulsa, para fomentar la exploración).
+- **Aprobadas (SYSTEMS.md v2):** cansancio = agotamiento por quedarse sin ki; ki = barra; vida como barra en porcentaje; XP fija por enemigo creciente con la dificultad; ritmo de progreso lento.
 - **Propuestas, sin confirmar explícitamente:** Minecraft 1.21.1 + NeoForge + Java 21; mod independiente (no ampliar DragonMine Z); no depender de un mod RPG externo para el núcleo; licencia por decidir.
 
 ## Documentos
@@ -22,4 +23,4 @@ GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas
 Todas las del juego (nada implementado todavía).
 
 ## Próxima tarea
-Revisar SYSTEMS.md (4 preguntas abiertas en §13); luego ajustar RACES.md a esos parámetros; completar formas de Majin y Namekiano; detallar hitos de desbloqueo de formas (Super Saiyajin primero).
+Resolver 2 preguntas abiertas de SYSTEMS.md §14; ajustar RACES.md a esos parámetros (XP de raza, agotamiento); completar formas de Majin y Namekiano; detallar hitos de desbloqueo de formas (Super Saiyajin primero).

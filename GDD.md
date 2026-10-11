@@ -23,7 +23,7 @@ números brutos. Así un NP enorme nunca rompe la vida/daño de Minecraft.
 ### 2.1 Daño por razón de poder (P)
 `mult_daño(r) = clamp(r^0.75, 0.001, 200)`
 
-### 2.2 Recompensas por razón enemigo/jugador (P)
+### 2.2 Recompensas (SUPERADO: ver SYSTEMS.md §2.3, XP fija por enemigo)
 `factor(r_e) = 0` si `r_e < 0.1`; `r_e^2` si `0.1 ≤ r_e < 1`; `1 + 0.5·(r_e−1)` hasta tope `1.5` si `r_e ≥ 1`.
 Efecto: un enemigo con menos del 10 % de tu poder no da nada; el óptimo es pelear con rivales parejos o algo superiores.
 

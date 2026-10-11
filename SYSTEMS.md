@@ -5,15 +5,16 @@
 > inventan reglas: solo ajustan los parámetros de este documento** (ver §11). Todo valor es
 > propuesta (P), configurable en archivos de datos y se ajusta jugando.
 >
+> **Versión 2 (2026-10-11):** XP por enemigo en tabla fija, cansancio como agotamiento por ki y ritmo lento.
+>
 > **Sustituye a:** la idea de "multiplicar el poder por etapa" de GDD §2/§3 y WORLD_DESIGN §4
 > (producía un salto de ×207 al cambiar de etapa; ver §2.1).
 
 ## 1. Mapa de recursos
 | Recurso | Qué es | Se gasta con | Se recupera con | Lo toca la raza |
 |---|---|---|---|---|
-| **Vida** | Porcentaje de salud (0–100 %) | Recibir daño | Regeneración, comida, descanso, senzu | Sí |
-| **Ki** | Energía para técnicas, vuelo y formas | Técnicas, vuelo, formas | Pasivo, cargar, comer, senzu | Sí |
-| **Resistencia** | Aliento de combate, segundos | Correr, esquivar, guardia | Segundos sin esfuerzo | Poco |
+| **Vida** | Barra de salud en porcentaje (0–100 %) | Recibir daño | Regeneración, comida, descanso, senzu | Sí |
+| **Ki** | Barra de energía | Ataques de ki y transformaciones (y un poco el vuelo) | Pasivo, cargar, comer, senzu | Sí |
 | **Hambre** | Barra de comida de Minecraft ampliada | Esfuerzo, ki, entrenar | Comer | Sí |
 | **Recursos especiales** | Agua (Namekiano), Calor (Androide), Tensión (Freezer) | Según raza | Según raza | Solo esa raza |
 | **Dominio de forma** | 0–100 % por forma | Usar la forma | — | Sí |
@@ -45,32 +46,37 @@ Por qué: el salto entre niveles es siempre el mismo (+21,6 %) y las etapas deja
 - **Puntos de atributo:** se reparten entre los 7 atributos. Eligen *en qué eres bueno* (la forma de tu poder), no cuánto eres.
 - **Puertas de forma (WORLD_DESIGN §4.2):** bloquean el nivel en 15, 35, 55, 75, 95 hasta desbloquear la forma correspondiente.
 
-### 2.3 XP por derrotar enemigos
-`XP = (XP_necesaria(nivel) / matanzas_parejas(nivel)) × factor_razón × tipo × decaimiento × bonus_raza`
+### 2.3 XP por derrotar enemigos (decisión tuya: puntos fijos por enemigo)
+Cada tipo de enemigo tiene un **nivel** y una **XP fija** escritos a mano en el bestiario (archivo de datos). La XP **sube progresivamente con la dificultad** del enemigo. No hay fórmula oculta ni bonus por tipo.
 
-- `XP_necesaria(L) = 50 · L^1,6`
-- `matanzas_parejas(L) = 5 + 0,25 · L` — cuántos enemigos de poder igual al tuyo hacen falta para subir un nivel. **Es el control del ritmo**: se cambia ese número y cambia la velocidad de progreso, sin tocar nada más.
-- `factor_razón` (con `r = NP_enemigo / NP_jugador`): 0 si r < 0,1; `r²` si 0,1 ≤ r < 1; `1 + 0,5·(r−1)` con tope 1,5 si r ≥ 1.
-- `tipo`: normal ×1, élite ×3, jefe ×10, jefe de historia ×25 (una vez).
-- `decaimiento`: ×0,9 por cada muerte reciente del mismo tipo de enemigo; se recupera 1 muerte cada 10 min de juego activo.
-- **Primera vez:** ×5 la primera vez que derrotas un tipo de enemigo (solo si r ≥ 0,25). Premia la variedad.
-- **Zenkai y otros bonus de raza:** entran como `bonus_raza`.
+`XP recibida = XP_del_enemigo × factor_nivel × origen`
 
-Resultado (por enemigo parejo):
+- `XP_del_enemigo`: valor del bestiario. Se parte de una **tabla guía** y el diseñador puede ajustarla a mano, enemigo por enemigo (jefes incluidos).
+- `factor_nivel` (con `dif = nivel_jugador − nivel_enemigo`):
+  - `dif < 0` (enemigo más fuerte): `1 + 0,1 × |dif|`, tope 1,5.
+  - `dif ≥ 0`: `1 − 0,15 × dif`, mínimo 0. A 7 niveles por encima no das nada.
+- `origen`: ×1 normal; **×0,25 si el enemigo viene de un generador de monstruos o granja** (se comprueba el motivo de aparición, a verificar en Fase 1). Evita las granjas de mobs.
+- Cada entidad recompensa **una sola vez** (marca de entidad ya recompensada).
 
-| Nivel | XP para subir | Matanzas parejas | XP por matanza |
-|---|---|---|---|
-| 1 | 50 | 5,2 | 9,5 |
-| 10 | 1.991 | 7,5 | 265 |
-| 20 | 6.034 | 10 | 603 |
-| 50 | 26.141 | 17,5 | 1.494 |
-| 80 | 55.452 | 25 | 2.218 |
-| 99 | 77.981 | 29,8 | 2.621 |
+**Tabla guía** (XP del enemigo del mismo nivel que el jugador; ritmo lento, 10 + 0,5·L combates parejos por nivel):
 
-Total hasta el nivel 100: unas 1.730 matanzas parejas. Con ~90 s por combate real son ~43 h **como mínimo teórico** solo luchando; entrenamiento, puertas de forma y misiones lo alargan o lo acortan. Cifra a validar jugando.
+| Nivel del enemigo | XP del enemigo | Combates parejos por nivel |
+|---|---|---|
+| 1 | 4,8 | 10,5 |
+| 5 | 52 | 12,5 |
+| 10 | 133 | 15 |
+| 20 | 302 | 20 |
+| 30 | 462 | 25 |
+| 50 | 747 | 35 |
+| 75 | 1.053 | 47,5 |
+| 100 | 1.321 | 60 |
+
+Ritmo: unos 3.465 combates parejos hasta el nivel 100. Con ~90 s por combate, serían ~87 h luchando solo. **El objetivo es que el combate aporte ~50 % de la XP**, el resto sale de misiones, entrenamiento y descubrimientos: unas 40–50 h hasta el nivel 100 como referencia, sin contar contenido narrativo (a validar jugando).
+
+La XP de misiones y entrenamiento se reparte con el mismo criterio: valores fijos en los datos, no fórmulas ocultas.
 
 ### 2.4 Qué NO da XP
-Enemigos con `r < 0,1`, muertes de animales pasivos, y cualquier muerte que no cause el jugador (o su pareja/aliado vinculado). Cada entidad solo recompensa una vez (marca de entidad ya recompensada) para evitar duplicados.
+Enemigos 7 o más niveles por debajo, animales pasivos, muertes que no cause el jugador (o su aliado vinculado) y duplicados de la misma entidad.
 
 ## 3. Combate
 
@@ -109,34 +115,26 @@ Cada tipo de enemigo se define por **atributos efectivos** propios (`E`) en un a
 - **Comer** suma recuperación (§6).
 
 ### 4.4 Vuelo
-Coste base 0,3 %/s de la reserva (más rápido, más coste), reducido por CON. Sin ki no se vuela y se cae.
+Coste muy bajo, 0,1 %/s de la reserva, reducido por CON (mayor velocidad, algo más de coste). Sin ki no se vuela y se cae. *Tu descripción mencionaba solo ataques de ki y transformaciones; mantengo un coste mínimo de vuelo para que el ki importe al explorar. Dime si prefieres vuelo gratis.*
 
 ### 4.5 Ki agotado
-A 0 %: se desactivan técnicas y formas. La caída de una forma por falta de ki causa **agotamiento** (§5.2).
+A 0 %: se desactivan técnicas y formas, y empieza el **agotamiento** (§5).
 
 ### 4.6 Ocultar y detectar
 - **Ocultar ki:** reduce el rango de detección de los enemigos al jugador; sin ataques de ki.
 - **Detectar ki:** se desbloquea con un maestro; muestra criaturas cercanas con su NP relativo (más débil / parejo / más fuerte). Los androides no se detectan.
 
-## 5. Resistencia y cansancio
+## 5. Cansancio: agotamiento por quedarse sin ki (decisión tuya)
+No existe barra de resistencia ni fatiga diaria. El **cansancio es la penalización por vaciar el ki**.
 
-> **A confirmar contigo:** dijiste "cansancio". Lo he interpretado de dos formas, **ninguna es fatiga diaria** (que ya descartamos). Si querías otra cosa, dímelo.
+Cuando el ki llega a 0 (por atacar, transformarte o volar):
+- Se apaga la forma activa y las técnicas de ki.
+- Estado **Agotado** durante 60 s: −30 % a todos los `E` y el ki no se regenera durante los primeros 5 s.
+- Durante Agotado, cargar ki sigue funcionando (recupera, pero estás expuesto).
+- El dominio de forma lo reduce: a 100 % de dominio de la forma activa, la duración y la penalización bajan a la mitad.
+- Si te quedas sin ki en combate con un enemigo cerca, es una decisión de riesgo real.
 
-### 5.1 Resistencia (aliento de combate)
-Barra corta de 100 puntos:
-- Correr rápido −10/s, esquivar −15, guardia −10/s.
-- Se recupera 20/s sin esfuerzo.
-- En 0: "sin aliento" 3 s (no esquivas ni corres).
-Sirve para dar ritmo al combate y que ser rápido no sea gratis.
-
-### 5.2 Agotamiento por forma
-Cuando una forma termina **por quedarte sin ki** (no por decisión propia), sufres:
-- −30 % a todos los `E` durante 60 s.
-- Se reduce con el dominio de forma (a 100 % de dominio no hay agotamiento).
-Así las formas son una decisión de riesgo, no un interruptor gratuito.
-
-### 5.3 Cansancio de entrenamiento
-**No existe** (decisión tuya). Las penalizaciones voluntarias (§9) lo sustituyen.
+Así los ataques de ki y las transformaciones son costosos sin necesidad de barras extra, que era lo que buscabas.
 
 ## 6. Comida y hambre
 
@@ -161,7 +159,7 @@ Saiyajin: apetito ×1,5 pero buff ×1,5. Namekiano: modo **agua** en vez de comi
 
 ## 8. Formas y dominio
 - Cada forma tiene: multiplicador `M`, coste de ki por segundo (% de reserva), efectos secundarios y condiciones de desbloqueo.
-- **Dominio:** sube con el tiempo en la forma, en combate. Efectos: baja el coste de ki, sube `M` hasta un +25 % y quita agotamiento.
+- **Dominio:** sube con el tiempo en la forma, en combate. Efectos: baja el coste de ki, sube `M` hasta un +25 % y reduce el agotamiento al quedarte sin ki (§5).
 - Al **100 % de dominio** la forma pasa a **estable**: sin coste de ki y el **10 % de su multiplicador pasa a la base** (permanente).
 - Multiplicadores propuestos de referencia por puerta: ×1,6 / 2,4 / 3,5 / 5 / 7 (una raza puede variar).
 
@@ -176,7 +174,8 @@ Saiyajin: apetito ×1,5 pero buff ×1,5. Namekiano: modo **agua** en vez de comi
 Todos los números de este documento viven en archivos, no en código:
 ```
 data/<modid>/balance/
-  leveling.json   # g, XP_necesaria, matanzas_parejas, tope de factor_razón, tipos, decaimiento
+  leveling.json   # g, XP_necesaria, tabla guía de XP, factor por diferencia de nivel, multiplicador de origen (generador/granja)
+  bestiary.json   # nivel, arquetipo, atributos y XP fija de cada enemigo
   combat.json     # 0,05 / 0,75 / 0,7-0,3 / esquiva / topes
   ki.json         # reserva, regeneración, carga, vuelo, coste/CON
   food.json       # hambre, buffs, senzu
@@ -202,10 +201,14 @@ Una raza solo rellena estas ranuras. Ninguna toca el código.
 Lo único que sí requiere código nuevo es un **rasgo distinto** (p. ej. Zenkai o Absorción). Por eso los rasgos se programan como módulos reutilizables, con una interfaz común.
 
 ## 12. Estado guardado por jugador
-`raza, nivel, xp, atributos (7), puntos libres, vida (fracción), ki, resistencia, hambre, buffs, formas (estado, dominio), contadores anti-farmeo por tipo, recursos especiales, versión de datos.`
+`raza, nivel, xp, atributos (7), puntos libres, vida (fracción), ki, estado Agotado (tiempo restante), hambre, buffs, formas (estado, dominio), entidades ya recompensadas, recursos especiales, versión de datos.`
 
-## 13. Preguntas abiertas
-1. ¿A qué te referías con "cansancio"? (§5)
-2. ¿Te parece bien la vida como porcentaje (no se pueden tener "corazones" gigantes, pero escala sin límite)?
-3. ¿La recompensa de primera vez ×5 por tipo de enemigo te gusta?
-4. ¿Prefieres que el ritmo base sea más lento o más rápido (5 + 0,25·L matanzas por nivel)?
+## 13. Decisiones cerradas en esta versión
+1. Cansancio = agotamiento por quedarse sin ki (§5). Ki = barra que gastan ataques de ki y transformaciones.
+2. Vida como barra en porcentaje (§3.1).
+3. XP por enemigo en tabla fija, creciente con la dificultad; sin bonus por primera vez (§2.3).
+4. Ritmo lento: 10 + 0,5·L combates parejos por nivel; el combate aporta ~50 % de la XP.
+
+## 14. Preguntas abiertas
+1. ¿El vuelo debe tener un pequeño coste de ki (propuesta) o ser gratis?
+2. ¿Cuánto de la XP debería venir de misiones (propuesta: ~30 %) y de entrenamiento (~20 %)?
