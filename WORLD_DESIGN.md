@@ -122,18 +122,22 @@ bandidos/dinosaurios (0), cápsula saiyajin (1), invasión de Saibamen (1–2), 
 - **Un solo deseo** por activación. Las esferas se dispersan y reaparecen tras un periodo largo (config. por defecto 30 días de Minecraft ≈ 10 h reales).
 
 ## 9. Muerte y Otro Mundo (decisión 2)
+Idea central: **esperar en el Otro Mundo antes de reaparecer es lo que fomenta explorarlo.** El tiempo de espera no te expulsa: es un mínimo que cumples antes de poder volver, y tú decides cuándo salir.
+
 Flujo:
 1. Al morir apareces en la entrada del Otro Mundo (ante Yemma). No pierdes zeni, nivel ni objetos.
-2. Se inicia el **temporizador de permanencia** (config. por defecto 15 min reales).
-3. Mientras dura, puedes recorrer el **Camino de la Serpiente** (recorrido largo con obstáculos y enemigos) hasta llegar al planeta de Kaio, con gravedad alta y entrenamiento (la penalización de §5 se aplica).
-4. Se celebran **eventos especiales**, como un torneo del Otro Mundo, en fechas del calendario del juego.
-5. Al acabar el temporizador, regresas a la Tierra (a tu punto de reaparición). Puedes seguir viajando por el Camino mientras duren los 15 min.
+2. Se inicia el **temporizador de espera mínima** (config. por defecto 15 min reales). Hasta que termina, **no puedes reaparecer**.
+3. Durante la espera exploras: Camino de la Serpiente, planeta de Kaio con gravedad alta, entrenamiento, NPC y eventos (torneo del Otro Mundo).
+4. Al terminar el temporizador **puedes volver cuando quieras** (puerta de regreso en Yemma o una opción en el menú), o quedarte explorando todo el tiempo que quieras. No te saca nadie.
+5. Quedarte más tiempo es una decisión de riesgo/beneficio, no una obligación.
 
-Protecciones:
-- La XP del Otro Mundo comparte el tope de bonificación (§5) y tiene decaimiento si mueres repetidas veces en poco tiempo, para que no sea una estrategia hacerse matar.
-- Sin cuenta de vidas: el castigo es el tiempo.
+Para que merezca la pena explorar y no solo esperar:
+- Zonas, NPC, eventos y recompensas propias del Otro Mundo (p. ej. entrenar con Kaio-sama, torneo, objetos únicos).
+- La bonificación de XP comparte el tope de §5.
+- Para evitar que sea una estrategia hacerse matar, la bonificación decae si mueres varias veces en poco tiempo.
+- No hay cuenta de vidas: el castigo es el tiempo de espera.
 
-*Nota: dijiste "ir al otro lado para visitar a Kami". En la serie Kami vive en la Tierra (Palacio, ya incluido en §2) y es Kaio-sama quien está en el Otro Mundo. Asumo que te referías a Kaio-sama; si no, dímelo.*
+*Nota: dijiste "ir al otro lado para visitar a Kami". En la serie Kami vive en la Tierra (Palacio, ya incluido en §2) y es Kaio-sama quien está en el Otro Mundo. Confirmado por ti: era Kaio-sama.*
 
 ## 10. NPC y vida ambiental (P)
 Maestros en sitios fijos; aldeanos DB en pueblos; fauna temática por zona; enemigos errantes por etapa.
@@ -148,6 +152,5 @@ Etapa 0–1: pocas horas. Hasta Super: decenas de horas. Luna llena: evento saiy
 Namek y otros planetas, economía compleja, Oozaru jugable, torneos avanzados. La primera versión solo necesita: Tierra con mobs, ki básico, entrenamiento con penalización, nivel/XP, una puerta de forma y la muerte con Otro Mundo simple.
 
 ## 14. Preguntas abiertas
-1. Confirmar que "Kami" en la muerte era **Kaio-sama** (§9).
-2. ¿El temporizador del Otro Mundo de 15 min te parece bien o prefieres otro valor?
-3. ¿Revisamos ya la escalera de formas por raza (§4.3) o primero otras razas?
+1. ¿La espera mínima de 15 min te parece bien o prefieres otro valor?
+2. Detalle de las formas por raza: ver `RACES.md`.
