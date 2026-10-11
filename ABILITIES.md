@@ -159,3 +159,6 @@ Reglas:
 1. Kaio-ken con **3 grados** (hasta "×3"); los nombres no son literales (§7).
 2. Los requisitos **se ven siempre**; las habilidades **se compran con XP** y se necesitan los atributos para **usarlas**, no para comprarlas (§3).
 3. **La Vitalidad es la "resistencia" del personaje**; no se crea un atributo aparte. Es mi decisión (me dijiste "como consideres"): evita un octavo atributo que casi no se usaría y la Vitalidad ya cubre salud, aguante y desgaste.
+
+## 10. Después de la beta (anotado)
+- **Teletransportación (Instant Transmission):** técnica que permite teletransportarse hacia otros NPC siguiendo su ki. Requisitos y precio por definir. No lleva al Otro Mundo.

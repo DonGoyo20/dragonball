@@ -110,7 +110,10 @@ La barra de ki y de vida aparece en pantalla. Las formas se activan desde el sel
 
 Niveles de enemigos y orden son propuestas para ajustar con el bestiario real.
 
-## 9. Preguntas abiertas
-1. **¿Cómo se llega al Otro Mundo?** En la serie se va tras morir. Propuesta: la primera vez, al morir; después, si se quiere volver sin morir, hay una ruta de misión con Kaio-sama (el Camino de la Serpiente se alcanza desde el Otro Mundo).
-2. **¿Compensamos al Humano?** Opciones: (a) dejar como está (su fuerza está en maestros y control), (b) subir su crecimiento en FUE de 1,00 a 1,10, (c) reforzar Aprendiz nato.
-3. **¿Los especialistas superan demasiado al equilibrado (35 % contra 55–60 %)?** Se puede rebajar el multiplicador de las técnicas de especialista.
+## 9. Decisiones cerradas (7.ª ronda)
+1. **El Humano se queda como está.** Es un juego de un solo jugador: el jugador elige la raza porque le gusta. La condición es que **siempre se pueda avanzar en la historia**, y eso se garantiza y se mide (`CONTENT_DESIGN.md` §2.1).
+2. **Los especialistas superan al equilibrado: se deja así.** Esa es la idea del diseño (los multiplicadores de las técnicas de especialista no se rebajan).
+3. **Se llega al Otro Mundo siempre muriendo.** Más adelante, y **después de la beta**, la técnica de teletransportación permitirá teletransportarse hacia otros NPC (por su ki); no viaja al Otro Mundo sin morir.
+
+## 10. Preguntas abiertas
+Ninguna por ahora en este documento.

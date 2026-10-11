@@ -26,6 +26,16 @@ Tú mismo señalaste el riesgo: que algo rompa la progresión. Regla:
 - Las mejoras de atributo regaladas por secretos tienen **tope global: ≤ 15 % de todas las mejoras del juego** (por referencia, hay ~495 mejoras en total → como máximo unas 70 por secretos). El resto se compra con XP.
 - Esto mantiene que el reparto de XP sea 50 % combate, 30 % misiones y 20 % entrenamiento (tu confirmación).
 
+### 2.1 Garantía de historia (decisión tuya)
+Cada jugador elige su raza y su build por gusto, y **siempre debe poder avanzar en la historia**. No se persigue que todos los builds sean iguales: se garantiza que ninguno quede bloqueado. Reglas medibles (comprobadas con `tools/simulator/story_check.py`, 15 pruebas):
+
+1. **Builds normales** (con algo de supervivencia): al nivel esperado, cualquier raza y build vence al jefe de historia de su nivel en **≥ 30 %** de los duelos simulados. Resultado actual: 44–71 %.
+2. **Builds extremos** (sin nada de supervivencia): con **10 mejoras más** en su atributo principal (≈ 1,4 h de juego a nivel 171) deben vencer en **≥ 70 %**. Resultado actual: 79–100 %. El peor caso, un Humano maestro de ki extremo, pasa del 15 % al 79 %.
+3. El nivel nunca es un muro: los enemigos solo dejan de dar XP 33 niveles por debajo, así que siempre se puede subir un poco más.
+4. Un jefe de historia que no cumpla 1 y 2 en el simulador se rediseña antes de entrar.
+
+No se usa un modo fácil automático; si se quisiera, sería un ajuste opcional.
+
 ## 3. Capas de contenido
 | Capa | Qué es | Obligatoria |
 |---|---|---|

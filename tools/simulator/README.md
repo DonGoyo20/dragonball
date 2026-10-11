@@ -10,7 +10,8 @@ Desde esta carpeta:
 python3 sim.py            # matriz de duelos entre builds de Saiyajin y Humano (nivel total 171)
 python3 sweep2.py         # ¿qué palancas de diseño equilibran las especializaciones?
 python3 sweep.py          # barrido de exponentes de daño y de valor
-python3 -m unittest discover -s tests    # pruebas (13)
+python3 story_check.py    # garantía de historia: ¿puede cada build vencer al jefe?
+python3 -m unittest discover -s tests    # pruebas (15)
 ```
 Los parámetros están en `params.py`.
 
@@ -26,6 +27,8 @@ Modela: atributos con tope 99, poder efectivo, daño por razón de poder, esquiv
 4. **Que la velocidad dé más acciones por segundo rompe el equilibrio** (el Maestro de ki cae al 0–5 %). No se adopta.
 5. **La regla del 15 % de las puertas (ABILITIES §4) detectó un fallo:** Kaio-ken grado 1 con VIT ≥ 18 cuesta al Humano 11 mejoras (15,7 %). Con VIT ≥ 16: Saiyajin 11,4 %, Humano 14,3 %.
 6. **Humano y Saiyajin no quedan igual** en duelos del mismo nivel: el Saiyajin guerrero vence al Humano guerrero el 91 % de las veces. El Humano no entra en la cuenta con sus ventajas de maestros y precios.
+
+7. **Garantía de historia:** todos los builds normales vencen al jefe de su nivel en 44–71 %; los extremos, con 10 mejoras más (≈ 1,4 h), en 79–100 % (`story_check.py`).
 
 ## Corrección de un error propio
 La primera versión hacía que el combatiente de la fila atacara siempre primero, con lo que **ambos lados parecían ganar** (76 % y 95 % a la vez). Corregido con orden aleatorio por segundo; añadidas pruebas de simetría (`test_matchup_is_symmetric`, `test_no_first_mover_bias_mirror_match`). Las cifras de arriba son las de la versión corregida.

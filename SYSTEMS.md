@@ -270,5 +270,10 @@ Lo único que sí requiere código nuevo es un **rasgo distinto** (p. ej. Zenkai
 1. Aceptadas las cinco propuestas previas a Saiyajin y Humano (`BETA_RACES.md`).
 2. Costes de técnica absolutos; técnicas de especialista obligatorias para que especializarse compense (§2.3).
 
-## 19. Preguntas abiertas
-Ver `BETA_RACES.md` §9.
+## 19. Decisiones cerradas (7.ª ronda)
+1. El Humano no se compensa; la libertad de elegir raza y build se protege con la **garantía de historia** (`CONTENT_DESIGN.md` §2.1).
+2. Las técnicas de especialista conservan su fuerza (los especialistas superan al equilibrado).
+3. Se llega al Otro Mundo solo muriendo.
+
+## 20. Preguntas abiertas
+Ninguna por ahora.

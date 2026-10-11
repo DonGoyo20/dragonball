@@ -15,6 +15,7 @@
 - **Decisiones del usuario (4.ª ronda):** coste de mejora igual para todos los atributos; tope de 99 por atributo; la beta termina al derrotar a Vegeta; toda habilidad exige atributos mínimos (Kamehameha → control de ki, Kaio-ken → resistencia).
 - **Decisiones del usuario (5.ª ronda):** Kaio-ken hasta "×3" con nombres no literales; requisitos siempre visibles; las habilidades se compran con XP (XP = moneda del juego) y los atributos se exigen para usarlas; Vitalidad = resistencia.
 - **Decisiones del usuario (6.ª ronda):** aceptadas las cinco propuestas previas a Saiyajin/Humano (origen, combate en tiempo real con teclas, creación limitada, topes de Zenkai y Aprendiz nato, simulador).
+- **Decisiones del usuario (7.ª ronda):** el Humano no se compensa; los especialistas pueden superar al equilibrado; garantía de historia (cualquier build debe poder avanzar, medida en el simulador); al Otro Mundo solo se va muriendo; teletransportación a NPC después de la beta.
 - **Propuestas, sin confirmar explícitamente:** Minecraft 1.21.1 + NeoForge + Java 21; mod independiente (no ampliar DragonMine Z); no depender de un mod RPG externo para el núcleo; licencia por decidir.
 
 ## Documentos
@@ -30,4 +31,4 @@ GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas
 Todas las del juego (nada implementado todavía).
 
 ## Próxima tarea
-Resolver las 3 preguntas de BETA_RACES.md §9; completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).
+Siguiente decisión pendiente: qué diseñar a continuación (maestros de la beta, bestiario de la beta con niveles y XP, o primera cadena de misiones de Roshi); completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).
