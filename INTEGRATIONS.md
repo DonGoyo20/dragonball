@@ -7,8 +7,8 @@ Leyenda de estado: **verificado en juego** = comprobado arrancando Minecraft (se
 | Librería | Versión | Licencia | Para qué | Estado |
 |---|---|---|---|---|
 | NeoForge (MDK) | 21.1.259 / MC 1.21.1 | MDK: MIT | Base del mod | Compila y arranca (servidor y cliente) |
-| GeckoLib | 4.9.3 | MIT | Modelo y animaciones del Lobo salvaje | **Integrada.** Dependencia obligatoria. Modelo+textura dibujados en cliente real (captura `docs/img/`). Animaciones: la captura muestra al lobo con las patas en pose de caminar; la transición idle/walk/bite **no se ha verificado** |
-| Patchouli | 1.21.1-93-NEOFORGE | CC-BY-NC-SA 3.0 | Libro de guía en el juego | **Parcial.** Solo se usa como dato (JSON), no se enlaza código. Servidor y cliente cargan `book.json` y 18 JSON de contenido sin errores. **No verificado:** que el libro se abra y se vea bien |
+| GeckoLib | 4.9.3 | MIT | Modelo y animaciones del Lobo salvaje | **Integrada.** Dependencia obligatoria. Modelo+textura dibujados en cliente real (captura `docs/img/`). **Verificado por el usuario en su PC (2026-10-11):** el lobo camina con animación, ataca y suelta objetos. La animación concreta de mordisco no se ha confirmado por separado |
+| Patchouli | 1.21.1-93-NEOFORGE | CC-BY-NC-SA 3.0 | Libro de guía en el juego | **Parcial.** Solo se usa como dato (JSON), no se enlaza código. Servidor y cliente cargan `book.json` y 18 JSON de contenido sin errores. **Verificado por el usuario en su PC:** el libro se abre con `/give @s patchouli:guide_book[patchouli:book="dragonball:guia"]` y muestra título, texto de introducción y 4 categorías. Entradas internas sin revisar |
 | FTB Quests (+ FTB Library, FTB Teams, Architectury) | 2101.1.36 / 2101.1.37 / 2101.1.11 / 13.0.8 | FTB Quests: "All Rights Reserved" (declarada en su mods.toml) | Misiones | **Parcial.** Solo dato (`integrations/ftbquests/quests`), sin código enlazado. Verificado por prueba: carga "1 capítulo, 3 misiones" y las referencias existen. **No verificado:** completar las misiones jugando |
 | KubeJS | 2101.7.2-build.379 | LGPL-3.0 | Ajuste de equilibrio sin recompilar | **Integrada como dato.** Prueba automática: el script cambia la XP de la araña (8→50) y el zombi no cambia. Sin lógica crítica en scripts |
 | TerraBlender | 4.1.0.8 | LGPL | Biomas propios | **No añadida** (ver abajo) |
@@ -34,3 +34,10 @@ Solo GeckoLib es dependencia obligatoria del mod. Patchouli, FTB Quests y KubeJS
 - La licencia del propio mod sigue por decidir ("All Rights Reserved" provisional).
 - El cliente headless usa renderizado por software y sin audio; solo sirve para detectar errores de carga y ver una captura, no para evaluar rendimiento ni sensación de juego.
 - Textura del lobo: provisional generada por script.
+
+## Verificado en juego por el usuario (2026-10-11, PC propio)
+- Build de Gradle en Windows: BUILD SUCCESSFUL, 5 pruebas JUnit.
+- `/dragonball givexp`, `upgrade vit`, `progress`: funcionan; XP subió de 90 a 160 tras combatir lobos.
+- Lobo: camina, ataca (en supervivencia) y suelta objetos.
+- Libro de Patchouli: se abre y se ve.
+- Pendiente: misiones de FTB Quests jugando; KubeJS en juego.

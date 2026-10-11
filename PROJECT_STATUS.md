@@ -7,8 +7,8 @@
 |---|---|---|---|---|
 | XP, mejoras, nivel total, logros de nivel | sí | sí | sí | pruebas automáticas (JUnit + GameTest) |
 | Bestiario como Data Map (34 entradas exportadas de 94) | sí | parcial | sí | GameTest |
-| Lobo salvaje (GeckoLib) | sí | sí | sí | carga y render en cliente real (captura); animaciones sin verificar |
-| FTB Quests, Patchouli, KubeJS | sí | solo como datos | sí | carga verificada; uso jugando **no verificado** |
+| Lobo salvaje (GeckoLib) | sí | sí | sí | verificado en juego por el usuario: se mueve, ataca, suelta objetos, da XP |
+| FTB Quests, Patchouli, KubeJS | sí | solo como datos | sí | Patchouli verificado en juego (el libro se abre); FTB y KubeJS: carga verificada, uso jugando **no verificado** |
 | Atributos con efecto en combate, ki, habilidades, razas, Kaio-ken, maestros, Otro Mundo | sí | **no** | — | — |
 Ver `INTEGRATIONS.md`.
 
@@ -39,7 +39,7 @@ GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas
 - Nombres de APIs de NeoForge de memoria; a verificar en Fase 1.
 
 ## Pruebas pendientes
-Completar misiones FTB jugando, abrir el libro de Patchouli, ver las animaciones del lobo en movimiento, y todo lo no implementado. Lo visual se prueba en el PC del usuario.
+Completar misiones FTB jugando, KubeJS en juego, y todo lo no implementado. Lo visual se prueba en el PC del usuario.
 
 ## Próxima tarea
 Aprobaciones de BESTIARY_PLAN.md §5 (plataforma, red/PC, arte, alcance por etapas) para empezar la Fase 1; preguntas de BESTIARY.md §15; completar formas de Majin y Namekiano; detallar el Kaio-ken (puerta 1, entra en la beta) y después el Super Saiyajin (puerta 2).
