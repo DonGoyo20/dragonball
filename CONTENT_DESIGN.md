@@ -1,0 +1,99 @@
+# CONTENT_DESIGN — Exploración, historia, jefes secretos y rutas de personaje
+
+> Estado: **borrador v1 (2026-10-11), sobre el papel.** Referencia de diseño que diste:
+> experiencia al nivel de *Elden Ring* y *Breath of the Wild*. La historia es la columna
+> vertebral del progreso, pero el mundo está lleno de cosas opcionales muy valiosas.
+> Lo marcado "(P)" es propuesta mía. Complementa a `WORLD_DESIGN.md` y `SYSTEMS.md`.
+> Las referencias a esos juegos son de mi conocimiento general, sin consultar fuentes.
+
+## 1. Qué tomamos de esos juegos
+| Idea | Cómo lo aplicamos aquí (P) |
+|---|---|
+| Historia como columna vertebral, no como cárcel | Los arcos principales dan el progreso garantizado, pero puedes ir a muchos sitios en distinto orden |
+| Mundo que premia mirar | Estructuras, jefes y personajes ocultos con pistas visibles, sin marcadores |
+| Sin marcadores de misión por defecto | Diario con notas automáticas de lo que has oído y visto, pero no flechas al objetivo |
+| Jefes secretos | Enemigos únicos fuera del camino principal, con recompensas muy buenas |
+| Rutas de personajes ocultos | Personajes cuyas historias se desarrollan solo si los encuentras y haces ciertas cosas |
+| Libertad con peligro, no con muros | Zonas fuertes se pueden visitar pronto; el castigo es la dificultad, no una pared invisible |
+| Hitos de poder por descubrimiento | Las mejores técnicas y objetos están en secretos, no en una tienda |
+
+## 2. Principio que protege el sistema de niveles
+Tú mismo señalaste el riesgo: que algo rompa la progresión. Regla:
+
+**Los secretos dan recompensas *cualitativas*, no inflación de nivel.**
+- La XP de un jefe secreto sale de la tabla fija como cualquier enemigo (SYSTEMS §2.3). No hay "atajos de niveles".
+- Lo que dan son: técnicas únicas, atajos de dominio de forma, objetos, estética, aliados, acceso a lugares.
+- Los puntos de atributo regalados por secretos tienen **tope global: ≤ 15 % de todos los puntos del juego** (por referencia, 5 por nivel × 99 niveles ≈ 495 puntos → como máximo unos 70 por secretos). El resto se gana subiendo de nivel.
+- Esto mantiene que el reparto de XP sea 50 % combate, 30 % misiones y 20 % entrenamiento (tu confirmación).
+
+## 3. Capas de contenido
+| Capa | Qué es | Obligatoria |
+|---|---|---|
+| **A. Historia principal** | Arcos de Dragon Ball encadenados con jefes de arco | Sí, da el progreso garantizado |
+| **B. Misiones de maestros** | Cadenas de entrenamiento (Roshi, Kaio, Kami…) | Recomendadas |
+| **C. Rutas de personaje** | Historias ocultas de NPC con recompensas únicas | No |
+| **D. Jefes secretos** | Enemigos únicos escondidos | No |
+| **E. Lugares ocultos** | Ruinas, cuevas, dimensiones, dojos | No |
+| **F. Eventos del mundo** | Amenazas, torneos, esferas del dragón | No |
+
+### A. Historia principal (P)
+Arcos como columna vertebral (orden y contenido a definir):
+Saga Saiyajin → Namek → Freezer → Androides/Cell → Majin Buu → Dioses/Torneo del Poder.
+Cada arco tiene: un rango de niveles recomendado, un jefe de arco, una puerta de forma (WORLD_DESIGN §4.2) y la entrada a nuevos lugares. El arco **no impide** ir a hacer otras cosas.
+
+## 4. Jefes secretos (P)
+### 4.1 Reglas
+- **Nivel fijo, no escalan.** Si vuelves más fuerte, los derrotas con menos XP por la diferencia de nivel (SYSTEMS §2.3). Si vas pronto, es muy difícil pero posible con habilidad.
+- **Sin marcador.** Se encuentran por pistas: rumores de NPC, ruinas, una criatura distinta, una estructura rara.
+- **Uno por zona al menos.** Densidad objetivo: un secreto por cada ~5 minutos de exploración en una zona nueva (a validar).
+- **Recompensa única**, nunca solo XP.
+- **Estado persistente:** derrotarlo lo marca en el mundo, no reaparece.
+
+### 4.2 Tipos (ejemplos, P)
+| Tipo | Ejemplo | Recompensa típica |
+|---|---|---|
+| Guardián antiguo | Dinosaurio ancestral en cueva | Material raro |
+| Guerrero errante | Un luchador que reta a quien le encuentre | Técnica |
+| Espíritu del Otro Mundo | Combatiente legendario en el Camino de la Serpiente | Atajo de dominio de forma |
+| Reflejo | Un "doble" de tu propio personaje (nivel igual al tuyo) | Cosmético y bonus |
+| Máquina olvidada | Robot de una organización antigua | Módulo (Androide) o pieza |
+
+## 5. Rutas de personaje (P)
+*Dijiste "runs de personajes". Lo interpreto como **rutas de misiones de un NPC concreto** (como las historias de personajes de Elden Ring). Si no es así, dímelo.*
+
+Reglas:
+- Se empieza al encontrar al personaje, a veces por casualidad.
+- Varios pasos, pueden perderse si no se atienden (se avisa con claridad, como en esos juegos, de forma sutil).
+- Pueden tener **elecciones** con consecuencias reales (a quién ayudas, a quién enfrentas).
+- Terminan con recompensas muy buenas y únicas: una técnica, un maestro nuevo, un aliado, una forma alternativa.
+
+Ejemplos (P, no definitivos): una ruta de un artista marcial rival (escuela de la grulla), un cazarrecompensas que cambia de bando, un científico con módulos para androides, un guerrero saiyajin exiliado.
+
+## 6. Descubrimiento sin marcadores (P)
+- **Puntos de referencia visibles:** el Palacio de Kami flota y se ve de lejos; la Torre de Karin se divisa; hay formaciones y torres de ki visibles.
+- **Diario automático:** apunta pistas oídas y lugares vistos con una descripción, sin posición exacta.
+- **Detector de ki:** da una estimación del nivel de lo que hay cerca (más débil / parejo / más fuerte), no su posición exacta.
+- **Radar del Dragón:** solo para las esferas del dragón.
+- **Mapas comprables o encontrables** que revelan una zona, sin marcar secretos.
+- **Opción de accesibilidad:** marcadores opcionales para quien los quiera.
+
+## 7. Implicaciones técnicas (para TECHNICAL_DESIGN)
+- **Jefes y rutas son datos:** nivel, arquetipo, XP fija, tabla de recompensas, pista de descubrimiento, marca de "derrotado" por mundo.
+- **Estructuras únicas por mundo:** reglas de colocación al crear el mundo (separación, bioma, altura). Su implementación depende de las herramientas de generación de estructuras de NeoForge (a verificar en Fase 1).
+- **Marcas de mundo:** guardar qué se ha derrotado/descubierto y las elecciones tomadas.
+- **Misiones con ramas:** el sistema de misiones debe admitir ramas, fallos y condiciones ocultas desde el diseño (TECHNICAL_DESIGN §8 se amplía).
+- **Tablas de recompensas** con tope global para los puntos de atributo (§2).
+
+## 8. Alcance de la primera versión (P)
+La primera versión solo necesita **demostrar el concepto**:
+- 1 arco inicial corto como columna vertebral.
+- 2–3 jefes secretos con pistas y recompensas distintas.
+- 1 ruta de personaje con una elección.
+- Sin generación avanzada: estructuras colocadas con reglas simples.
+
+El volumen "sin fin" de Elden Ring se construye después, añadiendo datos, no código, que es la razón de la arquitectura basada en datos.
+
+## 9. Preguntas abiertas
+1. ¿"Runs de personajes" = rutas de misiones de NPC, como las interpreté?
+2. ¿Marcadores desactivados por defecto (como en esos juegos) con opción para activarlos?
+3. ¿Cuántos arcos de la serie quieres cubrir en la primera versión completa, y cuáles?

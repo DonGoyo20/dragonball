@@ -209,6 +209,10 @@ Lo único que sí requiere código nuevo es un **rasgo distinto** (p. ej. Zenkai
 3. XP por enemigo en tabla fija, creciente con la dificultad; sin bonus por primera vez (§2.3).
 4. Ritmo lento: 10 + 0,5·L combates parejos por nivel; el combate aporta ~50 % de la XP.
 
-## 14. Preguntas abiertas
-1. ¿El vuelo debe tener un pequeño coste de ki (propuesta) o ser gratis?
-2. ¿Cuánto de la XP debería venir de misiones (propuesta: ~30 %) y de entrenamiento (~20 %)?
+## 14. Decisiones cerradas (2.ª ronda)
+1. Vuelo con coste de ki mínimo (0,1 %/s), desgastante pero no castigador.
+2. Reparto de XP: 50 % combate, 30 % misiones, 20 % entrenamiento.
+3. Los secretos dan recompensas cualitativas, no inflan niveles (ver `CONTENT_DESIGN.md` §2).
+
+## 15. Preguntas abiertas
+Ninguna por ahora en este documento.
