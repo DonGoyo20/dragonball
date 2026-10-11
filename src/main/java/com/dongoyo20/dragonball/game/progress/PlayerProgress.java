@@ -1,5 +1,6 @@
 package com.dongoyo20.dragonball.game.progress;
 
+import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.Progression;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -54,9 +55,15 @@ public record PlayerProgress(long xp, List<Integer> upgrades) {
         return Math.round(Progression.costNextUpgrade(totalLevel()));
     }
 
-    /** Intenta comprar una mejora en el atributo {@code index}; devuelve null si no hay XP o ya está al tope. */
+    /** ¿El atributo ya está en el tope 99? Por ahora solo VIT (índice 0) tiene valores definidos; el resto, pendiente. */
+    public boolean isAtCap(int index) {
+        return index == 0 && !HealthSystem.canUpgradeVit(upgrades.get(0));
+    }
+
+    /** Intenta comprar una mejora en el atributo {@code index}; devuelve null si no hay XP o el atributo ya está al tope. */
     public PlayerProgress tryUpgrade(int index) {
         if (index < 0 || index >= Progression.ATTRIBUTE_COUNT) return null;
+        if (isAtCap(index)) return null;
         long cost = nextUpgradeCost();
         if (xp < cost) return null;
         List<Integer> next = new ArrayList<>(upgrades);

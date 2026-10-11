@@ -9,7 +9,8 @@
 | Bestiario como Data Map (34 entradas exportadas de 94) | sí | parcial | sí | GameTest |
 | Lobo salvaje (GeckoLib) | sí | sí | sí | verificado en juego por el usuario: se mueve, ataca, suelta objetos, da XP |
 | FTB Quests, Patchouli, KubeJS | sí | solo como datos | sí | Patchouli y FTB Quests verificados en juego (libro abre; 3 misiones completadas); KubeJS verificado en juego (araña 10→~50 XP) |
-| Atributos con efecto en combate, ki, habilidades, razas, Kaio-ken, maestros, Otro Mundo | sí | **no** | — | — |
+| VIT → salud | sí | sí | tests automáticos; en juego pendiente |
+| FUE, DEF, VEL, KI, POD, CON, ki, habilidades, razas, Kaio-ken, maestros, Otro Mundo | sí | **no** | — | — |
 Ver `INTEGRATIONS.md`.
 
 ## Entorno (sesión en la nube, 2026-10-11)
@@ -35,6 +36,9 @@ Completada: ver `ATTRIBUTE_AUDIT.md`. Hay 7 atributos (no 5), sin ningún efecto
 ## Decisiones de salud (2026-10-11) y viabilidad técnica
 Decisiones del usuario: vida con fracción 0–1 (20 HP vanilla reales; vida real derivada), este ciclo solo VIT → salud, tope 99 en `tryUpgrade`, VEL solo esquiva, razas no son prerrequisito (valores base universales), sin HUD este ciclo, traducciones EN/ES de los 7 atributos.
 Viabilidad verificada en el código fuente de NeoForge 21.1.259: `LivingDamageEvent.Pre` (+ `LivingIncomingDamageEvent`), `LivingHealEvent`, `LivingDeathEvent`, `PlayerEvent.Clone`, `PlayerLoggedInEvent`, `PlayerTickEvent.Pre/Post`, `getHealth/setHealth`, sincronización con `AttachmentType.Builder.sync(StreamCodec)`. Detalle, flujo, valores provisionales y plan de pruebas en `HEALTH_FEASIBILITY.md`. Pendiente de confirmación: 4 puntos al final de ese documento. No hay código nuevo todavía.
+
+## Ciclo VIT → salud (2026-10-11)
+Implementado y probado con tests automáticos (JUnit 12, GameTest 13); **no verificado aún en el juego real**. Ver `HEALTH_IMPLEMENTATION.md`. Deuda técnica: fórmula lineal provisional (`SYSTEMS.md` §3.2.1). Siguiente: verificación manual del usuario y luego el siguiente atributo (DEF/FUE) o el HUD, a decidir.
 
 ## Documentos
 GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas en detalle), SYSTEMS.md (reglas base: niveles, ki, combate, comida, entrenamiento), CONTENT_DESIGN.md (exploración, jefes secretos, rutas de personaje), ABILITIES.md (habilidades, formas y requisitos), BETA_RACES.md (Saiyajin y Humano en la beta), BESTIARY.md (enemigos y jefes de la beta; datos en design_data/beta/bestiary.json), BESTIARY_PLAN.md (análisis técnico y plan de implementación del bestiario), tools/simulator (simulador de equilibrio en Python), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).

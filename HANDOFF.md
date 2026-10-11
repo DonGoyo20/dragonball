@@ -32,7 +32,8 @@ Mod de **Dragon Ball RPG para Minecraft Java 1.21.1 + NeoForge 21.1.259** (Java 
 | FTB Quests: capítulo de prueba con 3 misiones | sí | datos | las 3 se completan en juego |
 | KubeJS: script que cambia la XP de la araña | sí | datos | verificado (49 XP en vez de 10) |
 | Traducciones | — | es_es + variantes es_mx/ar/cl/uy/ve/ec | **por verificar en el PC** |
-| Efecto de atributos en combate, ki, técnicas, razas, formas, maestros, Otro Mundo, HUD, sincronización al cliente | sí | **no** | — |
+| VIT → salud (`HealthSystem`, `LivingDamageEvent.Pre`, tope 99 en VIT) | sí | sí | tests automáticos (JUnit 12, GameTest 13); **en juego pendiente** |
+| Efecto del resto de atributos en combate, ki, técnicas, razas, formas, maestros, Otro Mundo, HUD, sincronización al cliente | sí | **no** | — |
 Código: Java en `src/main/java/com/dongoyo20/dragonball/` (`core/Progression` puro; `game/progress`, `game/bestiary`, `game/entity`, `game/command`, `game/advancement`; `client/WildWolfRenderer`). Comandos: `/dragonball progress | upgrade <vit|fue|def|vel|ki|pod|con> | givexp <n>`.
 Tests: `./gradlew build` (JUnit), `./gradlew runGameTestServer` (6 GameTest), `tools/verify_integrations.sh` (núcleo + FTB + KubeJS). Simulador de equilibrio en Python (`tools/simulator`, 29 pruebas), datos en `design_data/beta/bestiary.json`.
 Entorno: la nube no ve Minecraft con pantalla real; lo visual lo prueba el usuario en su PC (Windows). Hay una demo con pantalla virtual (`runClientDemo`, solo ayuda).
@@ -48,4 +49,4 @@ GeckoLib 4.9.3 (MIT, obligatoria), Patchouli 1.21.1-93 (CC-BY-NC-SA 3.0), FTB Qu
 - Datos antes que código (JSON/data maps) cuando sea posible; no meter lógica crítica en KubeJS.
 
 ## 7. Próximo paso
-Implementar **VIT → salud** según `HEALTH_FEASIBILITY.md` (evento `LivingDamageEvent.Pre`, `core/HealthSystem`, sin guardar vida real aparte). Esperan 4 confirmaciones del usuario: derivar la vida real de la vanilla, fórmula lineal provisional de VIT, daño de entorno sin escalar, base universal = valores del Saiyajin. Preguntas de diseño aún abiertas: `BESTIARY.md` §15, licencia del mod, GPU del usuario.
+VIT → salud está implementado (ver `HEALTH_IMPLEMENTATION.md`; confirmaciones del usuario: vida real derivada de la vanilla, fórmula lineal provisional —deuda técnica en SYSTEMS §3.2.1—, daño de entorno sin escalar, base universal del Saiyajin). Falta que el usuario lo pruebe en el juego. Después: siguiente atributo (DEF o FUE) o HUD, a decidir. Preguntas de diseño aún abiertas: `BESTIARY.md` §15, licencia del mod, GPU del usuario.

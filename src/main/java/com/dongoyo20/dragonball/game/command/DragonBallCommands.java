@@ -45,11 +45,15 @@ public final class DragonBallCommands {
             source.sendFailure(Component.translatable("command.dragonball.unknown_attribute", attribute));
             return 0;
         }
+        if (ProgressService.get(player).isAtCap(index)) {
+            source.sendFailure(Component.translatable("command.dragonball.attribute_at_cap", Component.translatable("attribute.dragonball." + attribute.toLowerCase()), 99));
+            return 0;
+        }
         if (!ProgressService.upgrade(player, index)) {
             source.sendFailure(Component.translatable("command.dragonball.not_enough_xp", ProgressService.get(player).nextUpgradeCost()));
             return 0;
         }
-        source.sendSuccess(() -> Component.translatable("command.dragonball.upgraded", attribute, ProgressService.get(player).totalLevel()), false);
+        source.sendSuccess(() -> Component.translatable("command.dragonball.upgraded", Component.translatable("attribute.dragonball." + attribute.toLowerCase()), ProgressService.get(player).totalLevel()), false);
         return 1;
     }
 

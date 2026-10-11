@@ -128,6 +128,14 @@ La vida real se guarda como **fracción (0–1)** y se muestra en la barra de Mi
 - Con `A = D` se necesitan unos 20 golpes. Con 100× más poder, ~10× más daño; con 100× menos, ~10× menos.
 - Ningún golpe supera el 100 %.
 
+### 3.2.1 Fórmula provisional de VIT → salud (implementada 2026-10-11) — DEUDA TÉCNICA
+Hasta que existan DEF y el poder de ataque `A` de los enemigos, el daño que reciben los jugadores se calcula así (`core/HealthSystem.java`, `game/health/HealthEvents.java`):
+- `valor_VIT = 8 + 1,0 × mejoras_VIT` (valores del Saiyajin como base universal hasta que existan razas), tope 99 (91 mejoras).
+- El jugador conserva 20 HP de vanilla; `vida_real = (HP_vanilla / 20) × 12,5 × valor_VIT`. No se guarda aparte.
+- `daño_aplicado = daño_vanilla × (8 / valor_VIT)`, después de armadura y pociones (`LivingDamageEvent.Pre`). Solo daño causado por entidades; el de entorno (caída, lava, ahogamiento, `/kill`) no se escala, como dice §3.1.
+- Al subir VIT la barra vanilla no cambia; la vida real sube en la misma proporción.
+**Deuda:** esto es lineal en VIT (`VIT^1`), más fuerte que el diseño de §3.2 (`VIT^0,3` dentro de `D`) y no depende del enemigo. Debe sustituirse por la fórmula de §3.2 cuando existan DEF y los poderes de ataque; mientras tanto un enemigo de nivel 171 pega como uno de nivel 1.
+
 ### 3.3 Esquiva
 `prob_esquiva = clamp(0,10 + 0,20 · ln(E_VEL_defensor / E_VEL_atacante), 0, 0,6)`
 

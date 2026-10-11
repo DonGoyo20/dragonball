@@ -7,5 +7,13 @@
  "command.dragonball.unknown_attribute": "Atributo desconocido: %s",
  "command.dragonball.not_enough_xp": "No hay XP suficiente (la próxima mejora cuesta %s)",
  "command.dragonball.upgraded": "Mejorado %s. El nivel total es ahora %s",
- "command.dragonball.gave_xp": "Se dieron %s de XP"
+ "command.dragonball.gave_xp": "Se dieron %s de XP",
+ "attribute.dragonball.vit": "Vitalidad",
+ "attribute.dragonball.fue": "Fuerza",
+ "attribute.dragonball.def": "Defensa",
+ "attribute.dragonball.vel": "Velocidad",
+ "attribute.dragonball.ki": "Ki máximo",
+ "attribute.dragonball.pod": "Poder de ki",
+ "attribute.dragonball.con": "Control",
+ "command.dragonball.attribute_at_cap": "%s ya está en el tope (%s)"
 }

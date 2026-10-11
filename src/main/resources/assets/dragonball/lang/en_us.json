@@ -7,5 +7,13 @@
  "command.dragonball.unknown_attribute": "Unknown attribute: %s",
  "command.dragonball.not_enough_xp": "Not enough XP (next upgrade costs %s)",
  "command.dragonball.upgraded": "Upgraded %s. Total level is now %s",
- "command.dragonball.gave_xp": "Gave %s XP"
+ "command.dragonball.gave_xp": "Gave %s XP",
+ "attribute.dragonball.vit": "Vitality",
+ "attribute.dragonball.fue": "Strength",
+ "attribute.dragonball.def": "Defense",
+ "attribute.dragonball.vel": "Speed",
+ "attribute.dragonball.ki": "Max Ki",
+ "attribute.dragonball.pod": "Ki Power",
+ "attribute.dragonball.con": "Control",
+ "command.dragonball.attribute_at_cap": "%s is already at the cap (%s)"
 }
