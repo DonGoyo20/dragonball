@@ -1,1 +1,11 @@
-{ "mod.dragonball.name": "Dragon Ball RPG" }
+{
+ "mod.dragonball.name": "Dragon Ball RPG",
+ "entity.dragonball.wild_wolf": "Wild Wolf",
+ "item.dragonball.wild_wolf_spawn_egg": "Wild Wolf Spawn Egg",
+ "message.dragonball.xp_gained": "+%s XP",
+ "command.dragonball.progress": "Total level %s | XP %s | next upgrade costs %s | upgrades %s",
+ "command.dragonball.unknown_attribute": "Unknown attribute: %s",
+ "command.dragonball.not_enough_xp": "Not enough XP (next upgrade costs %s)",
+ "command.dragonball.upgraded": "Upgraded %s. Total level is now %s",
+ "command.dragonball.gave_xp": "Gave %s XP"
+}

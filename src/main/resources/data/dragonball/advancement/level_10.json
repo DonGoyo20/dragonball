@@ -1,0 +1,15 @@
+{
+ "criteria": {
+  "reached": {
+   "trigger": "dragonball:total_level",
+   "conditions": {
+    "min_level": 10
+   }
+  }
+ },
+ "requirements": [
+  [
+   "reached"
+  ]
+ ]
+}

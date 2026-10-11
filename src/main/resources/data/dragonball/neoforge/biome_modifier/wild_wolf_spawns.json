@@ -1,0 +1,14 @@
+{
+ "type": "neoforge:add_spawns",
+ "biomes": [
+  "minecraft:plains",
+  "minecraft:forest",
+  "minecraft:meadow"
+ ],
+ "spawners": {
+  "type": "dragonball:wild_wolf",
+  "weight": 6,
+  "minCount": 2,
+  "maxCount": 3
+ }
+}

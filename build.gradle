@@ -14,6 +14,28 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    // Cada repositorio solo sirve los grupos que le corresponden (evita descargas ambiguas)
+    exclusiveContent {
+        forRepository { maven { name = 'GeckoLib'; url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' } }
+        filter { includeGroup 'software.bernie.geckolib' }
+    }
+    exclusiveContent {
+        forRepository { maven { name = 'BlameJared'; url = 'https://maven.blamejared.com/' } }
+        filter { includeGroup 'vazkii.patchouli' }
+    }
+    exclusiveContent {
+        forRepository { maven { name = 'FTB'; url = 'https://maven.ftb.dev/releases' } }
+        filter { includeGroup 'dev.ftb.mods' }
+    }
+    exclusiveContent {
+        forRepository { maven { name = 'Architectury'; url = 'https://maven.architectury.dev/' } }
+        filter { includeGroup 'dev.architectury' }
+    }
+    exclusiveContent {
+        forRepository { maven { name = 'Latvian'; url = 'https://maven.latvian.dev/releases' } }
+        filter { includeGroupAndSubgroups 'dev.latvian' }
+    }
+    mavenCentral()
 }
 
 base {
@@ -68,6 +90,27 @@ configurations {
 }
 
 dependencies {
+    // --- Dependencia obligatoria: animación y render de modelos (MIT). Verificado: 4.9.3 publicado para 1.21.1 NeoForge.
+    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+
+    // --- Integraciones OPCIONALES. Solo en el entorno de desarrollo (localRuntime): el mod NO las enlaza en código.
+    // Patchouli: libro de guía definido solo con datos (JSON).
+    localRuntime "vazkii.patchouli:Patchouli:${patchouli_version}"
+    // FTB Quests: las misiones se escriben como datos y se alimentan de logros propios del mod.
+    localRuntime "dev.ftb.mods:ftb-quests-neoforge:${ftb_quests_version}"
+    localRuntime "dev.ftb.mods:ftb-library-neoforge:${ftb_library_version}"
+    localRuntime "dev.ftb.mods:ftb-teams-neoforge:${ftb_teams_version}"
+    localRuntime "dev.architectury:architectury-neoforge:${architectury_version}"
+
+    // --- Pruebas unitarias del núcleo (Java puro, sin Minecraft)
+    testImplementation platform("org.junit:junit-bom:5.10.3")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging { events "passed", "failed", "skipped"; showStandardStreams = false }
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
