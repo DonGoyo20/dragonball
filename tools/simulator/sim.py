@@ -14,6 +14,7 @@ class Fighter:
     name: str = ""
     techniques: dict = None      # si es None, usa P.TECHNIQUES (jugador)
     extra_mult: float = 1.0      # calibración de jefes: multiplica todos los E
+    fragility: float = 1.0       # multiplica el daño recibido (animales pasivos: mueren casi de un golpe)
     hp: float = 1.0
     ki: float = 0.0
     kaio_grade: int = 0
@@ -67,7 +68,7 @@ def hit_fraction(att, defn, tech):
     else:
         D = defn.E("DEF") ** 0.4 * defn.E("CON") ** 0.3 * defn.E("VIT") ** 0.3
     ratio = min(max(A / D, 1e-12) ** P.DMG_EXPONENT, P.RATIO_MAX)
-    return min(P.HIT_FRACTION * max(ratio, P.RATIO_MIN), 1.0)
+    return min(P.HIT_FRACTION * max(ratio, P.RATIO_MIN) * defn.fragility, 1.0)
 
 
 def choose_tech(f, target):

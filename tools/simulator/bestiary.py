@@ -10,8 +10,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "..", "..", "design_data", "beta", "bestiary.json")
 
 # --- Reglas de XP (BESTIARY.md §3)
-BOSS_PCT = {"story": 0.15, "boss": 0.10, "secret": 0.08}   # % de la XP acumulada hasta ese nivel
+BOSS_PCT = {"story": 0.06, "boss": 0.04, "secret": 0.03}   # % de la XP acumulada hasta ese nivel (los jefes únicos suman ~25 % del total)
 ELITE_MULT = 3.0
+NO_XP_KINDS = ("passive", "npc")          # animales pasivos y NPC no combatientes: sin XP
+ALL_KINDS = ("normal", "elite", "boss", "story", "secret", "passive", "npc")
+BEHAVIORS = ("pasivo", "huida", "neutral", "territorial", "manada", "hostil", "emboscada", "patrulla", "guardia")
 
 
 def need(L):
@@ -40,6 +43,8 @@ def xp_for(enemy):
     if "xp" in enemy:
         return enemy["xp"]
     N, kind = enemy["level"], enemy["kind"]
+    if kind in NO_XP_KINDS:
+        return 0
     if kind in BOSS_PCT:
         return round(BOSS_PCT[kind] * cumulative_xp(N))
     mult = ELITE_MULT if kind == "elite" else 1.0
@@ -76,8 +81,16 @@ def validate(data):
             errors.append(f"{e['id']}: un jefe secreto necesita pista y recompensa")
         if e["kind"] in ("boss", "story", "secret") and len(e["techniques"]) < 2:
             errors.append(f"{e['id']}: un jefe necesita al menos 2 técnicas")
-        if e["kind"] not in ("normal", "elite", "boss", "story", "secret"):
+        if e["kind"] not in ALL_KINDS:
             errors.append(f"{e['id']}: tipo desconocido {e['kind']}")
+        if e.get("behavior") and e["behavior"] not in BEHAVIORS:
+            errors.append(f"{e['id']}: comportamiento desconocido {e['behavior']}")
+        if e["kind"] in ("story", "boss", "secret", "elite") and "behavior" not in e:
+            errors.append(f"{e['id']}: falta el campo behavior")
+        if e.get("canon") and e["canon"] not in ("original", "verificado", "memoria"):
+            errors.append(f"{e['id']}: canon desconocido {e['canon']}")
+        if e.get("named") and not e.get("canon"):
+            errors.append(f"{e['id']}: un personaje con nombre necesita el campo canon")
     return errors
 
 
@@ -89,7 +102,7 @@ def make_fighter(enemy, data):
     if "melee" not in techs:
         techs["melee"] = {**data["techniques"]["melee"], "req": {}}
     return sim.Fighter("npc", ups, use_kaioken=False, name=enemy["id"], techniques=techs,
-                       extra_mult=enemy.get("power_mult", 1.0))
+                       extra_mult=enemy.get("power_mult", 1.0), fragility=enemy.get("fragility", 1.0))
 
 
 # --- Garantía de historia a cualquier nivel
@@ -203,7 +216,10 @@ if __name__ == "__main__":
     import sys
     if "--calibrate" in sys.argv:
         d = load()
+        only_missing = "--missing" in sys.argv
         print("\nCALIBRACIÓN SUGERIDA (power_mult):")
         for e in sorted(d["enemies"], key=lambda x: x["level"]):
+            if only_missing and "power_mult" in e:
+                continue
             if e["kind"] in ("story", "boss", "secret", "elite"):
                 print(f"  {e['id']:20} N={e['level']:>3} {e['kind']:7} -> {calibrate(e, d)}")

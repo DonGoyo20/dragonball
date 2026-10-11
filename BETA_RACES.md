@@ -98,17 +98,21 @@ Tiempo real. Teclas por defecto (todas configurables; a verificar en Fase 1 cóm
 La barra de ki y de vida aparece en pantalla. Las formas se activan desde el selector radial.
 
 ## 8. Guion de la beta por nivel (P, tiempos a ritmo de diseño)
+Actualizado el 2026-10-11 al ampliar el alcance a Dragon Ball clásico (ver `BESTIARY.md` §7).
 | Tramo | Nivel total | Qué ocurre |
 |---|---|---|
-| Inicio | 1–20 | Explorar, primeras peleas, primeras mejoras; pistas hacia Roshi y Kami |
-| Maestros | 20–50 | Comprar Vuelo (Kami, ~30) y Kamehameha (Roshi, ~46); primeros secretos |
-| Raditz | ~55 | Primera amenaza grande de la historia |
+| Inicio | 1–20 | Animales pasivos (casi de un golpe), fauna, bandidos, primera banda de Pilaf; pistas hacia Roshi y Kami |
+| Maestros | 20–50 | Comprar Vuelo (Kami, ~30) y Kamehameha (Roshi, ~46); Red Ribbon y primeros secretos |
+| Red Ribbon | 20–52 | Bases, comandantes, Murasaki, Blue, Metallitron, Buyon y Tao Pai Pai |
+| Baba | 40–52 | Arena opcional con cuatro luchadores |
+| Daimaō | 62–76 | Hijos de Piccolo Daimaō, cacería y protección de zonas |
 | Camino al Otro Mundo | 60–71 | Entrenamiento con Kaio-sama; comprar Kaio-ken (puerta 1, 71) |
-| Saibamen | 80–110 | Enemigos de la invasión; Piccolo como maestro |
-| Nappa | ~130 | Jefe de arco intermedio |
-| Vegeta | ~165–171 | Jefe final de la beta |
+| Raditz | ~95 | Llegada de los saiyajin |
+| Saibamen | ~108 | Invasión, grupos de 3 |
+| Nappa | ~140 | Jefe de arco intermedio |
+| Vegeta | ~171 | Jefe final de la beta |
 
-Niveles de enemigos y orden son propuestas para ajustar con el bestiario real.
+Niveles y orden son propuestas para ajustar con el bestiario real. Nota: el Kaio-ken (nivel 71) queda **antes** de Raditz; se llega al Otro Mundo siempre muriendo (decisión tuya), así que el jugador puede ir a Kaio-sama antes de que llegue la saga saiyajin.
 
 ## 9. Decisiones cerradas (7.ª ronda)
 1. **El Humano se queda como está.** Es un juego de un solo jugador: el jugador elige la raza porque le gusta. La condición es que **siempre se pueda avanzar en la historia**, y eso se garantiza y se mide (`CONTENT_DESIGN.md` §2.1).

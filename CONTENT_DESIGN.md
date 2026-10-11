@@ -101,14 +101,14 @@ Ejemplos (P, no definitivos): una ruta de un artista marcial rival (escuela de l
 ## 8. Versiones del proyecto (decisión tuya)
 | Versión | Alcance |
 |---|---|
-| **Beta** | Hasta la **Saga Saiyan, con Vegeta como jefe final**: **la beta termina al derrotar a Vegeta**. Cubre los puntos principales: entrenamiento con maestros, personajes principales y el Otro Mundo |
+| **Beta** | **Dragon Ball clásico hasta la saga Saiyan, con Vegeta como jefe final** (Pilaf, Red Ribbon, luchadores de Baba, hijos de Piccolo Daimaō y saga Saiyan). **La beta termina al derrotar a Vegeta.** Cubre entrenamiento con maestros, personajes principales y el Otro Mundo |
 | **1.0** | Todo el arco Z |
 | Después | Super y contenido adicional |
 
 ### 8.1 Qué entra en la beta (P)
 - **Niveles totales 1 a ~171** (la puerta 2 queda cerrada). Tiempo aproximado a ritmo de diseño: ~16 h. **Cierre de la beta (decisión tuya):** se acaba al derrotar a Vegeta, no por un número. Como la puerta 2 (Super Saiyajin) no existe en la beta, el nivel total queda en la práctica en ~171 sin necesidad de un tope explícito.
 - **Puerta 1:** Kaio-ken (Saiyajin y Terrícola; las demás razas con su forma 2 o equivalente).
-- **Historia:** llegada de los saiyajin: Raditz → entrenamiento (Roshi, Kami, Kaio-sama en el Otro Mundo) → Saibamen y Nappa → **Vegeta** como jefe final.
+- **Historia (orden propuesto, ajustado el 2026-10-11 al ampliar el alcance):** banda de Pilaf (niveles 9–26) → Red Ribbon (20–52, con Tao Pai Pai como jefe) → luchadores de Baba (40–52, arena opcional) → hijos de Piccolo Daimaō (62–76) → llegada de los saiyajin: Raditz (95) → Saibamen en grupos de 3 (108) → Nappa (140) → **Vegeta** (171) como jefe final. El detalle de todos los enemigos está en `BESTIARY.md`.
 - **Maestros:** Roshi, Kami-sama, Kaio-sama, Piccolo.
 - **Otro Mundo** con Camino de la Serpiente y el planeta de Kaio.
 - **Razas jugables:** Saiyajin y Terrícola (RACES §11).

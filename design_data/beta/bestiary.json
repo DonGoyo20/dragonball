@@ -1,5 +1,5 @@
 {
- "_comment": "Bestiario de la beta (borrador de diseño, 2026-10-11). Niveles en 'nivel total'. XP: ver BESTIARY.md. Entidades dragonball:* son nombres propuestos. power_mult: calibrado con tools/simulator/bestiary.py --calibrate (story: el más duro que cumple la garantía con margen; elite: media de victorias ~75 %; boss/secret opcionales: media ~35 %).",
+ "_comment": "Bestiario de la beta (borrador de diseño, 2026-10-11). Alcance: Dragon Ball clásico hasta la saga Saiyan. Niveles en 'nivel total'. canon: 'verificado' = confirmado en búsqueda de este proyecto (fuentes de fans); 'memoria' = conocimiento general sin verificar; 'original' = contenido propio. Entidades dragonball:* son nombres propuestos.",
  "archetypes": {
   "bruto": {
    "VIT": 0.25,
@@ -56,6 +56,15 @@
    "CON": 0
   },
   "equilibrado": {
+   "VIT": 0.143,
+   "FUE": 0.143,
+   "DEF": 0.143,
+   "VEL": 0.143,
+   "KI": 0.143,
+   "POD": 0.142,
+   "CON": 0.143
+  },
+  "pasivo": {
    "VIT": 0.143,
    "FUE": 0.143,
    "DEF": 0.143,
@@ -126,6 +135,42 @@
    "attr": "POD",
    "mult": 3.5,
    "cost": 100
+  },
+  "disparo": {
+   "kind": "phys",
+   "attr": "POD",
+   "mult": 1.5,
+   "cost": 0
+  },
+  "mordisco_vampirico": {
+   "kind": "phys",
+   "attr": "FUE",
+   "mult": 1.8,
+   "cost": 10
+  },
+  "agarre": {
+   "kind": "phys",
+   "attr": "FUE",
+   "mult": 1.6,
+   "cost": 10
+  },
+  "rayo_demoniaco": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 3.0,
+   "cost": 100
+  },
+  "cañon_robot": {
+   "kind": "ki",
+   "attr": "POD",
+   "mult": 2.5,
+   "cost": 60
+  },
+  "embestida": {
+   "kind": "phys",
+   "attr": "FUE",
+   "mult": 1.8,
+   "cost": 15
   }
  },
  "enemies": [
@@ -142,7 +187,8 @@
    "regions": [
     "pradera",
     "bosque"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "esqueleto",
@@ -157,7 +203,8 @@
    "regions": [
     "pradera",
     "bosque"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "arana",
@@ -172,7 +219,8 @@
    "regions": [
     "pradera",
     "bosque"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "arana_cueva",
@@ -186,7 +234,8 @@
    ],
    "regions": [
     "cueva"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "creeper",
@@ -201,7 +250,8 @@
    "regions": [
     "pradera",
     "bosque"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "slime",
@@ -216,7 +266,8 @@
    "regions": [
     "pantano",
     "cueva"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "fantasma",
@@ -231,7 +282,8 @@
    "regions": [
     "pradera",
     "montana"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "husk",
@@ -245,7 +297,8 @@
    ],
    "regions": [
     "desierto"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "ahogado",
@@ -260,7 +313,8 @@
    "regions": [
     "costa",
     "mar"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "stray",
@@ -274,7 +328,8 @@
    ],
    "regions": [
     "nieve"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "bruja",
@@ -288,7 +343,8 @@
    ],
    "regions": [
     "pantano"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "saqueador",
@@ -304,7 +360,8 @@
    "regions": [
     "pradera",
     "montana"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "vindicador",
@@ -319,7 +376,8 @@
    "regions": [
     "bosque",
     "montana"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "enderman",
@@ -335,7 +393,8 @@
     "pradera",
     "desierto",
     "montana"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "evocador",
@@ -351,7 +410,8 @@
    "regions": [
     "bosque"
    ],
-   "power_mult": 1.1
+   "power_mult": 1.1,
+   "behavior": "hostil"
   },
   {
    "id": "devastador",
@@ -366,7 +426,8 @@
    "regions": [
     "montana"
    ],
-   "power_mult": 0.85
+   "power_mult": 0.85,
+   "behavior": "hostil"
   },
   {
    "id": "piglin_zombi",
@@ -380,7 +441,8 @@
    ],
    "regions": [
     "nether"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "piglin",
@@ -395,7 +457,8 @@
    ],
    "regions": [
     "nether"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "hoglin",
@@ -409,7 +472,8 @@
    ],
    "regions": [
     "nether"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "cubo_magma",
@@ -423,7 +487,8 @@
    ],
    "regions": [
     "nether"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "blaze",
@@ -437,7 +502,8 @@
    ],
    "regions": [
     "nether"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "ghast",
@@ -452,7 +518,8 @@
    "regions": [
     "nether"
    ],
-   "power_mult": 1.95
+   "power_mult": 1.95,
+   "behavior": "hostil"
   },
   {
    "id": "esqueleto_wither",
@@ -468,7 +535,8 @@
    "regions": [
     "nether"
    ],
-   "power_mult": 1.25
+   "power_mult": 1.25,
+   "behavior": "hostil"
   },
   {
    "id": "shulker",
@@ -482,7 +550,8 @@
    ],
    "regions": [
     "end"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "wither",
@@ -498,8 +567,10 @@
    "regions": [
     "jefe_opcional"
    ],
-   "notes": "Jefe vanilla opcional",
-   "power_mult": 1.55
+   "notes": "Jefe vanilla opcional; se quita si modificar un jefe vanilla complica el código (decisión del usuario)",
+   "power_mult": 1.55,
+   "optional_removable": true,
+   "behavior": "guardia"
   },
   {
    "id": "warden",
@@ -515,8 +586,10 @@
    "regions": [
     "cueva_profunda"
    ],
-   "notes": "Jefe vanilla opcional; ataca por sonido",
-   "power_mult": 1.55
+   "notes": "Jefe vanilla opcional; ataca por sonido; se quita si modificar un jefe vanilla complica el código (decisión del usuario)",
+   "power_mult": 1.55,
+   "optional_removable": true,
+   "behavior": "guardia"
   },
   {
    "id": "ender_dragon",
@@ -532,8 +605,10 @@
    "regions": [
     "end"
    ],
-   "notes": "Jefe vanilla opcional",
-   "power_mult": 1.75
+   "notes": "Jefe vanilla opcional; se quita si modificar un jefe vanilla complica el código (decisión del usuario)",
+   "power_mult": 1.75,
+   "optional_removable": true,
+   "behavior": "guardia"
   },
   {
    "id": "lobo_salvaje",
@@ -548,7 +623,8 @@
    "regions": [
     "pradera",
     "bosque"
-   ]
+   ],
+   "behavior": "manada"
   },
   {
    "id": "jabali",
@@ -562,7 +638,8 @@
    ],
    "regions": [
     "bosque"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "oso",
@@ -577,7 +654,8 @@
    "regions": [
     "bosque",
     "montana"
-   ]
+   ],
+   "behavior": "territorial"
   },
   {
    "id": "dino_pequeno",
@@ -592,7 +670,8 @@
    "regions": [
     "pradera",
     "desierto"
-   ]
+   ],
+   "behavior": "territorial"
   },
   {
    "id": "pterodactilo",
@@ -607,7 +686,8 @@
    "regions": [
     "montana",
     "costa"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "triceratops",
@@ -622,7 +702,8 @@
    "regions": [
     "pradera"
    ],
-   "power_mult": 1.05
+   "power_mult": 1.05,
+   "behavior": "territorial"
   },
   {
    "id": "tiranosaurio",
@@ -639,7 +720,8 @@
     "desierto",
     "pradera"
    ],
-   "power_mult": 0.8
+   "power_mult": 0.8,
+   "behavior": "territorial"
   },
   {
    "id": "ladron",
@@ -654,7 +736,8 @@
    "regions": [
     "pradera",
     "bosque"
-   ]
+   ],
+   "behavior": "emboscada"
   },
   {
    "id": "bandido",
@@ -670,7 +753,8 @@
     "pradera",
     "bosque",
     "desierto"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "capitan_bandido",
@@ -686,22 +770,8 @@
    "regions": [
     "desierto"
    ],
-   "power_mult": 1.0
-  },
-  {
-   "id": "soldado_patrulla",
-   "name": "Soldado de la Patrulla Roja",
-   "source": "dragonball:red_ribbon_soldier",
-   "level": 36,
-   "archetype": "guerrero",
-   "kind": "normal",
-   "techniques": [
-    "melee",
-    "ki_blast"
-   ],
-   "regions": [
-    "montana"
-   ]
+   "power_mult": 1.0,
+   "behavior": "hostil"
   },
   {
    "id": "demonio_menor",
@@ -715,7 +785,8 @@
    ],
    "regions": [
     "camino_serpiente"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "demonio_camino",
@@ -730,13 +801,14 @@
    ],
    "regions": [
     "camino_serpiente"
-   ]
+   ],
+   "behavior": "hostil"
   },
   {
    "id": "raditz",
    "name": "Raditz",
    "source": "dragonball:raditz",
-   "level": 55,
+   "level": 95,
    "archetype": "guerrero",
    "kind": "story",
    "techniques": [
@@ -748,13 +820,15 @@
     "historia"
    ],
    "notes": "Primera amenaza grande de la historia",
-   "power_mult": 1.05
+   "named": true,
+   "canon": "memoria",
+   "behavior": "guardia"
   },
   {
    "id": "saibaman",
    "name": "Saibaman",
    "source": "dragonball:saibaman",
-   "level": 85,
+   "level": 108,
    "archetype": "veloz",
    "kind": "normal",
    "techniques": [
@@ -764,13 +838,15 @@
    "regions": [
     "invasion"
    ],
-   "notes": "Aparecen en grupos de 6; la autodestrucción es una muerte para ellos"
+   "notes": "Aparecen en grupos de 3; la autodestrucción es una muerte para ellos (decisión de diseño de la adaptación)",
+   "group_size": 3,
+   "behavior": "emboscada"
   },
   {
    "id": "nappa",
    "name": "Nappa",
    "source": "dragonball:nappa",
-   "level": 130,
+   "level": 140,
    "archetype": "bruto",
    "kind": "story",
    "techniques": [
@@ -782,7 +858,9 @@
     "historia"
    ],
    "notes": "Jefe de arco intermedio",
-   "power_mult": 1.25
+   "named": true,
+   "canon": "memoria",
+   "behavior": "guardia"
   },
   {
    "id": "vegeta",
@@ -801,7 +879,10 @@
     "historia"
    ],
    "notes": "Jefe final de la beta",
-   "power_mult": 1.9
+   "power_mult": 1.9,
+   "named": true,
+   "canon": "memoria",
+   "behavior": "guardia"
   },
   {
    "id": "dino_ancestral",
@@ -819,26 +900,8 @@
    ],
    "secret_hint": "Los cazadores del desierto hablan de huesos enormes en una cueva y de un rugido que sacude la roca.",
    "reward": "Pesas ancestrales: objeto de entrenamiento con +0,5 al multiplicador de penalización (tope general ×5 intacto)",
-   "power_mult": 1.4
-  },
-  {
-   "id": "tao",
-   "name": "Asesino Tao",
-   "source": "dragonball:mercenary_tao",
-   "level": 95,
-   "archetype": "guerrero",
-   "kind": "secret",
-   "techniques": [
-    "melee",
-    "golpe_pesado",
-    "dodonpa"
-   ],
-   "regions": [
-    "desierto"
-   ],
-   "secret_hint": "Un asesino a sueldo viaja por los caminos del desierto. Quien lo ha visto no suele contarlo.",
-   "reward": "Técnica única Dodonpa (se compra a un precio, requisitos de atributo para usarla)",
-   "power_mult": 1.75
+   "power_mult": 1.4,
+   "behavior": "guardia"
   },
   {
    "id": "espiritu_guerrero",
@@ -857,7 +920,919 @@
    ],
    "secret_hint": "Un guerrero legendario espera en un recodo del Camino de la Serpiente; los demonios evitan su zona.",
    "reward": "Atajo de dominio: +30 % de dominio instantáneo en una forma que ya poseas",
-   "power_mult": 1.85
+   "power_mult": 1.85,
+   "behavior": "guardia"
+  },
+  {
+   "id": "vaca",
+   "name": "Vaca",
+   "source": "minecraft:cow",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10,
+   "drops": [
+    "carne"
+   ]
+  },
+  {
+   "id": "cerdo",
+   "name": "Cerdo",
+   "source": "minecraft:pig",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10,
+   "drops": [
+    "carne"
+   ]
+  },
+  {
+   "id": "oveja",
+   "name": "Oveja",
+   "source": "minecraft:sheep",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10,
+   "drops": [
+    "carne"
+   ]
+  },
+  {
+   "id": "gallina",
+   "name": "Gallina",
+   "source": "minecraft:chicken",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "huida",
+   "fragility": 10,
+   "drops": [
+    "carne"
+   ]
+  },
+  {
+   "id": "conejo",
+   "name": "Conejo",
+   "source": "minecraft:rabbit",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera",
+    "desierto"
+   ],
+   "behavior": "huida",
+   "fragility": 10,
+   "drops": [
+    "carne"
+   ]
+  },
+  {
+   "id": "pez",
+   "name": "Pez",
+   "source": "minecraft:cod",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "costa",
+    "mar"
+   ],
+   "behavior": "huida",
+   "fragility": 10,
+   "drops": [
+    "carne"
+   ]
+  },
+  {
+   "id": "gaviota",
+   "name": "Gaviota",
+   "source": "dragonball:seagull",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "costa"
+   ],
+   "behavior": "huida",
+   "fragility": 10,
+   "drops": [
+    "plumas"
+   ]
+  },
+  {
+   "id": "serpiente",
+   "name": "Serpiente",
+   "source": "dragonball:snake",
+   "level": 9,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "desierto",
+    "pantano"
+   ],
+   "behavior": "emboscada",
+   "drops": [
+    "escamas"
+   ]
+  },
+  {
+   "id": "aguila",
+   "name": "Águila",
+   "source": "dragonball:eagle",
+   "level": 16,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "montana"
+   ],
+   "behavior": "territorial",
+   "drops": [
+    "plumas"
+   ]
+  },
+  {
+   "id": "pirana",
+   "name": "Piraña",
+   "source": "dragonball:piranha",
+   "level": 10,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "rio",
+    "pantano"
+   ],
+   "behavior": "manada",
+   "drops": [
+    "carne"
+   ]
+  },
+  {
+   "id": "cocodrilo",
+   "name": "Cocodrilo",
+   "source": "dragonball:crocodile",
+   "level": 20,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "pantano",
+    "rio"
+   ],
+   "behavior": "emboscada",
+   "drops": [
+    "cuero",
+    "escamas"
+   ]
+  },
+  {
+   "id": "tigre",
+   "name": "Tigre",
+   "source": "dragonball:tiger",
+   "level": 18,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "bosque",
+    "jungla"
+   ],
+   "behavior": "territorial",
+   "drops": [
+    "cuero",
+    "carne"
+   ]
+  },
+  {
+   "id": "tiburon",
+   "name": "Tiburón",
+   "source": "dragonball:shark",
+   "level": 34,
+   "archetype": "bestia",
+   "kind": "elite",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "mar"
+   ],
+   "behavior": "territorial",
+   "drops": [
+    "carne"
+   ]
+  },
+  {
+   "id": "rinoceronte",
+   "name": "Rinoceronte",
+   "source": "dragonball:rhino",
+   "level": 28,
+   "archetype": "tanque",
+   "kind": "normal",
+   "techniques": [
+    "embestida"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "neutral",
+   "drops": [
+    "cuero"
+   ]
+  },
+  {
+   "id": "estegosaurio",
+   "name": "Estegosaurio",
+   "source": "dragonball:stegosaurus",
+   "level": 24,
+   "archetype": "tanque",
+   "kind": "normal",
+   "techniques": [
+    "embestida"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ],
+   "behavior": "neutral",
+   "drops": [
+    "carne",
+    "huesos"
+   ]
+  },
+  {
+   "id": "murcielago_gigante",
+   "name": "Murciélago gigante",
+   "source": "dragonball:giant_bat",
+   "level": 12,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "cueva"
+   ],
+   "behavior": "manada"
+  },
+  {
+   "id": "monstruo_pantano",
+   "name": "Monstruo del pantano",
+   "source": "dragonball:swamp_beast",
+   "level": 30,
+   "archetype": "bestia",
+   "kind": "elite",
+   "techniques": [
+    "golpe_pesado",
+    "mordisco"
+   ],
+   "regions": [
+    "pantano"
+   ],
+   "behavior": "territorial",
+   "drops": [
+    "cuero"
+   ]
+  },
+  {
+   "id": "oso_gigante",
+   "name": "Oso gigante de montaña",
+   "source": "dragonball:giant_mountain_bear",
+   "level": 85,
+   "archetype": "bestia",
+   "kind": "secret",
+   "techniques": [
+    "golpe_pesado",
+    "mordisco"
+   ],
+   "regions": [
+    "montana"
+   ],
+   "behavior": "territorial",
+   "secret_hint": "Los leñadores dicen que algo enorme duerme en lo alto de la montaña y que los árboles allí están marcados con garras del tamaño de un hombre.",
+   "reward": "Pelaje de la montaña: material para equipo de entrenamiento resistente al frío (sin bonus de XP)",
+   "canon": "original"
+  },
+  {
+   "id": "bandido_armado",
+   "name": "Bandido armado",
+   "source": "dragonball:armed_bandit",
+   "level": 18,
+   "archetype": "guerrero",
+   "kind": "normal",
+   "techniques": [
+    "melee",
+    "disparo"
+   ],
+   "regions": [
+    "bosque",
+    "desierto"
+   ],
+   "behavior": "patrulla",
+   "canon": "original"
+  },
+  {
+   "id": "lider_banda",
+   "name": "Líder de banda",
+   "source": "dragonball:bandit_leader",
+   "level": 32,
+   "archetype": "guerrero",
+   "kind": "elite",
+   "techniques": [
+    "melee",
+    "golpe_pesado",
+    "disparo"
+   ],
+   "regions": [
+    "bosque",
+    "desierto"
+   ],
+   "behavior": "guardia",
+   "canon": "original",
+   "notes": "Protege su campamento; puede tener cofre y recursos"
+  },
+  {
+   "id": "soldado_pilaf",
+   "name": "Soldado de Pilaf",
+   "source": "dragonball:pilaf_soldier",
+   "level": 9,
+   "archetype": "guerrero",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pilaf"
+   ],
+   "behavior": "patrulla",
+   "canon": "memoria"
+  },
+  {
+   "id": "guardia_pilaf",
+   "name": "Guardia de Pilaf",
+   "source": "dragonball:pilaf_guard",
+   "level": 14,
+   "archetype": "tanque",
+   "kind": "normal",
+   "techniques": [
+    "melee",
+    "disparo"
+   ],
+   "regions": [
+    "pilaf"
+   ],
+   "behavior": "guardia",
+   "canon": "memoria"
+  },
+  {
+   "id": "robot_pilaf",
+   "name": "Robot de patrulla de Pilaf",
+   "source": "dragonball:pilaf_robot",
+   "level": 20,
+   "archetype": "tanque",
+   "kind": "normal",
+   "techniques": [
+    "cañon_robot"
+   ],
+   "regions": [
+    "pilaf"
+   ],
+   "behavior": "patrulla",
+   "canon": "memoria",
+   "notes": "Se avisa a la base con una alarma al verte (decisión de diseño)"
+  },
+  {
+   "id": "mecha_pilaf",
+   "name": "Máquina de combate de Pilaf",
+   "source": "dragonball:pilaf_machine",
+   "level": 26,
+   "archetype": "tanque",
+   "kind": "elite",
+   "techniques": [
+    "golpe_pesado",
+    "cañon_robot"
+   ],
+   "regions": [
+    "pilaf"
+   ],
+   "behavior": "guardia",
+   "canon": "memoria"
+  },
+  {
+   "id": "shu",
+   "name": "Shu",
+   "source": "dragonball:shu",
+   "level": 18,
+   "archetype": "guerrero",
+   "kind": "elite",
+   "techniques": [
+    "melee",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "pilaf"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "memoria",
+   "notes": "Puede combatir o ser personaje de misión"
+  },
+  {
+   "id": "mai",
+   "name": "Mai",
+   "source": "dragonball:mai",
+   "level": 24,
+   "archetype": "tirador",
+   "kind": "elite",
+   "techniques": [
+    "disparo",
+    "ki_blast"
+   ],
+   "regions": [
+    "pilaf"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "memoria",
+   "notes": "Puede combatir o ser personaje de misión"
+  },
+  {
+   "id": "pilaf",
+   "name": "Pilaf",
+   "source": "dragonball:pilaf",
+   "level": 12,
+   "archetype": "equilibrado",
+   "kind": "npc",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pilaf"
+   ],
+   "behavior": "huida",
+   "named": true,
+   "canon": "memoria",
+   "notes": "No combatiente: personaje de misión (infiltración, sabotaje)"
+  },
+  {
+   "id": "soldado_rr",
+   "name": "Soldado raso del Red Ribbon",
+   "source": "dragonball:rr_soldier",
+   "level": 20,
+   "archetype": "guerrero",
+   "kind": "normal",
+   "techniques": [
+    "melee",
+    "disparo"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "patrulla",
+   "canon": "memoria"
+  },
+  {
+   "id": "tirador_rr",
+   "name": "Tirador del Red Ribbon",
+   "source": "dragonball:rr_shooter",
+   "level": 22,
+   "archetype": "tirador",
+   "kind": "normal",
+   "techniques": [
+    "disparo"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "patrulla",
+   "canon": "memoria"
+  },
+  {
+   "id": "guardia_rr",
+   "name": "Guardia del Red Ribbon",
+   "source": "dragonball:rr_guard",
+   "level": 26,
+   "archetype": "tanque",
+   "kind": "normal",
+   "techniques": [
+    "melee",
+    "disparo"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "guardia",
+   "canon": "memoria"
+  },
+  {
+   "id": "elite_rr",
+   "name": "Unidad de élite del Red Ribbon",
+   "source": "dragonball:rr_elite",
+   "level": 34,
+   "archetype": "guerrero",
+   "kind": "elite",
+   "techniques": [
+    "melee",
+    "disparo",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "patrulla",
+   "canon": "memoria"
+  },
+  {
+   "id": "robot_rr",
+   "name": "Máquina de combate del Red Ribbon",
+   "source": "dragonball:rr_machine",
+   "level": 38,
+   "archetype": "tanque",
+   "kind": "elite",
+   "techniques": [
+    "cañon_robot",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "guardia",
+   "canon": "memoria"
+  },
+  {
+   "id": "silver",
+   "name": "Coronel Silver",
+   "source": "dragonball:colonel_silver",
+   "level": 28,
+   "archetype": "guerrero",
+   "kind": "elite",
+   "techniques": [
+    "melee",
+    "disparo"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Comandante de una base; su derrota desmantela la instalación"
+  },
+  {
+   "id": "murasaki",
+   "name": "Ninja Murasaki",
+   "source": "dragonball:ninja_murasaki",
+   "level": 32,
+   "archetype": "veloz",
+   "kind": "story",
+   "techniques": [
+    "melee",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "emboscada",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Miniboss de la Torre Musculo"
+  },
+  {
+   "id": "blue",
+   "name": "General Blue",
+   "source": "dragonball:general_blue",
+   "level": 40,
+   "archetype": "guerrero",
+   "kind": "story",
+   "techniques": [
+    "melee",
+    "ki_blast",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado"
+  },
+  {
+   "id": "metallitron",
+   "name": "Mayor Metallitron",
+   "source": "dragonball:major_metallitron",
+   "level": 44,
+   "archetype": "tanque",
+   "kind": "story",
+   "techniques": [
+    "cañon_robot",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Máquina; su comportamiento es de robot"
+  },
+  {
+   "id": "buyon",
+   "name": "Buyon",
+   "source": "dragonball:buyon",
+   "level": 47,
+   "archetype": "bestia",
+   "kind": "story",
+   "techniques": [
+    "golpe_pesado",
+    "mordisco"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Monstruo grande; su poder real no está claro en las fuentes (decisión de diseño: nivel entre Metallitron y Tao)"
+  },
+  {
+   "id": "tao_pai_pai",
+   "name": "Tao Pai Pai",
+   "source": "dragonball:tao_pai_pai",
+   "level": 52,
+   "archetype": "veloz",
+   "kind": "story",
+   "techniques": [
+    "melee",
+    "golpe_pesado",
+    "dodonpa"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "emboscada",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Asesino a sueldo; jefe de la línea del Red Ribbon"
+  },
+  {
+   "id": "black",
+   "name": "Oficial Black",
+   "source": "dragonball:staff_officer_black",
+   "level": 36,
+   "archetype": "equilibrado",
+   "kind": "npc",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "huida",
+   "named": true,
+   "canon": "verificado",
+   "notes": "No combatiente: objetivo de misión"
+  },
+  {
+   "id": "red",
+   "name": "Comandante Red",
+   "source": "dragonball:commander_red",
+   "level": 40,
+   "archetype": "equilibrado",
+   "kind": "npc",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "rr"
+   ],
+   "behavior": "huida",
+   "named": true,
+   "canon": "verificado",
+   "notes": "No combatiente: objetivo final de la línea de misiones"
+  },
+  {
+   "id": "fangs",
+   "name": "Fangs el Vampiro",
+   "source": "dragonball:fangs_vampire",
+   "level": 40,
+   "archetype": "veloz",
+   "kind": "boss",
+   "techniques": [
+    "mordisco_vampirico",
+    "melee"
+   ],
+   "regions": [
+    "baba"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "special": "Drenaje de energía (decisión de diseño: la fuente solo confirma que es un luchador con mordisco)"
+  },
+  {
+   "id": "see_through",
+   "name": "See-Through, el hombre invisible",
+   "source": "dragonball:see_through",
+   "level": 44,
+   "archetype": "veloz",
+   "kind": "boss",
+   "techniques": [
+    "melee",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "baba"
+   ],
+   "behavior": "emboscada",
+   "named": true,
+   "canon": "verificado",
+   "special": "Invisibilidad temporal (confirmado por la fuente: el combate gira en torno a localizarlo); su duración y el contraataque por sonido son decisión de diseño"
+  },
+  {
+   "id": "bandages",
+   "name": "Bandages la Momia",
+   "source": "dragonball:bandages_mummy",
+   "level": 48,
+   "archetype": "bruto",
+   "kind": "boss",
+   "techniques": [
+    "agarre",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "baba"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "special": "Ataques de agarre (decisión de diseño); combate en la arena 'Devil's Toilet' de la fuente"
+  },
+  {
+   "id": "spike",
+   "name": "Spike el Hombre Diablo",
+   "source": "dragonball:spike_devil_man",
+   "level": 52,
+   "archetype": "tirador",
+   "kind": "boss",
+   "techniques": [
+    "rayo_demoniaco",
+    "melee"
+   ],
+   "regions": [
+    "baba"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "special": "Rayo Devilmite: amplifica el mal del objetivo (confirmado); en el juego, daño de ki que ignora parte de la defensa de quien tenga el control bajo (adaptación de diseño)"
+  },
+  {
+   "id": "tambourine",
+   "name": "Tambourine",
+   "source": "dragonball:tambourine",
+   "level": 62,
+   "archetype": "veloz",
+   "kind": "story",
+   "techniques": [
+    "melee",
+    "golpe_pesado",
+    "ki_blast"
+   ],
+   "regions": [
+    "daimao"
+   ],
+   "behavior": "emboscada",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Creado para cazar a los participantes del torneo; persigue al jugador"
+  },
+  {
+   "id": "cymbal",
+   "name": "Cymbal",
+   "source": "dragonball:cymbal",
+   "level": 66,
+   "archetype": "guerrero",
+   "kind": "boss",
+   "techniques": [
+    "melee",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "daimao"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Creado para reunir las esferas del dragón; encuentro de caza"
+  },
+  {
+   "id": "drum",
+   "name": "Drum",
+   "source": "dragonball:drum",
+   "level": 72,
+   "archetype": "bruto",
+   "kind": "boss",
+   "techniques": [
+    "golpe_pesado",
+    "melee"
+   ],
+   "regions": [
+    "daimao"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Creado para combatir a Tenshinhan; encuentro especial"
+  },
+  {
+   "id": "piano",
+   "name": "Piano",
+   "source": "dragonball:piano",
+   "level": 76,
+   "archetype": "guerrero",
+   "kind": "story",
+   "techniques": [
+    "melee",
+    "ki_blast",
+    "double_sunday"
+   ],
+   "regions": [
+    "daimao"
+   ],
+   "behavior": "guardia",
+   "named": true,
+   "canon": "verificado",
+   "notes": "Mano derecha del Rey Demonio; cierra la categoría"
+  },
+  {
+   "id": "saiyajin_generico",
+   "name": "Guerrero saiyajin genérico",
+   "source": "dragonball:saiyan_grunt",
+   "level": 120,
+   "archetype": "guerrero",
+   "kind": "elite",
+   "techniques": [
+    "melee",
+    "ki_blast",
+    "galick_ho"
+   ],
+   "regions": [
+    "invasion"
+   ],
+   "behavior": "patrulla",
+   "canon": "original",
+   "notes": "Contenido original, claramente distinto de los personajes canónicos"
   }
  ]
 }

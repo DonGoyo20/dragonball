@@ -37,3 +37,24 @@
 - Licencia real y estructura del código de DMZ (leer el repo).
 - Última versión estable de NeoForge y de Minecraft hoy (el entorno no llega a maven.neoforged.net).
 - Modelo exacto de la GPU AMD.
+
+## Canon de Dragon Ball verificado para el bestiario (búsquedas, 2026-10-11)
+> Fuentes mayormente wikis de fans, no oficiales. Se citan para saber qué está confirmado y qué no.
+
+- **Luchadores de Uranai Baba:** Fangs el Vampiro, See-Through (hombre invisible), Bandages la Momia (arena "Devil's Toilet") y Spike el Hombre Diablo (rayo Devilmite que amplifica el mal del objetivo). Existe un quinto luchador enmascarado; **"Man-Wolf" no aparece en ninguna fuente encontrada**, así que no se incluye.
+  - https://dragonball.fandom.com/wiki/Bandages_the_Mummy
+  - https://giantbomb.com/wiki/Characters/Fangs_the_Vampire
+  - https://daddyjim.ai/pt/dragon-ball/saga/fortuneteller-baba-saga
+- **Red Ribbon:** Comandante Red (líder), Oficial Black, Coronel Silver, Ninja Murasaki (Sargento Mayor Purple en japonés), Mayor Metallitron, Buyon (monstruo grande de poder poco claro), Tao Pai Pai (asesino a sueldo), General Blue.
+  - https://en.wikipedia.org/wiki/Red_Ribbon_Army
+- **Hijos de Piccolo Daimaō:** Tambourine (cazar a los participantes del torneo), Cymbal (reunir esferas; lo mata y se lo come Yajirobe), Drum (combatir a Tenshinhan), Piano (mano derecha del Rey Demonio).
+  - https://villains.fandom.com/wiki/Tambourine
+  - https://www.kanzenshuu.com/wiki/Cymbal
+  - https://www.kanzenshuu.com/wiki/Drum
+  - https://www.kanzenshuu.com/wiki/Piano
+- **Sin verificar en esta sesión (de memoria):** banda de Pilaf (Pilaf, Shu, Mai y sus máquinas), saga Saiyan (Saibamen, Raditz, Nappa, Vegeta y su fase Ozaru).
+
+## NeoForge 1.21.1 (búsqueda)
+- Modificadores de bioma: `neoforge:add_spawns` (bioma o etiqueta, peso, tamaño mínimo/máximo de grupo), archivos en `data/<modid>/neoforge/biome_modifier/`. https://docs.neoforged.net/docs/1.21.1/worldgen/biomemodifier
+- Una entidad nueva necesita su restricción de aparición registrada con `RegisterSpawnPlacementsEvent`, o puede aparecer en el aire.
+- **No verificado:** registro de entidades y atributos, IA, estructuras por datos, botín, flujo Blockbench → GeckoLib.
