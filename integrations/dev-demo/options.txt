@@ -1,0 +1,10 @@
+onboardAccessibility:false
+tutorialStep:none
+pauseOnLostFocus:false
+skipMultiplayerWarning:true
+joinedFirstServer:true
+lang:es_es
+narrator:0
+maxFps:30
+renderDistance:6
+guiScale:2

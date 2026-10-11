@@ -83,6 +83,12 @@ neoForge {
             gameDirectory = file('run-kubejs')
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id + '_kubejs'
         }
+        // Demostración en cliente real: entra directamente al mundo "devworld" de run-demo (ver integrations/dev-demo).
+        clientDemo {
+            client()
+            gameDirectory = file('run-demo')
+            programArguments.addAll '--quickPlaySingleplayer', 'devworld', '--width', '1280', '--height', '720'
+        }
         data {
             data()
             programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
@@ -170,3 +176,12 @@ tasks.register('installDevKubeJs', Copy) {
 }
 tasks.matching { it.name == 'runGameTestFtbQuests' }.configureEach { dependsOn 'installDevQuests' }
 tasks.matching { it.name == 'runGameTestKubeJs' }.configureEach { dependsOn 'installDevKubeJs' }
+
+// Prepara la demostración de cliente: copia el mundo generado por las pruebas (run/world) y el paquete de datos de desarrollo.
+tasks.register('installDevDemo', Copy) {
+    from('run/world') { into 'saves/devworld' }
+    from('integrations/dev-demo/options.txt')
+    from('integrations/dev-demo/datapack') { into 'saves/devworld/datapacks/dragonball_dev' }
+    into layout.projectDirectory.dir('run-demo')
+}
+tasks.matching { it.name == 'runClientDemo' }.configureEach { dependsOn 'installDevDemo' }
