@@ -1,0 +1,15 @@
+{
+  "name": "Cómo funciona la progresión",
+  "icon": "minecraft:experience_bottle",
+  "category": "dragonball:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Tu poder se mide con tu $(thing)nivel total$(): 1 más el número de mejoras de atributo que has comprado.$(br2)La XP es una moneda. La ganas derrotando criaturas y completando misiones, y la gastas para mejorar un atributo."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Cada mejora cuesta más que la anterior: la primera cuesta 10 XP y el coste crece con tu nivel total.$(br2)Las criaturas más débiles dan menos XP a medida que creces, y las de generadores dan solo una cuarta parte."
+    }
+  ]
+}

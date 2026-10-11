@@ -1,0 +1,15 @@
+{
+  "name": "How progression works",
+  "icon": "minecraft:experience_bottle",
+  "category": "dragonball:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Your power is measured by your $(thing)total level$(): 1 plus the number of attribute upgrades you have bought.$(br2)XP is a currency. You earn it by defeating creatures and completing quests, and you spend it to upgrade an attribute."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Each upgrade costs more than the last: the first costs 10 XP, and the cost grows with your total level.$(br2)Weaker creatures give less XP as you grow, and creatures from spawners give only a quarter."
+    }
+  ]
+}

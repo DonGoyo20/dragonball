@@ -1,0 +1,16 @@
+{
+  "name": "Wild Wolf",
+  "icon": "minecraft:bone",
+  "category": "dragonball:bestiary",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Level 4 · 10 XP.$() A hostile pack animal of plains, forests and meadows.$(br2)It bites. Defeat it for raw beef and sometimes leather."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "minecraft:beef",
+      "text": "A wild wolf's meat."
+    }
+  ]
+}

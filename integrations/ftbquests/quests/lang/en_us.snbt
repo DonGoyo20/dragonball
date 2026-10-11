@@ -1,0 +1,15 @@
+{
+	"chapter.7A3F10C2D4E80001.title": "Test: Awakening"
+	"quest.7A3F10C2D4E80011.title": "First hunt"
+	"quest.7A3F10C2D4E80011.quest_desc": [
+		"TEST QUEST (not final content)."
+		"Defeat a Wild Wolf. Rewards RPG XP through the quest command reward."
+	]
+	"quest.7A3F10C2D4E80012.title": "A stronger body"
+	"quest.7A3F10C2D4E80012.quest_desc": [
+		"TEST QUEST. Spend your XP with /dragonball upgrade <attribute> to reach total level 2."
+		"This task completes through the advancement dragonball:level_2."
+	]
+	"quest.7A3F10C2D4E80013.title": "Growing power"
+	"quest.7A3F10C2D4E80013.quest_desc": [ "TEST QUEST. Reach total level 5." ]
+}

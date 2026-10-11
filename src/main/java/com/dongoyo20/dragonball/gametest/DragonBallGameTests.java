@@ -14,6 +14,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Zombie;
 import net.neoforged.neoforge.gametest.GameTestHolder;
@@ -29,6 +30,16 @@ public final class DragonBallGameTests {
     private DragonBallGameTests() {}
 
     private static final String TEMPLATE = "empty";
+
+    /**
+     * Jugador simulado de GameTest: un ServerPlayer real con logros reales (el jugador "falso" de NeoForge
+     * usa logros sin efecto, así que no sirve para probarlos). API marcada para eliminar por Mojang en 1.21.1,
+     * pero estable mientras el proyecto siga fijado a esta versión.
+     */
+    @SuppressWarnings("removal")
+    private static ServerPlayer newPlayer(GameTestHelper helper) {
+        return helper.makeMockServerPlayerInLevel();
+    }
 
     @GameTest(template = TEMPLATE)
     public static void bestiaryDataMapIsLoaded(GameTestHelper helper) {
@@ -46,7 +57,7 @@ public final class DragonBallGameTests {
 
     @GameTest(template = TEMPLATE)
     public static void killingAnEntityAwardsXp(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = newPlayer(helper);
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, 1, 1, 1);
 
         zombie.hurt(player.damageSources().playerAttack(player), 1000.0F);
@@ -59,7 +70,7 @@ public final class DragonBallGameTests {
 
     @GameTest(template = TEMPLATE)
     public static void upgradesRaiseLevelAndGrantAdvancement(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = newPlayer(helper);
         ProgressService.set(player, PlayerProgress.EMPTY.withXp(100_000));
 
         for (int i = 0; i < 4; i++) {
@@ -80,7 +91,7 @@ public final class DragonBallGameTests {
 
     @GameTest(template = TEMPLATE)
     public static void upgradeFailsWithoutXp(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = newPlayer(helper);
         helper.assertTrue(!ProgressService.upgrade(player, 0), "sin XP no se puede mejorar");
         helper.assertTrue(ProgressService.get(player).totalLevel() == 1, "el nivel sigue siendo 1");
         helper.succeed();
@@ -88,7 +99,7 @@ public final class DragonBallGameTests {
 
     @GameTest(template = TEMPLATE)
     public static void wildWolfExistsAndDropsLoot(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = newPlayer(helper);
         WildWolf wolf = helper.spawnWithNoFreeWill(ModEntities.WILD_WOLF.get(), 1, 1, 1);
         helper.assertTrue(wolf.getMaxHealth() == 12.0F, "vida máxima del lobo = 12");
 
@@ -98,9 +109,25 @@ public final class DragonBallGameTests {
         helper.succeedWhen(() -> helper.assertEntityPresent(EntityType.ITEM));
     }
 
+
+
     @GameTest(template = TEMPLATE)
     public static void spawnerMobsGiveReducedXp(GameTestHelper helper) {
-        helper.assertTrue(Progression.killXp(8, 1, 3, true) == 2, "mob de generador: 25 % de la XP");
+        ServerPlayer player = newPlayer(helper);
+        Zombie zombie = EntityType.ZOMBIE.create(helper.getLevel());
+        helper.assertTrue(zombie != null, "no se pudo crear el zombi");
+        zombie.moveTo(helper.absoluteVec(new net.minecraft.world.phys.Vec3(1.5, 1, 1.5)));
+        zombie.finalizeSpawn(helper.getLevel(), helper.getLevel().getCurrentDifficultyAt(zombie.blockPosition()),
+                MobSpawnType.SPAWNER, null);
+        helper.getLevel().addFreshEntity(zombie);
+
+        zombie.hurt(player.damageSources().playerAttack(player), 1000.0F);
+
+        int expected = Progression.killXp(8, 1, 3, true);
+        long actual = ProgressService.get(player).xp();
+        helper.assertTrue(expected == 2, "la fórmula debe dar 2 XP a un mob de generador");
+        helper.assertTrue(actual == expected, "mob de generador: XP esperada " + expected + " pero fue " + actual);
         helper.succeed();
     }
+
 }

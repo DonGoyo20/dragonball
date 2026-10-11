@@ -1,0 +1,11 @@
+{
+  "name": "Commands",
+  "icon": "minecraft:command_block",
+  "category": "dragonball:getting_started",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)Beta commands$():$(br2)$(thing)/dragonball progress$() shows your level, XP and next cost.$(br)$(thing)/dragonball upgrade <attribute>$() spends XP (vit, fue, def, vel, ki, pod, con).$(br)$(thing)/dragonball givexp <n>$() is for operators and testing."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Human",
+  "icon": "minecraft:bow",
+  "category": "dragonball:races",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)In development.$() The Human starts modest but learns faster from masters and pays less for abilities.$(br2)Not yet playable in this build."
+    }
+  ]
+}

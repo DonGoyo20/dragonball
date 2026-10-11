@@ -1,0 +1,59 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "prueba_despertar"
+	group: ""
+	id: "7A3F10C2D4E80001"
+	order_index: 0
+	quests: [
+		{
+			id: "7A3F10C2D4E80011"
+			tasks: [{
+				entity: "dragonball:wild_wolf"
+				id: "7A3F10C2D4E80021"
+				type: "kill"
+				value: 1L
+			}]
+			rewards: [{
+				command: "/dragonball givexp 25"
+				id: "7A3F10C2D4E80031"
+				permission_level: 2
+				silent: true
+				type: "command"
+			}]
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["7A3F10C2D4E80011"]
+			id: "7A3F10C2D4E80012"
+			tasks: [{
+				advancement: "dragonball:level_2"
+				id: "7A3F10C2D4E80022"
+				type: "advancement"
+			}]
+			rewards: [{
+				command: "/dragonball givexp 40"
+				id: "7A3F10C2D4E80032"
+				permission_level: 2
+				silent: true
+				type: "command"
+			}]
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["7A3F10C2D4E80012"]
+			id: "7A3F10C2D4E80013"
+			tasks: [{
+				advancement: "dragonball:level_5"
+				id: "7A3F10C2D4E80023"
+				type: "advancement"
+			}]
+			x: 4.0d
+			y: 0.0d
+		}
+	]
+	quest_links: [ ]
+	images: [ ]
+}

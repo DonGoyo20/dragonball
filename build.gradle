@@ -35,6 +35,10 @@ repositories {
         forRepository { maven { name = 'Latvian'; url = 'https://maven.latvian.dev/releases' } }
         filter { includeGroupAndSubgroups 'dev.latvian' }
     }
+    exclusiveContent {
+        forRepository { maven { name = 'JitPack'; url = 'https://jitpack.io' } }
+        filter { includeGroup 'com.github.rtyley' }
+    }
     mavenCentral()
 }
 
@@ -66,6 +70,19 @@ neoForge {
             type = "gameTestServer"
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
+        // Ejecuciones de prueba por integración. Cada una tiene su carpeta y su espacio de nombres de pruebas.
+        // Motivo: mods como FTB Quests o KubeJS envían paquetes de sincronización al "iniciar sesión" y los jugadores
+        // simulados de GameTest no pueden recibirlos; por eso las pruebas con jugadores se ejecutan sin ellos.
+        gameTestFtbQuests {
+            type = "gameTestServer"
+            gameDirectory = file('run-ftb')
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id + '_ftb'
+        }
+        gameTestKubeJs {
+            type = "gameTestServer"
+            gameDirectory = file('run-kubejs')
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id + '_kubejs'
+        }
         data {
             data()
             programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
@@ -94,13 +111,20 @@ dependencies {
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 
     // --- Integraciones OPCIONALES. Solo en el entorno de desarrollo (localRuntime): el mod NO las enlaza en código.
-    // Patchouli: libro de guía definido solo con datos (JSON).
+    // Patchouli: libro de guía definido solo con datos (JSON). Solo desarrollo; el mod no enlaza ninguna clase suya.
     localRuntime "vazkii.patchouli:Patchouli:${patchouli_version}"
-    // FTB Quests: las misiones se escriben como datos y se alimentan de logros propios del mod.
-    localRuntime "dev.ftb.mods:ftb-quests-neoforge:${ftb_quests_version}"
-    localRuntime "dev.ftb.mods:ftb-library-neoforge:${ftb_library_version}"
-    localRuntime "dev.ftb.mods:ftb-teams-neoforge:${ftb_teams_version}"
-    localRuntime "dev.architectury:architectury-neoforge:${architectury_version}"
+
+    // FTB Quests (cadena completa) y KubeJS: solo cuando se pide con -PwithFtbQuests / -PwithKubeJs.
+    // Las misiones y los scripts son DATOS nuestros; ninguna clase de estos mods se enlaza en el código.
+    if (project.hasProperty('withFtbQuests')) {
+        localRuntime "dev.ftb.mods:ftb-quests-neoforge:${ftb_quests_version}"
+        localRuntime "dev.ftb.mods:ftb-library-neoforge:${ftb_library_version}"
+        localRuntime "dev.ftb.mods:ftb-teams-neoforge:${ftb_teams_version}"
+        localRuntime "dev.architectury:architectury-neoforge:${architectury_version}"
+    }
+    if (project.hasProperty('withKubeJs')) {
+        localRuntime "dev.latvian.mods:kubejs-neoforge:${kubejs_version}"
+    }
 
     // --- Pruebas unitarias del núcleo (Java puro, sin Minecraft)
     testImplementation platform("org.junit:junit-bom:5.10.3")
@@ -134,3 +158,15 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 }
 sourceSets.main.resources.srcDir generateModMetadata
 neoForge.ideSyncTask generateModMetadata
+
+// --- Datos de integración para las ejecuciones de desarrollo (son DATOS nuestros, no código)
+tasks.register('installDevQuests', Copy) {
+    from 'integrations/ftbquests/quests'
+    into layout.projectDirectory.dir('run-ftb/config/ftbquests/quests')
+}
+tasks.register('installDevKubeJs', Copy) {
+    from 'integrations/kubejs'
+    into layout.projectDirectory.dir('run-kubejs/kubejs')
+}
+tasks.matching { it.name == 'runGameTestFtbQuests' }.configureEach { dependsOn 'installDevQuests' }
+tasks.matching { it.name == 'runGameTestKubeJs' }.configureEach { dependsOn 'installDevKubeJs' }
