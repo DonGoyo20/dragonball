@@ -1,0 +1,19 @@
+# Dragon Ball RPG (mod para Minecraft 1.21.1 / NeoForge 21.1.259)
+
+Estado: prototipo técnico (progresión por XP y mejoras, bestiario por datos, un enemigo con GeckoLib). Mira `PROJECT_STATUS.md` e `INTEGRATIONS.md`. El diseño está en los demás `.md`.
+
+## Requisitos
+Java 21. La primera compilación descarga dependencias (necesita red).
+
+## Comandos
+```
+./gradlew build                 # compila y pasa las pruebas JUnit (5)
+./gradlew runClient             # juego con el mod (+ Patchouli)
+./gradlew runGameTestServer     # 6 pruebas en juego (núcleo)
+tools/verify_integrations.sh    # núcleo + FTB Quests + KubeJS, con comprobación de logs
+./gradlew runClient -PwithFtbQuests -PwithKubeJs   # con FTB Quests y KubeJS (instala antes con installDevQuests / installDevKubeJs)
+```
+En el juego: `/dragonball progress | upgrade <atributo> | givexp <n>`; huevo de aparición del Lobo salvaje en creativo; la guía de Patchouli sale con la receta `guide_book`.
+
+## Demo con pantalla virtual (sin monitor)
+`Xvfb :99 -screen 0 1280x720x24 &` y `DISPLAY=:99 LIBGL_ALWAYS_SOFTWARE=1 ./gradlew runClientDemo` entran a un mundo de pruebas con un lobo delante.
