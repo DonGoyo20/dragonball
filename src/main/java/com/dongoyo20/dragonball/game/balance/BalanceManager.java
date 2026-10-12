@@ -2,6 +2,9 @@ package com.dongoyo20.dragonball.game.balance;
 
 import com.dongoyo20.dragonball.DragonBall;
 import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.core.KiParams;
+import com.dongoyo20.dragonball.core.ReleaseParams;
+import com.dongoyo20.dragonball.game.network.BalanceSyncPayload;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.mojang.logging.LogUtils;
@@ -18,6 +21,8 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.slf4j.Logger;
 
 /**
@@ -40,8 +45,38 @@ public final class BalanceManager {
 
     private static final BalanceParams D = BalanceParams.DEFAULT;
 
+    private static final KiParams KD = KiParams.DEFAULT;
+    private static final ReleaseParams RD = ReleaseParams.DEFAULT;
+
+    static final Codec<KiParams> KI_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.DOUBLE.optionalFieldOf("ki_base", KD.kiBase()).forGetter(KiParams::kiBase),
+            Codec.DOUBLE.optionalFieldOf("ki_growth", KD.kiGrowth()).forGetter(KiParams::kiGrowth),
+            Codec.DOUBLE.optionalFieldOf("ki_flat", KD.kiFlat()).forGetter(KiParams::kiFlat),
+            Codec.DOUBLE.optionalFieldOf("ki_per_point", KD.kiPerPoint()).forGetter(KiParams::kiPerPoint),
+            Codec.DOUBLE.optionalFieldOf("con_base", KD.conBase()).forGetter(KiParams::conBase),
+            Codec.DOUBLE.optionalFieldOf("con_growth", KD.conGrowth()).forGetter(KiParams::conGrowth),
+            Codec.DOUBLE.optionalFieldOf("con_scale", KD.conScale()).forGetter(KiParams::conScale),
+            Codec.DOUBLE.optionalFieldOf("cost_per_second_at_full", KD.costPerSecondAtFull()).forGetter(KiParams::costPerSecondAtFull),
+            Codec.DOUBLE.optionalFieldOf("regen_percent_per_second", KD.regenPercentPerSecond()).forGetter(KiParams::regenPercentPerSecond),
+            Codec.DOUBLE.optionalFieldOf("regen_below_percent", KD.regenBelowPercent()).forGetter(KiParams::regenBelowPercent)
+    ).apply(i, KiParams::new));
+
+    static final Codec<ReleaseParams> RELEASE_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.DOUBLE.optionalFieldOf("initial_limit", RD.initialLimit()).forGetter(ReleaseParams::initialLimit),
+            Codec.DOUBLE.optionalFieldOf("reference_percent", RD.referencePercent()).forGetter(ReleaseParams::referencePercent),
+            Codec.DOUBLE.optionalFieldOf("min_factor", RD.minFactor()).forGetter(ReleaseParams::minFactor),
+            Codec.DOUBLE.optionalFieldOf("ramp_up_per_second", RD.rampUpPerSecond()).forGetter(ReleaseParams::rampUpPerSecond),
+            Codec.DOUBLE.optionalFieldOf("ramp_down_per_second", RD.rampDownPerSecond()).forGetter(ReleaseParams::rampDownPerSecond),
+            Codec.DOUBLE.optionalFieldOf("vel_base", RD.velBase()).forGetter(ReleaseParams::velBase),
+            Codec.DOUBLE.optionalFieldOf("vel_growth", RD.velGrowth()).forGetter(ReleaseParams::velGrowth),
+            Codec.DOUBLE.optionalFieldOf("speed_exponent", RD.speedExponent()).forGetter(ReleaseParams::speedExponent),
+            Codec.DOUBLE.optionalFieldOf("speed_max", RD.speedMax()).forGetter(ReleaseParams::speedMax),
+            Codec.DOUBLE.optionalFieldOf("jump_exponent", RD.jumpExponent()).forGetter(ReleaseParams::jumpExponent),
+            Codec.DOUBLE.optionalFieldOf("jump_max", RD.jumpMax()).forGetter(ReleaseParams::jumpMax)
+    ).apply(i, ReleaseParams::new));
+
     /** Cada clave es opcional y vale su valor por defecto; un valor inválido hace fallar todo el archivo. */
-    static final Codec<BalanceParams> CODEC = RecordCodecBuilder.<BalanceParams>create(i -> i.group(
+    public static final Codec<BalanceParams> CODEC = RecordCodecBuilder.<BalanceParams>create(i -> i.group(
             Codec.DOUBLE.optionalFieldOf("vit_base", D.vitBase()).forGetter(BalanceParams::vitBase),
             Codec.DOUBLE.optionalFieldOf("vit_growth", D.vitGrowth()).forGetter(BalanceParams::vitGrowth),
             Codec.DOUBLE.optionalFieldOf("hp_per_vit", D.hpPerVit()).forGetter(BalanceParams::hpPerVit),
@@ -50,7 +85,9 @@ public final class BalanceManager {
             Codec.DOUBLE.optionalFieldOf("fue_base", D.fueBase()).forGetter(BalanceParams::fueBase),
             Codec.DOUBLE.optionalFieldOf("fue_growth", D.fueGrowth()).forGetter(BalanceParams::fueGrowth),
             Codec.DOUBLE.optionalFieldOf("strength_exponent", D.strengthExponent()).forGetter(BalanceParams::strengthExponent),
-            Codec.INT.optionalFieldOf("attribute_cap", D.attributeCap()).forGetter(BalanceParams::attributeCap)
+            Codec.INT.optionalFieldOf("attribute_cap", D.attributeCap()).forGetter(BalanceParams::attributeCap),
+            KI_CODEC.optionalFieldOf("ki", KD).forGetter(BalanceParams::ki),
+            RELEASE_CODEC.optionalFieldOf("release", RD).forGetter(BalanceParams::release)
     ).apply(i, BalanceParams::new)).validate(p -> {
         String problem = p.problem();
         return problem == null ? DataResult.success(p) : DataResult.error(() -> problem);
@@ -61,6 +98,11 @@ public final class BalanceManager {
     /** Parámetros vigentes (los de siempre hasta que se cargue un archivo de datos válido). */
     public static BalanceParams get() {
         return current;
+    }
+
+    /** El cliente adopta los parámetros que le manda el servidor (los necesita para mostrar máximos correctos). */
+    public static void setFromServer(BalanceParams params) {
+        current = params;
     }
 
     /** Solo para pruebas: fija los parámetros y devuelve los anteriores para restaurarlos. */
@@ -104,6 +146,16 @@ public final class BalanceManager {
     @EventBusSubscriber(modid = DragonBall.MOD_ID)
     public static final class Events {
         private Events() {}
+
+        /** Al entrar y tras cada /reload: el cliente recibe el balance vigente (si su conexión conoce el paquete). */
+        @SubscribeEvent
+        public static void onDatapackSync(OnDatapackSyncEvent event) {
+            event.getRelevantPlayers().forEach(player -> {
+                if (player.connection.hasChannel(BalanceSyncPayload.TYPE)) {
+                    PacketDistributor.sendToPlayer(player, new BalanceSyncPayload(get()));
+                }
+            });
+        }
 
         @SubscribeEvent
         public static void onAddReloadListeners(AddReloadListenerEvent event) {

@@ -5,6 +5,7 @@ import com.dongoyo20.dragonball.core.DanioCuerpo;
 import com.dongoyo20.dragonball.core.FuerzaSystem;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
 import com.dongoyo20.dragonball.game.item.ModTags;
+import com.dongoyo20.dragonball.game.ki.KiService;
 import com.dongoyo20.dragonball.game.progress.ProgressService;
 import java.util.function.Predicate;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,6 +23,11 @@ public final class FuerzaService {
         int upgrades = ProgressService.get(player).upgrades().get(ProgressService.attributeIndex("fue"));
         // Un guardado con más mejoras que el tope no debe romper el combate: se trata como el máximo.
         return FuerzaSystem.fueValue(Math.min(upgrades, p.fueMaxUpgrades()), p);
+    }
+
+    /** FUE efectiva = FUE × factor de liberación (con la liberación inicial es la FUE base). */
+    public static double fueEfectiva(ServerPlayer player) {
+        return fue(player) * KiService.factorLiberacion(player);
     }
 
     /** ¿Es un arma del mod? Hoy el tag está vacío (el mod no tiene armas). */
@@ -47,7 +53,7 @@ public final class FuerzaService {
     /** Daño final del golpe: escalado con FUE si el arma lo permite, o el de vanilla si no. */
     public static float danioFinal(ServerPlayer player, ItemStack arma, float danioVanilla, Predicate<ItemStack> esDelMod) {
         if (!clasificar(arma, esDelMod).escalaConFuerza()) return danioVanilla;
-        return (float) FuerzaSystem.danioSaliente(danioVanilla, fue(player), BalanceManager.get());
+        return (float) FuerzaSystem.danioSalienteEfectivo(danioVanilla, fueEfectiva(player), BalanceManager.get());
     }
 
     public static float danioFinal(ServerPlayer player, ItemStack arma, float danioVanilla) {

@@ -7,5 +7,30 @@
   "fue_base": 8.0,
   "fue_growth": 1.0,
   "strength_exponent": 3.0,
-  "attribute_cap": 99
+  "attribute_cap": 99,
+  "ki": {
+    "ki_base": 0.0,
+    "ki_growth": 1.0,
+    "ki_flat": 50.0,
+    "ki_per_point": 10.0,
+    "con_base": 0.0,
+    "con_growth": 1.0,
+    "con_scale": 60.0,
+    "cost_per_second_at_full": 0.2,
+    "regen_percent_per_second": 2.0,
+    "regen_below_percent": 50.0
+  },
+  "release": {
+    "initial_limit": 50.0,
+    "reference_percent": 50.0,
+    "min_factor": 0.5,
+    "ramp_up_per_second": 10.0,
+    "ramp_down_per_second": 20.0,
+    "vel_base": 8.0,
+    "vel_growth": 1.0,
+    "speed_exponent": 0.5,
+    "speed_max": 2.5,
+    "jump_exponent": 0.25,
+    "jump_max": 1.8
+  }
 }

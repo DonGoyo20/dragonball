@@ -71,4 +71,18 @@ public final class FuerzaSystem {
         }
         return danioVanilla * multiplicadorFuerza(fue, p);
     }
+
+    /**
+     * Daño con una FUE <b>efectiva</b> (FUE × factor de liberación): puede ser menor o mayor que la base.
+     * Debe ser positiva.
+     */
+    public static double danioSalienteEfectivo(double danioVanilla, double fueEfectiva, BalanceParams p) {
+        if (!(fueEfectiva > 0) || Double.isInfinite(fueEfectiva)) {
+            throw new IllegalArgumentException("FUE efectiva debe ser positiva: " + fueEfectiva);
+        }
+        if (danioVanilla < 0 || Double.isNaN(danioVanilla)) {
+            throw new IllegalArgumentException("daño negativo o NaN: " + danioVanilla);
+        }
+        return danioVanilla * Math.pow(fueEfectiva / p.fueBase(), p.strengthExponent());
+    }
 }

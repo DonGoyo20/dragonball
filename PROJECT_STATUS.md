@@ -10,7 +10,8 @@
 | Lobo salvaje (GeckoLib) | sí | sí | sí | verificado en juego por el usuario: se mueve, ataca, suelta objetos, da XP |
 | FTB Quests, Patchouli, KubeJS | sí | solo como datos | sí | Patchouli y FTB Quests verificados en juego (libro abre; 3 misiones completadas); KubeJS verificado en juego (araña 10→~50 XP) |
 | VIT → salud | sí | sí | tests automáticos; en juego pendiente |
-| FUE, DEF, VEL, KI, POD, CON, ki, habilidades, razas, Kaio-ken, maestros, Otro Mundo | sí | **no** | — | — |
+| Ki, liberación, VEL (movimiento), HUD, pantalla de estadísticas | sí | sí | tests automáticos + cliente virtual; en el PC pendiente |
+| DEF, POD, técnicas, habilidades, razas, Kaio-ken, maestros, Otro Mundo | sí | **no** | — | — |
 Ver `INTEGRATIONS.md`.
 
 ## Entorno (sesión en la nube, 2026-10-11)
@@ -42,6 +43,9 @@ Implementado; la versión lineal se verificó en el juego. Ahora: fórmula cúbi
 
 ## Ciclo FUE → daño cuerpo a cuerpo (2026-10-12)
 Implementado y probado con tests automáticos (JUnit 20/20, GameTest 26/26); **no verificado aún en el juego real**. Fórmula `(FUE/8)^3`, sin tope, solo puño y armas del mod (tag `dragonball:armas_del_mod`, hoy vacío); armas de vanilla, flechas y técnicas no escalan. Ver `FUERZA_IMPLEMENTATION.md` y `SYSTEMS.md` §3.2.2. Siguen sin implementar: DEF, VEL, KI, POD, CON.
+
+## Ki, liberación, HUD y pantalla de estadísticas (2026-10-12)
+Implementado: recurso Ki (reserva `50+10×KI`, gasto, regeneración), liberación (C/X), estadísticas efectivas en combate y movimiento (VIT, FUE, VEL), HUD (H), pantalla de estadísticas (V), sincronización con `.sync(StreamCodec)`, 2 paquetes propios, traducciones en 8 idiomas. Tests automáticos: JUnit 38/38, GameTest 49/49, integraciones OK. Comprobado en un cliente real con pantalla virtual (HUD, V, C, X, H; capturas en `docs/img/`); **no probado en el PC del usuario**. Varios números y una decisión de cómo aplicar la liberación al combate son míos y están marcados en `KI_IMPLEMENTATION.md`. Sin técnicas, maestros, DEF ni POD.
 
 ## Auditoría de DragonMineZ y balance como datos (2026-10-12)
 Auditoría técnica de DragonMineZ (Forge 1.20.1, GPL-3.0; solo código leído, sin ejecutar): ver `DMZ_ANALYSIS.md`. Mejora implementada: **balance del combate como datos** (`data/dragonball/balance/combat.json`, `BalanceParams`, `BalanceManager`, `/dragonball balance`), sin cambiar el balance (valores por defecto = los de antes). Tests automáticos: JUnit 25/25, GameTest 33/33, integraciones OK (KubeJS fija un valor real de balance). **No verificado aún en el juego real.** Bloqueado por decisión del usuario: HUD y sincronización al cliente.

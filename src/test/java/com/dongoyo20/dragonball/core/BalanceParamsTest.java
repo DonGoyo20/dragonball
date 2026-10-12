@@ -81,4 +81,29 @@ class BalanceParamsTest {
         assertNotNull(new BalanceParams(Double.NaN, 1, 12.5, 3, 0.5, 8, 1, 3, 99).problem());
         assertNotNull(new BalanceParams(8, Double.POSITIVE_INFINITY, 12.5, 3, 0.5, 8, 1, 3, 99).problem());
     }
+
+    @Test
+    void kiAndReleaseDefaultsAreValidAndTheShortConstructorUsesThem() {
+        assertNull(D.ki().problem());
+        assertNull(D.release().problem());
+        assertEquals(KiParams.DEFAULT, D.ki());
+        assertEquals(ReleaseParams.DEFAULT, D.release());
+        assertEquals(D, new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99));
+        assertEquals(50.0, D.release().initialLimit());
+        assertEquals(50.0, D.release().referencePercent());
+    }
+
+    @Test
+    void invalidKiAndReleaseParamsAreReported() {
+        BalanceParams ok = D;
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, new KiParams(0, 1, 50, 10, 0, 1, 0, 0.2, 2, 50), ok.release()).problem());   // con_scale 0
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, new KiParams(0, 1, 50, 10, 0, 1, 60, -1, 2, 50), ok.release()).problem());  // coste negativo
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, new KiParams(0, 1, 50, 10, 0, 1, 60, 0.2, 200, 50), ok.release()).problem()); // regen > 100 %
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, new KiParams(0, 1, 0, 0, 0, 1, 60, 0.2, 2, 50), ok.release()).problem());     // reserva 0
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(120, 50, 0.5, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 0, 0.5, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 50, 0, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 50, 0.5, 10, 20, 8, 1, 0.5, 0.5, 0.25, 1.8)).problem()); // speed_max < 1
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, null, ok.release()).problem());
+    }
 }

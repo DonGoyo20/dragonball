@@ -21,6 +21,11 @@ public final class ProgressService {
         ModTriggers.TOTAL_LEVEL.get().trigger(player, progress.totalLevel());
     }
 
+    /** Cambia solo el ki (sin disparar el logro de nivel). */
+    public static void setKi(ServerPlayer player, com.dongoyo20.dragonball.game.ki.KiData ki) {
+        player.setData(ModAttachments.PROGRESS, get(player).withKi(ki));
+    }
+
     /** Otorga la XP de derrotar a un enemigo del bestiario. Devuelve la XP concedida. */
     public static int awardKill(ServerPlayer player, BestiaryEntry entry, boolean fromSpawner) {
         PlayerProgress progress = get(player);

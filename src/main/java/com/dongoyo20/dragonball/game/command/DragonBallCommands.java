@@ -3,6 +3,8 @@ package com.dongoyo20.dragonball.game.command;
 import com.dongoyo20.dragonball.DragonBall;
 import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
+import com.dongoyo20.dragonball.game.ki.KiData;
+import com.dongoyo20.dragonball.game.ki.KiService;
 import com.dongoyo20.dragonball.game.progress.PlayerProgress;
 import com.dongoyo20.dragonball.game.progress.ProgressService;
 import com.mojang.brigadier.arguments.LongArgumentType;
@@ -30,6 +32,12 @@ public final class DragonBallCommands {
                                 .suggests((c, b) -> SharedSuggestionProvider.suggest(ProgressService.ATTRIBUTES, b))
                                 .executes(ctx -> upgrade(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "attribute"), ctx.getSource()))))
                 .then(Commands.literal("balance").executes(ctx -> showBalance(ctx.getSource())))
+                .then(Commands.literal("ki").executes(ctx -> showKi(ctx.getSource().getPlayerOrException(), ctx.getSource())))
+                .then(Commands.literal("releaselimit")
+                        .requires(s -> s.hasPermission(2))
+                        .then(Commands.argument("percent", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 100))
+                                .executes(ctx -> setReleaseLimit(ctx.getSource().getPlayerOrException(),
+                                        com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "percent"), ctx.getSource()))))
                 .then(Commands.literal("givexp")
                         .requires(s -> s.hasPermission(2))
                         .then(Commands.argument("amount", LongArgumentType.longArg(0))
@@ -42,6 +50,20 @@ public final class DragonBallCommands {
         source.sendSuccess(() -> Component.translatable("command.dragonball.balance",
                 b.vitBase(), b.vitGrowth(), b.hpPerVit(), b.damageExponent(), b.continuousFloor(),
                 b.fueBase(), b.fueGrowth(), b.strengthExponent(), b.attributeCap()), false);
+        return 1;
+    }
+
+    private static int showKi(ServerPlayer player, CommandSourceStack source) {
+        KiData ki = ProgressService.get(player).ki();
+        source.sendSuccess(() -> Component.translatable("command.dragonball.ki",
+                String.format("%.1f", ki.kiActual()), KiService.kiMax(player), String.format("%.0f", ki.liberacion()), ki.limite()), false);
+        return 1;
+    }
+
+    /** Hasta que exista la habilidad "Desbloqueo de Potencial" (Kami-sama), el límite se cambia con este comando de pruebas. */
+    private static int setReleaseLimit(ServerPlayer player, int percent, CommandSourceStack source) {
+        KiService.setLimit(player, percent);
+        source.sendSuccess(() -> Component.translatable("command.dragonball.release_limit", percent), true);
         return 1;
     }
 

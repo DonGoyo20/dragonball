@@ -184,6 +184,9 @@ Cada tipo de enemigo se define por **atributos efectivos** propios (`E`) en un a
 - El control reduce el coste: `coste = base × 1 / (1 + stat_CON/60)`. CON 4 → ×0,94; CON 60 → ×0,50; CON 100 → ×0,375. (El valor `stat_CON` es el base, sin el factor de nivel.)
 - **Daño de la técnica** = `E_POD × multiplicador_técnica`. Gastar más ki en una técnica la hace más fuerte (carga) hasta un tope.
 
+### 4.2.1 Liberación de poder (implementada 2026-10-12; números provisionales)
+Ver `KI_IMPLEMENTATION.md`. Resumen: liberación 0–100 % con límite inicial 50 %; sube con C (solo quieto) y baja con X; gasta `base × (liberación/100) / (1 + CON/60)` por tick; solo se regenera por debajo del 50 %; sin ki la liberación pasa a 0. `stat_efectiva = stat_base × liberación/100` es lo que muestra la pantalla; **en combate y movimiento VIT, FUE y VEL usan el factor `max(0,5, liberación/50)`** para que el balance ya verificado no cambie con la liberación inicial. Los números de gasto, regeneración, velocidades de subida y VEL→movimiento están en `data/dragonball/balance/combat.json` (bloques `ki` y `release`).
+
 ### 4.3 Regeneración y carga
 - **Pasiva:** 0,5 %/s de la reserva fuera de combate; 0,1 %/s en combate.
 - **Cargar ki:** acción mantenida, 5 %/s. Deja al jugador quieto y con aura visible (se ve desde lejos).

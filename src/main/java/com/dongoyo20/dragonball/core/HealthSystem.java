@@ -98,10 +98,21 @@ public final class HealthSystem {
      */
     public static double danioAplicado(double danioVanilla, int vitActual, TipoDanio tipo, BalanceParams p) {
         checkVit(vitActual, p);
+        return danioAplicadoEfectivo(danioVanilla, vitActual, tipo, p);
+    }
+
+    /**
+     * Igual que {@link #danioAplicado}, pero con una VIT <b>efectiva</b> (VIT × factor de liberación): puede ser menor que
+     * la base (con poca liberación recibes más daño) o mayor (con mucha, menos). Debe ser positiva.
+     */
+    public static double danioAplicadoEfectivo(double danioVanilla, double vitEfectiva, TipoDanio tipo, BalanceParams p) {
+        if (!(vitEfectiva > 0) || Double.isInfinite(vitEfectiva)) {
+            throw new IllegalArgumentException("VIT efectiva debe ser positiva: " + vitEfectiva);
+        }
         if (danioVanilla < 0 || Double.isNaN(danioVanilla)) {
             throw new IllegalArgumentException("daño negativo o NaN: " + danioVanilla);
         }
-        double escalado = danioVanilla * Math.pow(p.vitBase() / vitActual, p.damageExponent());
+        double escalado = danioVanilla * Math.pow(p.vitBase() / vitEfectiva, p.damageExponent());
         return switch (tipo) {
             case ESCALA_SIN_SUELO -> escalado;
             case ESCALA_CON_SUELO -> Math.min(danioVanilla, Math.max(escalado, p.continuousFloor()));

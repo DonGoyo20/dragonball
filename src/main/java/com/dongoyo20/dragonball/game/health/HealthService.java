@@ -4,6 +4,7 @@ import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.TipoDanio;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
+import com.dongoyo20.dragonball.game.ki.KiService;
 import com.dongoyo20.dragonball.game.progress.ProgressService;
 import java.util.Set;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,8 +34,13 @@ public final class HealthService {
     }
 
     /** Daño de vanilla (ya reducido por armadura y efectos) convertido al daño que se debe restar. */
+    /** VIT efectiva = VIT × factor de liberación (con la liberación inicial es la VIT base). */
+    public static double vitEfectiva(ServerPlayer player) {
+        return vit(player) * KiService.factorLiberacion(player);
+    }
+
     public static float aplicarDanioEscalado(ServerPlayer player, float danioVanilla, TipoDanio tipo) {
-        return (float) HealthSystem.danioAplicado(danioVanilla, vit(player), tipo, BalanceManager.get());
+        return (float) HealthSystem.danioAplicadoEfectivo(danioVanilla, vitEfectiva(player), tipo, BalanceManager.get());
     }
 
     /** Daño de estado continuo: se aplica cada pocos ticks mientras dure la situación (lava, fuego, veneno…). */

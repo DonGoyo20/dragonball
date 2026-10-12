@@ -17,13 +17,24 @@ package com.dongoyo20.dragonball.core;
  * @param fueGrowth        cuánto sube FUE por mejora
  * @param strengthExponent exponente del multiplicador de daño por FUE
  * @param attributeCap     tope del valor de un atributo
+ * @param ki               recurso Ki (reserva, gasto y regeneración)
+ * @param release          liberación de poder y VEL (movimiento)
  */
 public record BalanceParams(
         double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
-        double fueBase, double fueGrowth, double strengthExponent, int attributeCap) {
+        double fueBase, double fueGrowth, double strengthExponent, int attributeCap,
+        KiParams ki, ReleaseParams release) {
 
     /** Los valores vigentes antes de que el balance fuera configurable (SYSTEMS.md §3.1, §3.2.1 y §3.2.2). */
-    public static final BalanceParams DEFAULT = new BalanceParams(8.0, 1.0, 12.5, 3.0, 0.5, 8.0, 1.0, 3.0, 99);
+    public static final BalanceParams DEFAULT = new BalanceParams(8.0, 1.0, 12.5, 3.0, 0.5, 8.0, 1.0, 3.0, 99,
+            KiParams.DEFAULT, ReleaseParams.DEFAULT);
+
+    /** Constructor de los nueve valores de VIT y FUE (ki y liberación por defecto). */
+    public BalanceParams(double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
+                         double fueBase, double fueGrowth, double strengthExponent, int attributeCap) {
+        this(vitBase, vitGrowth, hpPerVit, damageExponent, continuousFloor, fueBase, fueGrowth, strengthExponent,
+                attributeCap, KiParams.DEFAULT, ReleaseParams.DEFAULT);
+    }
 
     /** Mejoras de VIT que caben bajo el tope (8 + 91 = 99 con los valores por defecto). */
     public int vitMaxUpgrades() {
@@ -33,6 +44,21 @@ public record BalanceParams(
     /** Mejoras de FUE que caben bajo el tope. */
     public int fueMaxUpgrades() {
         return (int) Math.floor((attributeCap - fueBase) / fueGrowth + 1e-9);
+    }
+
+    /** Mejoras de VEL que caben bajo el tope. */
+    public int velMaxUpgrades() {
+        return (int) Math.floor((attributeCap - release.velBase()) / release.velGrowth() + 1e-9);
+    }
+
+    /** Mejoras de KI que caben bajo el tope. */
+    public int kiMaxUpgrades() {
+        return (int) Math.floor((attributeCap - ki.kiBase()) / ki.kiGrowth() + 1e-9);
+    }
+
+    /** Mejoras de CON que caben bajo el tope. */
+    public int conMaxUpgrades() {
+        return (int) Math.floor((attributeCap - ki.conBase()) / ki.conGrowth() + 1e-9);
     }
 
     /** {@code null} si los parámetros son válidos; si no, una frase que explica el primer problema. */
@@ -48,6 +74,12 @@ public record BalanceParams(
         if (attributeCap < 2 || attributeCap > 10_000) return "attribute_cap debe estar entre 2 y 10000";
         if (attributeCap < vitBase + vitGrowth) return "attribute_cap debe permitir al menos una mejora de VIT";
         if (attributeCap < fueBase + fueGrowth) return "attribute_cap debe permitir al menos una mejora de FUE";
+        if (ki == null || release == null) return "faltan los bloques ki o release";
+        String kiProblem = ki.problem();
+        if (kiProblem != null) return kiProblem;
+        String releaseProblem = release.problem();
+        if (releaseProblem != null) return releaseProblem;
+        if (attributeCap < release.velBase() + release.velGrowth()) return "attribute_cap debe permitir al menos una mejora de VEL";
         return null;
     }
 
