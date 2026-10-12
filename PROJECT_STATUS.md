@@ -40,6 +40,9 @@ Viabilidad verificada en el código fuente de NeoForge 21.1.259: `LivingDamageEv
 ## Ciclo VIT → salud (2026-10-11; cúbica y tres categorías de daño 2026-10-12)
 Implementado; la versión lineal se verificó en el juego. Ahora: fórmula cúbica `(8/VIT)^3` y clasificación de daño en 3 categorías (escala sin suelo / con suelo de 0,5 HP —bajado desde 1,0 el 2026-10-12— / no escala: vacío y `/kill`). Tests automáticos: JUnit 14/14, GameTest 17/17. **La fórmula cúbica y las tres categorías no se han probado aún en el juego real.** Ver `HEALTH_IMPLEMENTATION.md` y `SYSTEMS.md` §3.1–3.2.1 (deuda técnica).
 
+## Ciclo FUE → daño cuerpo a cuerpo (2026-10-12)
+Implementado y probado con tests automáticos (JUnit 20/20, GameTest 26/26); **no verificado aún en el juego real**. Fórmula `(FUE/8)^3`, sin tope, solo puño y armas del mod (tag `dragonball:armas_del_mod`, hoy vacío); armas de vanilla, flechas y técnicas no escalan. Ver `FUERZA_IMPLEMENTATION.md` y `SYSTEMS.md` §3.2.2. Siguen sin implementar: DEF, VEL, KI, POD, CON.
+
 ## Decisiones cerradas (2026-10-12) — BESTIARY.md §15 resuelto
 1. Quinto luchador enmascarado de Baba: **fuera de la beta** (canon poco claro; posible en la 1.0).
 2. Saibamen: **SÍ se autodestruyen** al morir, con daño en área al jugador cercano, sin dañar a otros Saibamen, con daño escalado por VIT.

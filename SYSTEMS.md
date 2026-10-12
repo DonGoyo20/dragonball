@@ -155,6 +155,15 @@ El creeper ya se interceptaba con la fórmula lineal (20,25 × 8/18 = 9 HP = 4,5
 
 **Deuda:** `VIT^3` es mucho más fuerte que el diseño de §3.2 (`VIT^0,3` dentro de `D`) y no depende del enemigo; mientras tanto un enemigo de nivel 171 pega como uno de nivel 1. Cuando existan DEF y el poder de ataque de los enemigos, se combinará con ellos.
 
+### 3.2.2 FUE → daño cuerpo a cuerpo del jugador (implementado 2026-10-12) — DEUDA TÉCNICA
+(Se numera 3.2.2 y no 3.3 porque §3.3 ya es la esquiva.)
+- `valor_FUE = 8 + 1,0 × mejoras_FUE` (provisional y universal, como VIT; **no** los 10 / +1,25 del Saiyajin de BETA_RACES), tope 99 (91 mejoras).
+- `daño_saliente = daño_vanilla × (FUE / 8)^3`, simétrica a VIT, **sin tope de daño** (decisión del usuario: la coherencia con Dragon Ball prevalece sobre el equilibrio de Minecraft). FUE 8 → ×1; 18 → ×11,4; 26 → ×34,3; 99 → ×1895.
+- Se aplica en `LivingDamageEvent.Pre` (después de la armadura del defensor) solo al **golpe directo del jugador** (tipo `player_attack` con el jugador como entidad directa).
+- **Qué escala:** puño (mano vacía o un objeto sin daño de ataque) → sí; armas del mod (tag `dragonball:armas_del_mod`) → sí; armas y herramientas de vanilla (espada, hacha, maza…) → no; flechas y demás proyectiles → no; técnicas de ki → no (escalarán con POD); ataques de mobs → no (los mobs no tienen FUE).
+- Daño base del puño: 1 HP de vanilla.
+**Deuda:** el diseño (§3.2) usa un porcentaje de la vida del defensor con `(A/D)^0,75`; esto escala el daño de vanilla porque los mobs aún tienen vida de Minecraft y no existe su poder de defensa. Con FUE 26 un puñetazo (34 HP) mata a cualquier mob de vanilla de un golpe salvo jefes grandes.
+
 ### 3.3 Esquiva
 `prob_esquiva = clamp(0,10 + 0,20 · ln(E_VEL_defensor / E_VEL_atacante), 0, 0,6)`
 
