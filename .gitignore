@@ -19,3 +19,6 @@ __pycache__/
 run-kubejs
 run-ftb
 run-demo
+
+# Código de referencia de otros mods (solo estudio privado, no se sube)
+staging/

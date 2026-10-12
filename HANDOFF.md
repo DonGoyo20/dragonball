@@ -51,6 +51,7 @@ GeckoLib 4.9.3 (MIT, obligatoria), Patchouli 1.21.1-93 (CC-BY-NC-SA 3.0), FTB Qu
 - No cambiar Minecraft 1.21.1 ni NeoForge; no inventar APIs, versiones ni resultados de pruebas; no declarar funcional algo que solo compila.
 - Distinguir siempre: diseñado / implementado / compilado / verificado en juego.
 - No copiar código ni arte de otros mods; arte original, estilo bloque.
+  - **Actualización (Fase 0 DMZ):** el usuario declara uso 100 % privado y sin distribución. Los *assets* de DMZ podrán copiarse a una copia privada (Fase 12 de `DMZ_IMPLEMENTATION_ROADMAP.md`). El **código** de DMZ (GPL-3.0) NO se copia: se estudia y se reimplementa con nuestra arquitectura. Ver `DMZ_SYSTEMS_MAP.md` §6.
 - Explicar con palabras simples (el usuario es principiante); preguntar solo lo que es decisión suya.
 - Datos antes que código (JSON/data maps) cuando sea posible; no meter lógica crítica en KubeJS.
 
