@@ -153,6 +153,8 @@ Hasta que existan DEF y el poder de ataque `A` de los enemigos, el daño que rec
 
 El creeper ya se interceptaba con la fórmula lineal (20,25 × 8/18 = 9 HP = 4,5 corazones): no era un fallo.
 
+**Los números son configurables** (2026-10-12): exponente, suelo, base y crecimiento de VIT se leen de `data/dragonball/balance/combat.json` (datapack o KubeJS, `/dragonball balance` los muestra); los valores de esta sección son los **por defecto**.
+
 **Deuda:** `VIT^3` es mucho más fuerte que el diseño de §3.2 (`VIT^0,3` dentro de `D`) y no depende del enemigo; mientras tanto un enemigo de nivel 171 pega como uno de nivel 1. Cuando existan DEF y el poder de ataque de los enemigos, se combinará con ellos.
 
 ### 3.2.2 FUE → daño cuerpo a cuerpo del jugador (implementado 2026-10-12) — DEUDA TÉCNICA

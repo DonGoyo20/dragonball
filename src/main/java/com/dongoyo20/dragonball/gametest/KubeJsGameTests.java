@@ -29,6 +29,12 @@ public final class KubeJsGameTests {
         helper.assertTrue(spider != null && spider.xp() == 50,
                 "el script de KubeJS debe fijar la araña en 50 XP, pero fue " + (spider == null ? "null" : spider.xp()));
         helper.assertTrue(zombie != null && zombie.xp() == 8, "el resto del bestiario no debe cambiar (zombi = 8 XP)");
+        // Segundo canal de datos: el balance del combate. El script fija solo el suelo del daño continuo.
+        var balance = com.dongoyo20.dragonball.game.balance.BalanceManager.get();
+        helper.assertTrue(balance.continuousFloor() == 0.25,
+                "el script de KubeJS debe fijar continuous_floor en 0,25, pero fue " + balance.continuousFloor());
+        helper.assertTrue(balance.damageExponent() == 3.0 && balance.vitBase() == 8.0,
+                "las claves que el script no menciona conservan su valor por defecto");
         helper.succeed();
     }
 }

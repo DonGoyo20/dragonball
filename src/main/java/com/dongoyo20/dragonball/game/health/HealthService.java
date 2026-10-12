@@ -1,7 +1,9 @@
 package com.dongoyo20.dragonball.game.health;
 
+import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.TipoDanio;
+import com.dongoyo20.dragonball.game.balance.BalanceManager;
 import com.dongoyo20.dragonball.game.progress.ProgressService;
 import java.util.Set;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,13 +18,14 @@ public final class HealthService {
 
     /** Valor actual de VIT del jugador (base + mejoras). */
     public static int vit(ServerPlayer player) {
+        BalanceParams p = BalanceManager.get();
         int upgrades = ProgressService.get(player).upgrades().get(ProgressService.attributeIndex("vit"));
         // Un guardado con más mejoras que el tope no debe romper el combate: se trata como el máximo.
-        return HealthSystem.vitValue(Math.min(upgrades, HealthSystem.VIT_MAX_UPGRADES));
+        return HealthSystem.vitValue(Math.min(upgrades, p.vitMaxUpgrades()), p);
     }
 
     public static double vidaRealMaxima(ServerPlayer player) {
-        return HealthSystem.vidaRealMaxima(vit(player));
+        return HealthSystem.vidaRealMaxima(vit(player), BalanceManager.get());
     }
 
     public static double vidaRealActual(ServerPlayer player) {
@@ -31,7 +34,7 @@ public final class HealthService {
 
     /** Daño de vanilla (ya reducido por armadura y efectos) convertido al daño que se debe restar. */
     public static float aplicarDanioEscalado(ServerPlayer player, float danioVanilla, TipoDanio tipo) {
-        return (float) HealthSystem.danioAplicado(danioVanilla, vit(player), tipo);
+        return (float) HealthSystem.danioAplicado(danioVanilla, vit(player), tipo, BalanceManager.get());
     }
 
     /** Daño de estado continuo: se aplica cada pocos ticks mientras dure la situación (lava, fuego, veneno…). */

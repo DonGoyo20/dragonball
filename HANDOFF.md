@@ -32,8 +32,9 @@ Mod de **Dragon Ball RPG para Minecraft Java 1.21.1 + NeoForge 21.1.259** (Java 
 | FTB Quests: capítulo de prueba con 3 misiones | sí | datos | las 3 se completan en juego |
 | KubeJS: script que cambia la XP de la araña | sí | datos | verificado (49 XP en vez de 10) |
 | Traducciones | — | es_es + variantes es_mx/ar/cl/uy/ve/ec | **por verificar en el PC** |
-| VIT → salud (`HealthSystem`, `LivingDamageEvent.Pre`, tope 99 en VIT) | sí | sí | fórmula cúbica `(8/VIT)^3`; tests automáticos (JUnit 20, GameTest 29); la versión lineal se probó en juego, la cúbica está pendiente de probar |
-| FUE → daño cuerpo a cuerpo (`FuerzaSystem`, `FuerzaEvents`, tag `dragonball:armas_del_mod`; `(FUE/8)^3`, sin tope; puño y armas del mod sí, vanilla/flechas/ki no) | sí | sí | tests automáticos (JUnit 20, GameTest 29); **en juego pendiente** |
+| VIT → salud (`HealthSystem`, `LivingDamageEvent.Pre`, tope 99 en VIT) | sí | sí | fórmula cúbica `(8/VIT)^3`; tests automáticos (JUnit 25, GameTest 33); la versión lineal se probó en juego, la cúbica está pendiente de probar |
+| Balance del combate como datos (`BalanceParams`, `BalanceManager`, `data/dragonball/balance/combat.json`, `/dragonball balance`; defaults = valores de siempre) | sí | sí | tests automáticos (JUnit 25, GameTest 33, KubeJS); **en juego pendiente** |
+| FUE → daño cuerpo a cuerpo (`FuerzaSystem`, `FuerzaEvents`, tag `dragonball:armas_del_mod`; `(FUE/8)^3`, sin tope; puño y armas del mod sí, vanilla/flechas/ki no) | sí | sí | tests automáticos (JUnit 25, GameTest 33); **en juego pendiente** |
 | Efecto del resto de atributos (DEF, VEL, KI, POD, CON) en combate, ki, técnicas, razas, formas, maestros, Otro Mundo, HUD, sincronización al cliente | sí | **no** | — |
 Código: Java en `src/main/java/com/dongoyo20/dragonball/` (`core/Progression` puro; `game/progress`, `game/bestiary`, `game/entity`, `game/command`, `game/advancement`; `client/WildWolfRenderer`). Comandos: `/dragonball progress | upgrade <vit|fue|def|vel|ki|pod|con> | givexp <n>`.
 Tests: `./gradlew build` (JUnit), `./gradlew runGameTestServer` (6 GameTest), `tools/verify_integrations.sh` (núcleo + FTB + KubeJS). Simulador de equilibrio en Python (`tools/simulator`, 29 pruebas), datos en `design_data/beta/bestiary.json`.
@@ -43,6 +44,8 @@ Entorno: la nube no ve Minecraft con pantalla real; lo visual lo prueba el usuar
 GeckoLib 4.9.3 (MIT, obligatoria), Patchouli 1.21.1-93 (CC-BY-NC-SA 3.0), FTB Quests 2101.1.36 (All Rights Reserved; solo datos), KubeJS 2101.7.2 (LGPL). **No adoptadas:** TerraBlender (sin biomas propios) y Curios (sin accesorios). Detalle en `INTEGRATIONS.md`. DragonMine Z (GPL-3.0) es solo referencia: no se copia código.
 
 ## 6. Reglas que debe respetar otra IA
+- Los números de balance viven en `data/dragonball/balance/combat.json` (no en constantes); ver `DMZ_ANALYSIS.md`.
+- DragonMineZ es GPL-3.0: solo se usa como referencia de ideas; no se copia código.
 - No cambiar Minecraft 1.21.1 ni NeoForge; no inventar APIs, versiones ni resultados de pruebas; no declarar funcional algo que solo compila.
 - Distinguir siempre: diseñado / implementado / compilado / verificado en juego.
 - No copiar código ni arte de otros mods; arte original, estilo bloque.

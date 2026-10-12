@@ -14,6 +14,10 @@ package com.dongoyo20.dragonball.core;
  * <p><b>Alcance (2026-10-12):</b> todo el daño escala con VIT salvo el vacío y {@code /kill} ({@link TipoDanio}); el de
  * estado continuo tiene un suelo de 0,5 HP por aplicación. Ver SYSTEMS.md §3.1.
  *
+ * <p><b>Balance configurable:</b> los números salen de {@link BalanceParams}. Los métodos sin parámetro de balance usan
+ * {@link BalanceParams#DEFAULT} (los valores de siempre); el juego usa las variantes con {@code BalanceParams} para
+ * respetar lo que diga el datapack.
+ *
  * <p><b>Deuda técnica:</b> SYSTEMS.md §3.2 define el daño como {@code 0,05 × (A/D)^0,75} con
  * {@code D = DEF^0,7 × VIT^0,3}. Esta fórmula es mucho más fuerte que el diseño (VIT^3 frente a VIT^0,3) y no
  * depende del poder del atacante, porque todavía no existen DEF ni el poder de ataque {@code A} de los enemigos.
@@ -22,37 +26,57 @@ package com.dongoyo20.dragonball.core;
 public final class HealthSystem {
     private HealthSystem() {}
 
+    private static final BalanceParams D = BalanceParams.DEFAULT;
+
     /** Valor inicial de VIT. Provisional: el del Saiyajin (BETA_RACES.md §4) hasta que existan las razas. */
-    public static final double VIT_BASE = 8.0;
+    public static final double VIT_BASE = D.vitBase();
     /** Tope del valor de un atributo (decisión del usuario, SYSTEMS.md §2.1). */
-    public static final int VIT_MAX = 99;
+    public static final int VIT_MAX = D.attributeCap();
     /** Cuánto sube el valor de VIT por mejora (crecimiento del Saiyajin: 1,00). */
-    public static final double VIT_GROWTH = 1.0;
+    public static final double VIT_GROWTH = D.vitGrowth();
     /** Mejoras de VIT que caben bajo el tope: 8 + 91 = 99. */
-    public static final int VIT_MAX_UPGRADES = (int) Math.round((VIT_MAX - VIT_BASE) / VIT_GROWTH);
+    public static final int VIT_MAX_UPGRADES = D.vitMaxUpgrades();
     /** Puntos de vida real por punto de valor de VIT. */
-    public static final double VIDA_BASE = 12.5;
+    public static final double VIDA_BASE = D.hpPerVit();
     /** Exponente de la reducción de daño por VIT (provisional; ver el JavaDoc de la clase). */
-    public static final int DANIO_EXPONENTE = 3;
+    public static final int DANIO_EXPONENTE = (int) D.damageExponent();
     /** Vida máxima de vanilla del jugador que usamos como barra. */
     public static final double VANILLA_MAX_HP = 20.0;
+    /**
+     * Suelo del daño de estado continuo, en HP vanilla por aplicación (evita que VIT 99 sea inmune a la lava).
+     * Era 1,0; se bajó a 0,5 (2026-10-12) porque con 1,0 la lava seguía siendo demasiado dañina para un personaje
+     * con VIT alta, que debería ser casi inmune a los daños ambientales (sin llegar a serlo del todo).
+     */
+    public static final double SUELO_CONTINUO = D.continuousFloor();
+
+    // ---------- variantes con los valores por defecto
+
+    public static int vitValue(int upgrades) { return vitValue(upgrades, D); }
+    public static boolean canUpgradeVit(int upgrades) { return canUpgradeVit(upgrades, D); }
+    public static double vidaRealMaxima(int vit) { return vidaRealMaxima(vit, D); }
+    public static double danioAplicado(double danioVanilla, int vitActual, TipoDanio tipo) {
+        return danioAplicado(danioVanilla, vitActual, tipo, D);
+    }
+
+    // ---------- variantes con balance configurable
 
     /** Valor de VIT tras {@code upgrades} mejoras. */
-    public static int vitValue(int upgrades) {
-        if (upgrades < 0 || upgrades > VIT_MAX_UPGRADES) {
-            throw new IllegalArgumentException("mejoras de VIT fuera de [0, " + VIT_MAX_UPGRADES + "]: " + upgrades);
+    public static int vitValue(int upgrades, BalanceParams p) {
+        int max = p.vitMaxUpgrades();
+        if (upgrades < 0 || upgrades > max) {
+            throw new IllegalArgumentException("mejoras de VIT fuera de [0, " + max + "]: " + upgrades);
         }
-        return (int) Math.round(VIT_BASE + VIT_GROWTH * upgrades);
+        return (int) Math.round(p.vitBase() + p.vitGrowth() * upgrades);
     }
 
-    /** ¿Se puede comprar otra mejora de VIT sin pasar del tope 99? */
-    public static boolean canUpgradeVit(int upgrades) {
-        return upgrades >= 0 && upgrades < VIT_MAX_UPGRADES;
+    /** ¿Se puede comprar otra mejora de VIT sin pasar del tope? */
+    public static boolean canUpgradeVit(int upgrades, BalanceParams p) {
+        return upgrades >= 0 && upgrades < p.vitMaxUpgrades();
     }
 
-    public static double vidaRealMaxima(int vit) {
-        checkVit(vit);
-        return VIDA_BASE * vit;
+    public static double vidaRealMaxima(int vit, BalanceParams p) {
+        checkVit(vit, p);
+        return p.hpPerVit() * vit;
     }
 
     /** Vida real actual a partir de la vida vanilla (0–20). */
@@ -64,37 +88,30 @@ public final class HealthSystem {
     }
 
     /**
-     * Suelo del daño de estado continuo, en HP vanilla por aplicación (evita que VIT 99 sea inmune a la lava).
-     * Era 1,0; se bajó a 0,5 (2026-10-12) porque con 1,0 la lava seguía siendo demasiado dañina para un personaje
-     * con VIT alta, que debería ser casi inmune a los daños ambientales (sin llegar a serlo del todo).
-     */
-    public static final double SUELO_CONTINUO = 0.5;
-
-    /**
      * Daño en HP vanilla que se resta de verdad.
      * <ul>
-     *   <li>{@code ESCALA_SIN_SUELO}: {@code danioVanilla × (VIT_BASE / VIT)^3}.</li>
-     *   <li>{@code ESCALA_CON_SUELO}: lo mismo, pero nunca menos de {@link #SUELO_CONTINUO} (ni más que el daño
-     *       original: el suelo no puede aumentar un daño original menor que el suelo).</li>
+     *   <li>{@code ESCALA_SIN_SUELO}: {@code danioVanilla × (vitBase / VIT)^exponente}.</li>
+     *   <li>{@code ESCALA_CON_SUELO}: lo mismo, pero nunca menos del suelo (ni más que el daño original: el suelo
+     *       no puede aumentar un daño original menor que el suelo).</li>
      *   <li>{@code NO_ESCALA}: el daño original (vacío y /kill).</li>
      * </ul>
      */
-    public static double danioAplicado(double danioVanilla, int vitActual, TipoDanio tipo) {
-        checkVit(vitActual);
+    public static double danioAplicado(double danioVanilla, int vitActual, TipoDanio tipo, BalanceParams p) {
+        checkVit(vitActual, p);
         if (danioVanilla < 0 || Double.isNaN(danioVanilla)) {
             throw new IllegalArgumentException("daño negativo o NaN: " + danioVanilla);
         }
-        double escalado = danioVanilla * Math.pow(VIT_BASE / vitActual, DANIO_EXPONENTE);
+        double escalado = danioVanilla * Math.pow(p.vitBase() / vitActual, p.damageExponent());
         return switch (tipo) {
             case ESCALA_SIN_SUELO -> escalado;
-            case ESCALA_CON_SUELO -> Math.min(danioVanilla, Math.max(escalado, SUELO_CONTINUO));
+            case ESCALA_CON_SUELO -> Math.min(danioVanilla, Math.max(escalado, p.continuousFloor()));
             case NO_ESCALA -> danioVanilla;
         };
     }
 
-    private static void checkVit(int vit) {
-        if (vit < VIT_BASE || vit > VIT_MAX) {
-            throw new IllegalArgumentException("VIT fuera de [" + (int) VIT_BASE + ", " + VIT_MAX + "]: " + vit);
+    private static void checkVit(int vit, BalanceParams p) {
+        if (vit < p.vitBase() || vit > p.attributeCap()) {
+            throw new IllegalArgumentException("VIT fuera de [" + p.vitBase() + ", " + p.attributeCap() + "]: " + vit);
         }
     }
 }

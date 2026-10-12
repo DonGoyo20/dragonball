@@ -13,7 +13,7 @@ Java 21. La primera compilación descarga dependencias (necesita red).
 tools/verify_integrations.sh    # núcleo + FTB Quests + KubeJS, con comprobación de logs
 ./gradlew runClient -PwithFtbQuests -PwithKubeJs   # con FTB Quests y KubeJS (copia solos los datos de misiones y scripts a run/)
 ```
-En el juego: `/dragonball progress | upgrade <atributo> | givexp <n>`; huevo de aparición del Lobo salvaje en creativo; la guía de Patchouli sale con la receta `guide_book`.
+En el juego: `/dragonball progress | upgrade <atributo> | givexp <n> | balance`; huevo de aparición del Lobo salvaje en creativo; la guía de Patchouli sale con la receta `guide_book`.
 
 ## Demo con pantalla virtual (sin monitor)
 `Xvfb :99 -screen 0 1280x720x24 &` y `DISPLAY=:99 LIBGL_ALWAYS_SOFTWARE=1 ./gradlew runClientDemo` entran a un mundo de pruebas con un lobo delante.

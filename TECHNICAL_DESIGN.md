@@ -82,3 +82,6 @@ No es requisito. Se separa lógica de servidor (`game`) y de cliente (`client`) 
 
 ## 12. Requisitos de habilidad (añadido 2026-10-11)
 Toda habilidad (técnica, especial, forma, pasiva) se carga desde datos y tiene requisitos de atributo, de fuente y de raza (ver `ABILITIES.md`). El motor de requisitos vive en `core` (Java puro) y se prueba con tests: comprobar requisitos al aprender y al usar, bloquear sin perder, y el **test de accesibilidad de puertas** (la forma de cada puerta debe costar ≤ 15 % de las mejoras para cualquier build).
+
+## 13. Balance como datos (añadido 2026-10-12)
+Los números de balance del combate (exponentes, suelo del daño continuo, base y crecimiento de VIT y FUE, vida por VIT, tope de atributo) viven en `data/dragonball/balance/combat.json`, no en constantes. `core/BalanceParams` los representa (Java puro; `DEFAULT` = valores de siempre) y `game/balance/BalanceManager` los carga como recurso recargable (`/reload`). Un datapack o KubeJS pueden sobrescribirlos; un archivo inválido se descarta entero. El combate es del servidor; el cliente solo los necesitará cuando exista un HUD de vida real (habrá que sincronizarlos). La estructura de las fórmulas sigue en el código. Ver `DMZ_ANALYSIS.md` §3.

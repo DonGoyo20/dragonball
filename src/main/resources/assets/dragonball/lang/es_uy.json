@@ -15,5 +15,6 @@
  "attribute.dragonball.ki": "Ki máximo",
  "attribute.dragonball.pod": "Poder de ki",
  "attribute.dragonball.con": "Control",
- "command.dragonball.attribute_at_cap": "%s ya está en el tope (%s)"
+ "command.dragonball.attribute_at_cap": "%s ya está en el tope (%s)",
+ "command.dragonball.balance": "Balance: VIT base %s (+%s por mejora), HP por VIT %s, exponente de daño %s, suelo del daño continuo %s | FUE base %s (+%s), exponente %s | tope de atributo %s"
 }

@@ -10,4 +10,8 @@ ServerEvents.generateData('last', event => {
       'minecraft:spider': { level: 4, kind: 'normal', archetype: 'veloz', xp: 50 }
     }
   })
+
+  // Balance del combate (data/dragonball/balance/combat.json). Solo se cambia la clave que se menciona;
+  // las demás conservan su valor por defecto. Comprobación en el juego: /dragonball balance.
+  event.json('dragonball:balance/combat', { continuous_floor: 0.25 })
 })

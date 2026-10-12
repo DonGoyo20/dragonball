@@ -1,6 +1,8 @@
 package com.dongoyo20.dragonball.game.command;
 
 import com.dongoyo20.dragonball.DragonBall;
+import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.game.balance.BalanceManager;
 import com.dongoyo20.dragonball.game.progress.PlayerProgress;
 import com.dongoyo20.dragonball.game.progress.ProgressService;
 import com.mojang.brigadier.arguments.LongArgumentType;
@@ -27,10 +29,20 @@ public final class DragonBallCommands {
                         .then(Commands.argument("attribute", StringArgumentType.word())
                                 .suggests((c, b) -> SharedSuggestionProvider.suggest(ProgressService.ATTRIBUTES, b))
                                 .executes(ctx -> upgrade(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "attribute"), ctx.getSource()))))
+                .then(Commands.literal("balance").executes(ctx -> showBalance(ctx.getSource())))
                 .then(Commands.literal("givexp")
                         .requires(s -> s.hasPermission(2))
                         .then(Commands.argument("amount", LongArgumentType.longArg(0))
                                 .executes(ctx -> giveXp(ctx.getSource().getPlayerOrException(), LongArgumentType.getLong(ctx, "amount"), ctx.getSource())))));
+    }
+
+    /** Muestra el balance vigente (útil para comprobar que un datapack o un script de KubeJS se aplicó). */
+    private static int showBalance(CommandSourceStack source) {
+        BalanceParams b = BalanceManager.get();
+        source.sendSuccess(() -> Component.translatable("command.dragonball.balance",
+                b.vitBase(), b.vitGrowth(), b.hpPerVit(), b.damageExponent(), b.continuousFloor(),
+                b.fueBase(), b.fueGrowth(), b.strengthExponent(), b.attributeCap()), false);
+        return 1;
     }
 
     private static int showProgress(ServerPlayer player, CommandSourceStack source) {
@@ -46,7 +58,7 @@ public final class DragonBallCommands {
             return 0;
         }
         if (ProgressService.get(player).isAtCap(index)) {
-            source.sendFailure(Component.translatable("command.dragonball.attribute_at_cap", Component.translatable("attribute.dragonball." + attribute.toLowerCase()), 99));
+            source.sendFailure(Component.translatable("command.dragonball.attribute_at_cap", Component.translatable("attribute.dragonball." + attribute.toLowerCase()), BalanceManager.get().attributeCap()));
             return 0;
         }
         if (!ProgressService.upgrade(player, index)) {

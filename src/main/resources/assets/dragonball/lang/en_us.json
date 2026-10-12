@@ -15,5 +15,6 @@
  "attribute.dragonball.ki": "Max Ki",
  "attribute.dragonball.pod": "Ki Power",
  "attribute.dragonball.con": "Control",
- "command.dragonball.attribute_at_cap": "%s is already at the cap (%s)"
+ "command.dragonball.attribute_at_cap": "%s is already at the cap (%s)",
+ "command.dragonball.balance": "Balance: VIT base %s (+%s per upgrade), HP per VIT %s, damage exponent %s, continuous-damage floor %s | STR base %s (+%s), exponent %s | attribute cap %s"
 }

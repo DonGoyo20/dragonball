@@ -58,3 +58,6 @@
 - Modificadores de bioma: `neoforge:add_spawns` (bioma o etiqueta, peso, tamaño mínimo/máximo de grupo), archivos en `data/<modid>/neoforge/biome_modifier/`. https://docs.neoforged.net/docs/1.21.1/worldgen/biomemodifier
 - Una entidad nueva necesita su restricción de aparición registrada con `RegisterSpawnPlacementsEvent`, o puede aparecer en el aire.
 - **No verificado:** registro de entidades y atributos, IA, estructuras por datos, botín, flujo Blockbench → GeckoLib.
+
+## DragonMineZ leído directamente (2026-10-12)
+Clon local de `DragonMineZ/dragonminez` (versión 2.1.3, 1 commit, sin historial): **Minecraft 1.20.1, Forge 47.4.10, Java 17, licencia GPL-3.0** (confirmado en `LICENSE` y `mod_license`), GeckoLib + TerraBlender + Curios obligatorios, sin `src/test`. Esto sustituye a las suposiciones de la fase 0 ("licencia no leída"). Análisis completo y decisiones en `DMZ_ANALYSIS.md`. No se copió código.

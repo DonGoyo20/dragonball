@@ -43,6 +43,9 @@ Implementado; la versión lineal se verificó en el juego. Ahora: fórmula cúbi
 ## Ciclo FUE → daño cuerpo a cuerpo (2026-10-12)
 Implementado y probado con tests automáticos (JUnit 20/20, GameTest 26/26); **no verificado aún en el juego real**. Fórmula `(FUE/8)^3`, sin tope, solo puño y armas del mod (tag `dragonball:armas_del_mod`, hoy vacío); armas de vanilla, flechas y técnicas no escalan. Ver `FUERZA_IMPLEMENTATION.md` y `SYSTEMS.md` §3.2.2. Siguen sin implementar: DEF, VEL, KI, POD, CON.
 
+## Auditoría de DragonMineZ y balance como datos (2026-10-12)
+Auditoría técnica de DragonMineZ (Forge 1.20.1, GPL-3.0; solo código leído, sin ejecutar): ver `DMZ_ANALYSIS.md`. Mejora implementada: **balance del combate como datos** (`data/dragonball/balance/combat.json`, `BalanceParams`, `BalanceManager`, `/dragonball balance`), sin cambiar el balance (valores por defecto = los de antes). Tests automáticos: JUnit 25/25, GameTest 33/33, integraciones OK (KubeJS fija un valor real de balance). **No verificado aún en el juego real.** Bloqueado por decisión del usuario: HUD y sincronización al cliente.
+
 ## Bestiario vanilla ampliado (2026-10-12)
 El Golem de hierro no daba XP porque faltaba en el bestiario. Añadido (nivel 25, élite, tanque, neutral, 150 XP) junto a otros 24 mobs vanilla (ver `BESTIARY.md` §12.1): 119 entradas, 59 exportadas al juego (todas las de `minecraft:` más el Lobo salvaje). Tests: GameTest 29/29 (incluye matar al golem y al aldeano), JUnit 20/20, simulador Python 29/29. **No verificado aún en el juego real.** Deuda: anti-granjas (granjas de golems).
 
