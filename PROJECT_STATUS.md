@@ -6,7 +6,7 @@
 | Sistema | Diseñado | Implementado | Compilado | Probado |
 |---|---|---|---|---|
 | XP, mejoras, nivel total, logros de nivel | sí | sí | sí | pruebas automáticas (JUnit + GameTest) |
-| Bestiario como Data Map (34 entradas exportadas de 94) | sí | parcial | sí | GameTest |
+| Bestiario como Data Map (59 entradas exportadas de 119) | sí | parcial | sí | GameTest |
 | Lobo salvaje (GeckoLib) | sí | sí | sí | verificado en juego por el usuario: se mueve, ataca, suelta objetos, da XP |
 | FTB Quests, Patchouli, KubeJS | sí | solo como datos | sí | Patchouli y FTB Quests verificados en juego (libro abre; 3 misiones completadas); KubeJS verificado en juego (araña 10→~50 XP) |
 | VIT → salud | sí | sí | tests automáticos; en juego pendiente |
@@ -42,6 +42,9 @@ Implementado; la versión lineal se verificó en el juego. Ahora: fórmula cúbi
 
 ## Ciclo FUE → daño cuerpo a cuerpo (2026-10-12)
 Implementado y probado con tests automáticos (JUnit 20/20, GameTest 26/26); **no verificado aún en el juego real**. Fórmula `(FUE/8)^3`, sin tope, solo puño y armas del mod (tag `dragonball:armas_del_mod`, hoy vacío); armas de vanilla, flechas y técnicas no escalan. Ver `FUERZA_IMPLEMENTATION.md` y `SYSTEMS.md` §3.2.2. Siguen sin implementar: DEF, VEL, KI, POD, CON.
+
+## Bestiario vanilla ampliado (2026-10-12)
+El Golem de hierro no daba XP porque faltaba en el bestiario. Añadido (nivel 25, élite, tanque, neutral, 150 XP) junto a otros 24 mobs vanilla (ver `BESTIARY.md` §12.1): 119 entradas, 59 exportadas al juego (todas las de `minecraft:` más el Lobo salvaje). Tests: GameTest 29/29 (incluye matar al golem y al aldeano), JUnit 20/20, simulador Python 29/29. **No verificado aún en el juego real.** Deuda: anti-granjas (granjas de golems).
 
 ## Decisiones cerradas (2026-10-12) — BESTIARY.md §15 resuelto
 1. Quinto luchador enmascarado de Baba: **fuera de la beta** (canon poco claro; posible en la 1.0).

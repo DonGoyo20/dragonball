@@ -1,7 +1,7 @@
 # BESTIARY — Bestiario de la beta (Dragon Ball clásico → saga Saiyan)
 
 > Estado: **diseño sobre el papel, 2026-10-11 (v2).** Los datos viven en
-> `design_data/beta/bestiary.json` (94 entradas) y se validan y simulan con
+> `design_data/beta/bestiary.json` (119 entradas) y se validan y simulan con
 > `tools/simulator/bestiary.py`. Plan técnico y preguntas de aprobación: `BESTIARY_PLAN.md`.
 > Nada de esto está implementado en el juego. Las entidades `dragonball:*` son **nombres propuestos**.
 > Distingo **canon verificado** (comprobado en búsquedas de esta sesión, fuentes de fans), **de memoria** y **original**.
@@ -156,29 +156,46 @@ No se ha inventado ningún poder canónico: lo no confirmado está marcado como 
 (El "Asesino Tao" que figuraba aquí se eliminó: **Tao Pai Pai** es ahora el jefe canónico del Red Ribbon.)
 
 ## 12. Lista completa
-Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de una mejora a su nivel. Tipos: boss 9, elite 17, normal 45, npc 3, passive 7, secret 3, story 10.
+Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de una mejora a su nivel. Tipos: boss 9, elite 20, normal 59, npc 5, passive 13, secret 3, story 10.
 
 | Enemigo | Nivel | Tipo | Arquetipo | Comportamiento | XP | Mejoras equiv. | Mult. | Canon | Regiones |
 |---|---|---|---|---|---|---|---|---|---|
+| Aldeano | 1 | NPC (no combatiente) | equilibrado | huida | 0 | 0.0 | 1 |  | pradera |
+| Burro | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera |
+| Caballo | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera |
 | Cerdo | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera, bosque |
 | Conejo | 1 | pasivo | pasivo | huida | 0 | 0.0 | 1 |  | pradera, desierto |
 | Gallina | 1 | pasivo | pasivo | huida | 0 | 0.0 | 1 |  | pradera |
+| Gato | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera |
 | Gaviota | 1 | pasivo | pasivo | huida | 0 | 0.0 | 1 |  | costa |
+| Golem de nieve | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera |
+| Mercader errante | 1 | NPC (no combatiente) | equilibrado | huida | 0 | 0.0 | 1 |  | pradera |
+| Mula | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera |
+| Ocelote | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera |
 | Oveja | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera |
 | Pez | 1 | pasivo | pasivo | huida | 0 | 0.0 | 1 |  | costa, mar |
 | Vaca | 1 | pasivo | pasivo | pasivo | 0 | 0.0 | 1 |  | pradera |
 | Zombi | 3 | normal | bruto | hostil | 8 | 0.5 | 1 |  | pradera, bosque |
+| Zorro | 3 | normal | bestia | neutral | 8 | 0.5 | 1 |  | bosque, nieve |
 | Araña | 4 | normal | veloz | hostil | 10 | 0.5 | 1 |  | pradera, bosque |
+| Cabra | 4 | normal | bestia | neutral | 10 | 0.5 | 1 |  | montana |
+| Lobo | 4 | normal | bestia | neutral | 10 | 0.5 | 1 |  | bosque, nieve |
 | Lobo salvaje | 4 | normal | bestia | manada | 10 | 0.5 | 1 |  | pradera, bosque |
+| Zombi aldeano | 4 | normal | bruto | hostil | 10 | 0.5 | 1 |  | pradera, bosque |
 | Esqueleto | 5 | normal | tirador | hostil | 12 | 0.5 | 1 |  | pradera, bosque |
+| Llama | 5 | normal | bestia | neutral | 12 | 0.5 | 1 |  | montana |
+| Llama del mercader | 5 | normal | bestia | neutral | 12 | 0.5 | 1 |  | pradera |
+| Pez de plata | 5 | normal | veloz | hostil | 12 | 0.5 | 1 |  | cueva, montana |
 | Jabalí | 6 | normal | bestia | hostil | 14 | 0.5 | 1 |  | bosque |
 | Slime | 6 | normal | bestia | hostil | 14 | 0.5 | 1 |  | pantano, cueva |
 | Creeper | 7 | normal | bruto | hostil | 16 | 0.5 | 1 |  | pradera, bosque |
 | Araña de las cuevas | 8 | normal | veloz | hostil | 18 | 0.4 | 1 |  | cueva |
+| Endermite | 8 | normal | veloz | hostil | 18 | 0.4 | 1 |  | end |
 | Ladrón | 8 | normal | veloz | emboscada | 18 | 0.4 | 1 |  | pradera, bosque |
 | Serpiente | 9 | normal | veloz | emboscada | 20 | 0.4 | 1 |  | desierto, pantano |
 | Soldado de Pilaf | 9 | normal | guerrero | patrulla | 20 | 0.4 | 1 | memoria | pilaf |
 | Ahogado | 10 | normal | bruto | hostil | 23 | 0.4 | 1 |  | costa, mar |
+| Oso polar | 10 | normal | bestia | territorial | 23 | 0.4 | 1 |  | nieve |
 | Piraña | 10 | normal | veloz | manada | 23 | 0.4 | 1 |  | rio, pantano |
 | Dinosaurio pequeño | 12 | normal | veloz | territorial | 28 | 0.4 | 1 |  | pradera, desierto |
 | Fantasma | 12 | normal | veloz | hostil | 28 | 0.4 | 1 |  | pradera, montana |
@@ -186,6 +203,7 @@ Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de un
 | Murciélago gigante | 12 | normal | veloz | manada | 28 | 0.4 | 1 |  | cueva |
 | Pilaf | 12 | NPC (no combatiente) | equilibrado | huida | 0 | 0.0 | 1 | memoria | pilaf |
 | Bandido | 14 | normal | guerrero | hostil | 33 | 0.4 | 1 |  | pradera, bosque, desierto |
+| Bogged | 14 | normal | tirador | hostil | 33 | 0.4 | 1 |  | pantano |
 | Guardia de Pilaf | 14 | normal | tanque | guardia | 33 | 0.4 | 1 | memoria | pilaf |
 | Oso pardo | 14 | normal | bestia | territorial | 33 | 0.4 | 1 |  | bosque, montana |
 | Vagabundo | 14 | normal | tirador | hostil | 33 | 0.4 | 1 |  | nieve |
@@ -200,21 +218,25 @@ Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de un
 | Soldado raso del Red Ribbon | 20 | normal | guerrero | patrulla | 50 | 0.4 | 1 | memoria | rr |
 | Pterodáctilo | 22 | normal | veloz | hostil | 55 | 0.4 | 1 |  | montana, costa |
 | Tirador del Red Ribbon | 22 | normal | tirador | patrulla | 55 | 0.4 | 1 | memoria | rr |
+| Vex | 22 | normal | veloz | hostil | 55 | 0.4 | 1 |  | bosque |
 | Estegosaurio | 24 | normal | tanque | neutral | 61 | 0.4 | 1 |  | pradera, bosque |
 | Mai | 24 | élite | tirador | guardia | 184 | 1.2 | 0.95 | memoria | pilaf |
 | Vindicador | 24 | normal | bruto | hostil | 61 | 0.4 | 1 |  | bosque, montana |
+| Golem de hierro | 25 | élite | tanque | neutral | 150 | 0.9 | 1 |  | pradera |
 | Enderman | 26 | normal | veloz | hostil | 68 | 0.4 | 1 |  | pradera, desierto, montana |
 | Guardia del Red Ribbon | 26 | normal | tanque | guardia | 68 | 0.4 | 1 | memoria | rr |
 | Máquina de combate de Pilaf | 26 | élite | tanque | guardia | 203 | 1.2 | 1.05 | memoria | pilaf |
 | Rinoceronte | 28 | normal | tanque | neutral | 74 | 0.4 | 1 |  | pradera |
 | Coronel Silver | 28 | élite | guerrero | guardia | 222 | 1.1 | 1.1 | verificado | rr |
 | Capitán bandido | 30 | élite | guerrero | hostil | 240 | 1.1 | 1 |  | desierto |
+| Guardián | 30 | normal | tirador | hostil | 80 | 0.4 | 1 |  | mar |
 | Monstruo del pantano | 30 | élite | bestia | territorial | 240 | 1.1 | 0.85 |  | pantano |
 | Líder de banda | 32 | élite | guerrero | guardia | 260 | 1.1 | 0.95 | original | bosque, desierto |
 | Ninja Murasaki | 32 | jefe de historia | veloz | emboscada | 188 | 0.8 | 0.9 | verificado | rr |
 | Unidad de élite del Red Ribbon | 34 | élite | guerrero | patrulla | 279 | 1.1 | 0.95 | memoria | rr |
 | Tiburón | 34 | élite | bestia | territorial | 279 | 1.1 | 0.9 |  | mar |
 | Oficial Black | 36 | NPC (no combatiente) | equilibrado | huida | 0 | 0.0 | 1 | verificado | rr |
+| Breeze | 38 | normal | veloz | hostil | 106 | 0.4 | 1 |  | cueva |
 | Máquina de combate del Red Ribbon | 38 | élite | tanque | guardia | 318 | 1.1 | 1.05 | memoria | rr |
 | Triceratops | 38 | élite | tanque | territorial | 318 | 1.1 | 1.05 |  | pradera |
 | General Blue | 40 | jefe de historia | guerrero | guardia | 319 | 1.0 | 0.9 | verificado | rr |
@@ -225,6 +247,7 @@ Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de un
 | See-Through, el hombre invisible | 44 | jefe opcional/arena | veloz | emboscada | 267 | 0.7 | 1.05 | verificado | baba |
 | Demonio menor | 45 | normal | bruto | hostil | 129 | 0.3 | 1 |  | camino_serpiente |
 | Devastador | 45 | élite | bruto | hostil | 388 | 1.0 | 0.85 |  | montana |
+| Guardián anciano | 45 | élite | tirador | hostil | 388 | 1.0 | 1 |  | mar |
 | Tiranosaurio | 45 | élite | bestia | territorial | 388 | 1.0 | 0.8 |  | desierto, pradera |
 | Buyon | 47 | jefe de historia | bestia | guardia | 470 | 1.1 | 0.7 | verificado | rr |
 | Bandages la Momia | 48 | jefe opcional/arena | bruto | guardia | 330 | 0.8 | 1.45 | verificado | baba |
@@ -239,8 +262,10 @@ Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de un
 | Piano | 76 | jefe de historia | guerrero | guardia | 1533 | 1.8 | 1.1 | verificado | daimao |
 | Cubo de magma | 78 | normal | bestia | hostil | 241 | 0.3 | 1 |  | nether |
 | Hoglin | 80 | normal | bestia | hostil | 248 | 0.3 | 1 |  | nether |
+| Zoglin | 82 | normal | bestia | hostil | 255 | 0.3 | 1 |  | nether |
 | Blaze | 85 | normal | tirador | hostil | 265 | 0.3 | 1 |  | nether |
 | Oso gigante de montaña | 85 | jefe secreto | bestia | territorial | 1013 | 1.0 | 1.4 | original | montana |
+| Piglin bruto | 85 | élite | guerrero | hostil | 795 | 0.8 | 1 |  | nether |
 | Demonio del camino | 90 | normal | guerrero | hostil | 282 | 0.3 | 1 |  | camino_serpiente |
 | Ghast | 90 | élite | tirador | hostil | 845 | 0.8 | 1.95 |  | nether |
 | Esqueleto wither | 95 | élite | guerrero | hostil | 895 | 0.8 | 1.25 |  | nether |
@@ -255,6 +280,33 @@ Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de un
 | Dragón del End | 150 | jefe opcional/arena | bestia | guardia | 5657 | 2.3 | 1.75 |  | end · removible |
 | Vegeta | 171 | jefe de historia | guerrero | guardia | 11843 | 4.0 | 1.9 | memoria | historia |
 
+### 12.1 Mobs vanilla añadidos el 2026-10-12 (25 entradas)
+Motivo: el usuario mató un Golem de hierro y no recibió XP, porque `KillXpHandler` solo da XP a entidades que están en el bestiario. Un mob que falta en el bestiario equivale a 0 XP; las entradas con 0 XP documentan que la omisión es intencionada. Todas son **propuestas de diseño** a ajustar con combate real; el XP sale de la fórmula de §4 salvo el golem, cuya XP fija la pidió el usuario.
+
+| Mob | Nivel | Tipo | XP | Justificación |
+|---|---|---|---|---|
+| **Golem de hierro** | 25 | élite · tanque · neutral | **150** (fija) | 100 HP y golpes muy fuertes: el neutral más peligroso de vanilla. Élite por tamaño de amenaza (no existe un tipo "neutral": la neutralidad es el comportamiento). Contra un jugador de nivel 1 paga +48 % → 222 XP |
+| Lobo | 4 | normal · bestia · neutral | 10 | Igual que el Lobo salvaje del mod |
+| Zorro | 3 | normal · bestia · neutral | 8 | Pequeño y poco peligroso |
+| Cabra | 4 | normal · bestia · neutral | 10 | Embiste |
+| Llama, Llama del mercader | 5 | normal · bestia · neutral | 12 | Escupe y embiste, daño bajo |
+| Oso polar | 10 | normal · bestia · territorial | 23 | Fuerte y territorial |
+| Zombi aldeano | 4 | normal · bruto · hostil | 10 | Variante del zombi |
+| Pez de plata | 5 | normal · veloz · hostil | 12 | Enjambre pequeño |
+| Endermite | 8 | normal · veloz · hostil | 18 | Pequeño, aparece con perlas |
+| Bogged | 14 | normal · tirador · hostil | 33 | Variante del vagabundo |
+| Vex | 22 | normal · veloz · hostil | 55 | Invocado por el evocador (nivel 40) |
+| Guardián | 30 | normal · tirador · hostil | 80 | Monumento oceánico |
+| Breeze | 38 | normal · veloz · hostil | 106 | Cámaras de prueba, junto al evocador |
+| Guardián anciano | 45 | élite · tirador · hostil | 388 | Jefe del monumento |
+| Zoglin | 82 | normal · bestia · hostil | 255 | Cerca del hoglin (80) |
+| Piglin bruto | 85 | élite · guerrero · hostil | 795 | Más fuerte que el piglin (75) |
+| Golem de nieve, Gato, Ocelote, Caballo, Burro, Mula | 1 | pasivo | 0 | Inofensivos, mascotas o monturas: matarlos no debe dar XP |
+| Aldeano, Mercader errante | 1 | NPC | 0 | No combatientes |
+| Abeja, panda, tortuga, etc. | — | — | 0 (sin entrada) | Siguen sin entrada = sin XP |
+
+**Aviso de granjas:** el golem de hierro se puede granjear en aldeas (las granjas de golems son comunes). La regla anti-granjas del diseño (rendimientos decrecientes por tipo, `GDD.md` §3) **no está implementada**; solo existe el ×0,25 para mobs de generadores (`MobSpawnType.SPAWNER`). Hasta entonces, una granja de golems da XP sin límite. Queda como deuda.
+
 ## 13. Errores encontrados al hacerlo
 1. **Jefes demasiado fáciles** con los datos iniciales (Vegeta 0 % de derrotas): se añadió `power_mult`.
 2. **Calibración sobreajustada** en el umbral: otra semilla dio 28 %, 19 % y 25 % para el peor build; se añadió margen y verificación con dos semillas.
@@ -267,7 +319,7 @@ Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de un
 - El simulador no mide alcance, movimiento, esquivas con habilidad, daño continuo ni mecánicas como invisibilidad o alarmas; un jefe real se sentirá distinto.
 - Multiplicadores, técnicas y niveles de los personajes canónicos son **propuestas** para ajustar con combate real.
 - Las fuentes de canon son wikis de fans, no material oficial.
-- Mobs vanilla fuera de la lista (golem, aldeanos…) sin nivel todavía.
+- Mobs vanilla fuera de la lista: ver §12.1 (golem, aldeanos y otros añadidos el 2026-10-12). Los que siguen sin entrada (abeja, panda, tortuga, ajolote…) no dan XP.
 
 ## 15. Preguntas abiertas — RESUELTAS (2026-10-12)
 Las tres preguntas están cerradas por decisión del usuario. No se ha cambiado el alcance de la beta ni `design_data/beta/bestiary.json` (los datos ya encajan: el Saibaman ya tiene la técnica `autodestruccion` y el quinto luchador no figura).

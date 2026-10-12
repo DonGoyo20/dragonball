@@ -1859,6 +1859,396 @@
    "canon": "original",
    "notes": "Contenido original, claramente distinto de los personajes canónicos",
    "power_mult": 1.55
+  },
+  {
+   "id": "golem_hierro",
+   "name": "Golem de hierro",
+   "source": "minecraft:iron_golem",
+   "level": 25,
+   "archetype": "tanque",
+   "kind": "elite",
+   "techniques": [
+    "golpe_pesado"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "neutral",
+   "xp": 150,
+   "notes": "Defensor de aldeas; neutral hasta que se le ataca. XP fija pedida por el usuario (150)."
+  },
+  {
+   "id": "lobo_vanilla",
+   "name": "Lobo",
+   "source": "minecraft:wolf",
+   "level": 4,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "bosque",
+    "nieve"
+   ],
+   "behavior": "neutral"
+  },
+  {
+   "id": "oso_polar",
+   "name": "Oso polar",
+   "source": "minecraft:polar_bear",
+   "level": 10,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "mordisco",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "nieve"
+   ],
+   "behavior": "territorial"
+  },
+  {
+   "id": "llama",
+   "name": "Llama",
+   "source": "minecraft:llama",
+   "level": 5,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "embestida"
+   ],
+   "regions": [
+    "montana"
+   ],
+   "behavior": "neutral"
+  },
+  {
+   "id": "llama_mercader",
+   "name": "Llama del mercader",
+   "source": "minecraft:trader_llama",
+   "level": 5,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "embestida"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "neutral"
+  },
+  {
+   "id": "zorro",
+   "name": "Zorro",
+   "source": "minecraft:fox",
+   "level": 3,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "bosque",
+    "nieve"
+   ],
+   "behavior": "neutral"
+  },
+  {
+   "id": "cabra",
+   "name": "Cabra",
+   "source": "minecraft:goat",
+   "level": 4,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "embestida"
+   ],
+   "regions": [
+    "montana"
+   ],
+   "behavior": "neutral"
+  },
+  {
+   "id": "golem_nieve",
+   "name": "Golem de nieve",
+   "source": "minecraft:snow_golem",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10
+  },
+  {
+   "id": "gato",
+   "name": "Gato",
+   "source": "minecraft:cat",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10
+  },
+  {
+   "id": "ocelote",
+   "name": "Ocelote",
+   "source": "minecraft:ocelot",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10
+  },
+  {
+   "id": "caballo",
+   "name": "Caballo",
+   "source": "minecraft:horse",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10
+  },
+  {
+   "id": "burro",
+   "name": "Burro",
+   "source": "minecraft:donkey",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10
+  },
+  {
+   "id": "mula",
+   "name": "Mula",
+   "source": "minecraft:mule",
+   "level": 1,
+   "archetype": "pasivo",
+   "kind": "passive",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "pasivo",
+   "fragility": 10
+  },
+  {
+   "id": "aldeano",
+   "name": "Aldeano",
+   "source": "minecraft:villager",
+   "level": 1,
+   "archetype": "equilibrado",
+   "kind": "npc",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "huida"
+  },
+  {
+   "id": "mercader_errante",
+   "name": "Mercader errante",
+   "source": "minecraft:wandering_trader",
+   "level": 1,
+   "archetype": "equilibrado",
+   "kind": "npc",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera"
+   ],
+   "behavior": "huida"
+  },
+  {
+   "id": "zombi_aldeano",
+   "name": "Zombi aldeano",
+   "source": "minecraft:zombie_villager",
+   "level": 4,
+   "archetype": "bruto",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "pradera",
+    "bosque"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "pez_plata",
+   "name": "Pez de plata",
+   "source": "minecraft:silverfish",
+   "level": 5,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "cueva",
+    "montana"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "endermite",
+   "name": "Endermite",
+   "source": "minecraft:endermite",
+   "level": 8,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "end"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "bogged",
+   "name": "Bogged",
+   "source": "minecraft:bogged",
+   "level": 14,
+   "archetype": "tirador",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast"
+   ],
+   "regions": [
+    "pantano"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "vex",
+   "name": "Vex",
+   "source": "minecraft:vex",
+   "level": 22,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "melee"
+   ],
+   "regions": [
+    "bosque"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "guardian",
+   "name": "Guardián",
+   "source": "minecraft:guardian",
+   "level": 30,
+   "archetype": "tirador",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast"
+   ],
+   "regions": [
+    "mar"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "breeze",
+   "name": "Breeze",
+   "source": "minecraft:breeze",
+   "level": 38,
+   "archetype": "veloz",
+   "kind": "normal",
+   "techniques": [
+    "ki_blast"
+   ],
+   "regions": [
+    "cueva"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "guardian_anciano",
+   "name": "Guardián anciano",
+   "source": "minecraft:elder_guardian",
+   "level": 45,
+   "archetype": "tirador",
+   "kind": "elite",
+   "techniques": [
+    "ki_blast",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "mar"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "zoglin",
+   "name": "Zoglin",
+   "source": "minecraft:zoglin",
+   "level": 82,
+   "archetype": "bestia",
+   "kind": "normal",
+   "techniques": [
+    "mordisco"
+   ],
+   "regions": [
+    "nether"
+   ],
+   "behavior": "hostil"
+  },
+  {
+   "id": "piglin_bruto",
+   "name": "Piglin bruto",
+   "source": "minecraft:piglin_brute",
+   "level": 85,
+   "archetype": "guerrero",
+   "kind": "elite",
+   "techniques": [
+    "melee",
+    "golpe_pesado"
+   ],
+   "regions": [
+    "nether"
+   ],
+   "behavior": "hostil"
   }
  ]
 }

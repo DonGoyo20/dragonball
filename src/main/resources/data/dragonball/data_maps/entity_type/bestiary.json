@@ -12,6 +12,24 @@
       "archetype": "tirador",
       "xp": 265
     },
+    "minecraft:bogged": {
+      "level": 14,
+      "kind": "normal",
+      "archetype": "tirador",
+      "xp": 33
+    },
+    "minecraft:breeze": {
+      "level": 38,
+      "kind": "normal",
+      "archetype": "veloz",
+      "xp": 106
+    },
+    "minecraft:cat": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
     "minecraft:cave_spider": {
       "level": 8,
       "kind": "normal",
@@ -42,11 +60,23 @@
       "archetype": "bruto",
       "xp": 16
     },
+    "minecraft:donkey": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
     "minecraft:drowned": {
       "level": 10,
       "kind": "normal",
       "archetype": "bruto",
       "xp": 23
+    },
+    "minecraft:elder_guardian": {
+      "level": 45,
+      "kind": "elite",
+      "archetype": "tirador",
+      "xp": 388
     },
     "minecraft:ender_dragon": {
       "level": 150,
@@ -60,11 +90,23 @@
       "archetype": "veloz",
       "xp": 68
     },
+    "minecraft:endermite": {
+      "level": 8,
+      "kind": "normal",
+      "archetype": "veloz",
+      "xp": 18
+    },
     "minecraft:evoker": {
       "level": 40,
       "kind": "elite",
       "archetype": "tirador",
       "xp": 338
+    },
+    "minecraft:fox": {
+      "level": 3,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 8
     },
     "minecraft:ghast": {
       "level": 90,
@@ -72,11 +114,29 @@
       "archetype": "tirador",
       "xp": 845
     },
+    "minecraft:goat": {
+      "level": 4,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 10
+    },
+    "minecraft:guardian": {
+      "level": 30,
+      "kind": "normal",
+      "archetype": "tirador",
+      "xp": 80
+    },
     "minecraft:hoglin": {
       "level": 80,
       "kind": "normal",
       "archetype": "bestia",
       "xp": 248
+    },
+    "minecraft:horse": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
     },
     "minecraft:husk": {
       "level": 12,
@@ -84,11 +144,35 @@
       "archetype": "bruto",
       "xp": 28
     },
+    "minecraft:iron_golem": {
+      "level": 25,
+      "kind": "elite",
+      "archetype": "tanque",
+      "xp": 150
+    },
+    "minecraft:llama": {
+      "level": 5,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 12
+    },
     "minecraft:magma_cube": {
       "level": 78,
       "kind": "normal",
       "archetype": "bestia",
       "xp": 241
+    },
+    "minecraft:mule": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
+    },
+    "minecraft:ocelot": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
     },
     "minecraft:phantom": {
       "level": 12,
@@ -108,11 +192,23 @@
       "archetype": "guerrero",
       "xp": 231
     },
+    "minecraft:piglin_brute": {
+      "level": 85,
+      "kind": "elite",
+      "archetype": "guerrero",
+      "xp": 795
+    },
     "minecraft:pillager": {
       "level": 18,
       "kind": "normal",
       "archetype": "tirador",
       "xp": 44
+    },
+    "minecraft:polar_bear": {
+      "level": 10,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 23
     },
     "minecraft:rabbit": {
       "level": 1,
@@ -138,6 +234,12 @@
       "archetype": "tanque",
       "xp": 380
     },
+    "minecraft:silverfish": {
+      "level": 5,
+      "kind": "normal",
+      "archetype": "veloz",
+      "xp": 12
+    },
     "minecraft:skeleton": {
       "level": 5,
       "kind": "normal",
@@ -149,6 +251,12 @@
       "kind": "normal",
       "archetype": "bestia",
       "xp": 14
+    },
+    "minecraft:snow_golem": {
+      "level": 1,
+      "kind": "passive",
+      "archetype": "pasivo",
+      "xp": 0
     },
     "minecraft:spider": {
       "level": 4,
@@ -162,11 +270,35 @@
       "archetype": "tirador",
       "xp": 33
     },
+    "minecraft:trader_llama": {
+      "level": 5,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 12
+    },
+    "minecraft:vex": {
+      "level": 22,
+      "kind": "normal",
+      "archetype": "veloz",
+      "xp": 55
+    },
+    "minecraft:villager": {
+      "level": 1,
+      "kind": "npc",
+      "archetype": "equilibrado",
+      "xp": 0
+    },
     "minecraft:vindicator": {
       "level": 24,
       "kind": "normal",
       "archetype": "bruto",
       "xp": 61
+    },
+    "minecraft:wandering_trader": {
+      "level": 1,
+      "kind": "npc",
+      "archetype": "equilibrado",
+      "xp": 0
     },
     "minecraft:warden": {
       "level": 140,
@@ -192,11 +324,29 @@
       "archetype": "guerrero",
       "xp": 895
     },
+    "minecraft:wolf": {
+      "level": 4,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 10
+    },
+    "minecraft:zoglin": {
+      "level": 82,
+      "kind": "normal",
+      "archetype": "bestia",
+      "xp": 255
+    },
     "minecraft:zombie": {
       "level": 3,
       "kind": "normal",
       "archetype": "bruto",
       "xp": 8
+    },
+    "minecraft:zombie_villager": {
+      "level": 4,
+      "kind": "normal",
+      "archetype": "bruto",
+      "xp": 10
     },
     "minecraft:zombified_piglin": {
       "level": 70,

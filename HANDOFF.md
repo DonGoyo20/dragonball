@@ -26,14 +26,14 @@ Mod de **Dragon Ball RPG para Minecraft Java 1.21.1 + NeoForge 21.1.259** (Java 
 | Sistema | Diseñado | Implementado | Verificado |
 |---|---|---|---|
 | XP, mejoras, nivel total, logros de nivel (`level_2/5/10`) | sí | sí | JUnit (5) + GameTest + en juego |
-| Bestiario como Data Map (34 de 94 entradas exportadas) | sí | parcial | GameTest; la XP por kill funciona en juego |
+| Bestiario como Data Map (59 de 119 entradas exportadas) | sí | parcial | GameTest; la XP por kill funciona en juego |
 | Lobo salvaje (GeckoLib: modelo, caminar, atacar, botín) | sí | sí | en juego por el usuario; **la animación de mordisco no se ve** (reforzada, sin confirmar) |
 | Patchouli: libro `dragonball:guia` | sí | sí (datos) | se abre en juego |
 | FTB Quests: capítulo de prueba con 3 misiones | sí | datos | las 3 se completan en juego |
 | KubeJS: script que cambia la XP de la araña | sí | datos | verificado (49 XP en vez de 10) |
 | Traducciones | — | es_es + variantes es_mx/ar/cl/uy/ve/ec | **por verificar en el PC** |
-| VIT → salud (`HealthSystem`, `LivingDamageEvent.Pre`, tope 99 en VIT) | sí | sí | fórmula cúbica `(8/VIT)^3`; tests automáticos (JUnit 20, GameTest 26); la versión lineal se probó en juego, la cúbica está pendiente de probar |
-| FUE → daño cuerpo a cuerpo (`FuerzaSystem`, `FuerzaEvents`, tag `dragonball:armas_del_mod`; `(FUE/8)^3`, sin tope; puño y armas del mod sí, vanilla/flechas/ki no) | sí | sí | tests automáticos (JUnit 20, GameTest 26); **en juego pendiente** |
+| VIT → salud (`HealthSystem`, `LivingDamageEvent.Pre`, tope 99 en VIT) | sí | sí | fórmula cúbica `(8/VIT)^3`; tests automáticos (JUnit 20, GameTest 29); la versión lineal se probó en juego, la cúbica está pendiente de probar |
+| FUE → daño cuerpo a cuerpo (`FuerzaSystem`, `FuerzaEvents`, tag `dragonball:armas_del_mod`; `(FUE/8)^3`, sin tope; puño y armas del mod sí, vanilla/flechas/ki no) | sí | sí | tests automáticos (JUnit 20, GameTest 29); **en juego pendiente** |
 | Efecto del resto de atributos (DEF, VEL, KI, POD, CON) en combate, ki, técnicas, razas, formas, maestros, Otro Mundo, HUD, sincronización al cliente | sí | **no** | — |
 Código: Java en `src/main/java/com/dongoyo20/dragonball/` (`core/Progression` puro; `game/progress`, `game/bestiary`, `game/entity`, `game/command`, `game/advancement`; `client/WildWolfRenderer`). Comandos: `/dragonball progress | upgrade <vit|fue|def|vel|ki|pod|con> | givexp <n>`.
 Tests: `./gradlew build` (JUnit), `./gradlew runGameTestServer` (6 GameTest), `tools/verify_integrations.sh` (núcleo + FTB + KubeJS). Simulador de equilibrio en Python (`tools/simulator`, 29 pruebas), datos en `design_data/beta/bestiary.json`.
