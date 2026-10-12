@@ -8,15 +8,19 @@ package com.dongoyo20.dragonball.core;
  * <p>Los números que el diseño no fijaba (gasto base, regeneración, velocidad de subida, factor mínimo…) son provisionales
  * y viven en {@link KiParams} / {@link ReleaseParams}.
  *
- * <p><b>Cómo se aplica la liberación al combate.</b> La fórmula del usuario es {@code stat_efectiva = stat_base ×
- * (liberación / 100)} ({@link #statEfectiva}); es lo que muestra la pantalla de estadísticas. Pero las fórmulas de combate
- * ya verificadas (VIT 8 = daño de vanilla, FUE 8 = ×1) suponen la estadística "completa". Aplicarlas tal cual con el límite
- * inicial de 50 % dejaría a un personaje nuevo con VIT efectiva 4 (recibe ×8 de daño) y FUE efectiva 4 (hace ×0,125).
- * Por eso el combate usa {@link #factorLiberacion}: {@code liberación / referencia}, con referencia = 50 %.
- * Con la liberación inicial el factor es 1 y nada cambia respecto a lo ya verificado; al 100 % vale 2; al 0 % vale 0 (indefenso).
- * Con factor 0 las fórmulas cúbicas darían daño infinito y daño hecho cero, así que el multiplicador del daño recibido tiene
- * un tope (×4) y el del daño hecho un suelo (×0,25): es el castigo "sin ki" ({@code HealthSystem.danioAplicadoLiberado},
- * {@code FuerzaSystem.danioSalienteLiberado}).
+ * <p><b>Cómo se aplica la liberación (función a trozos, decisión del usuario).</b> {@link #statEfectiva} es la ÚNICA
+ * regla: a 0 % el jugador es vanilla (todos sus atributos valen 8); de 0 a 50 % sube linealmente hasta sus atributos del
+ * mod; a 50 % tiene los del mod; de 50 a 100 % se multiplican hasta el doble.
+ * <pre>
+ *   liberación &lt;= 50:  efectiva = vanilla + (base - vanilla) × (liberación / 50)
+ *   liberación &gt;  50:  efectiva = base × (liberación / 50)
+ * </pre>
+ * Es continua en 50 % (ambas ramas dan {@code base}). Con base 18 y vanilla 8: 0 % → 8, 25 % → 13, 50 % → 18,
+ * 75 % → 27, 100 % → 36. Con base 8 (personaje nuevo): 0 % → 8, 50 % → 8, 100 % → 16.
+ *
+ * <p>VIT, FUE y VEL usan esa estadística efectiva en sus fórmulas de siempre ({@code (8/VIT)^3}, {@code (FUE/8)^3},
+ * {@code (VEL/8)^exp}). No existe castigo por falta de ki: sin ki la liberación baja a 0 % y el jugador es vanilla
+ * (no peor que vanilla). El aviso "¡Sin Ki!" es solo informativo.
  */
 public final class KiSystem {
     private KiSystem() {}
@@ -53,7 +57,6 @@ public final class KiSystem {
     public static int reservaMaxima(int kiBase) { return reservaMaxima(kiBase, D); }
     public static double costeLiberacion(int con, double porcentaje) { return costeLiberacion(con, porcentaje, D); }
     public static double regeneracionPorTick(int kiBase, double porcentaje) { return regeneracionPorTick(kiBase, porcentaje, D); }
-    public static double statEfectiva(int statBase, double porcentaje) { return statEfectiva((double) statBase, porcentaje); }
 
     /** {@code kiFlat + kiPerPoint × KI}: 50 con KI 0, 230 con KI 18. */
     public static int reservaMaxima(int kiValue, BalanceParams p) {
@@ -79,17 +82,23 @@ public final class KiSystem {
         return maxPorTick * (1.0 - porcentaje / umbral);
     }
 
-    /** La fórmula del usuario: {@code stat_base × (liberación / 100)}. */
-    public static double statEfectiva(double statBase, double porcentaje) {
+    /**
+     * Estadística efectiva según la liberación (función a trozos, continua en el pivote). {@code statVanilla} es el
+     * valor de un jugador sin poderes (8) y {@code pivote} el % en que se accede a la estadística del mod (50).
+     * Ver el JavaDoc de la clase para los ejemplos.
+     */
+    public static double statEfectiva(double statBase, double statVanilla, double porcentaje, double pivote) {
         checkPorcentaje(porcentaje);
         if (statBase < 0 || Double.isNaN(statBase)) throw new IllegalArgumentException("estadística negativa o NaN: " + statBase);
-        return statBase * (porcentaje / 100.0);
+        if (statVanilla < 0 || Double.isNaN(statVanilla)) throw new IllegalArgumentException("stat vanilla negativa o NaN: " + statVanilla);
+        if (!(pivote > 0 && pivote <= 100)) throw new IllegalArgumentException("pivote fuera de (0, 100]: " + pivote);
+        if (porcentaje <= pivote) return statVanilla + (statBase - statVanilla) * (porcentaje / pivote);
+        return statBase * (porcentaje / pivote);
     }
 
-    /** Factor que se aplica a VIT, FUE y VEL en combate y movimiento (ver el JavaDoc de la clase). */
-    public static double factorLiberacion(double porcentaje, BalanceParams p) {
-        checkPorcentaje(porcentaje);
-        return Math.max(0.0, porcentaje / p.release().referencePercent());
+    /** {@link #statEfectiva(double, double, double, double)} con el pivote del balance. */
+    public static double statEfectiva(double statBase, double statVanilla, double porcentaje, BalanceParams p) {
+        return statEfectiva(statBase, statVanilla, porcentaje, p.release().referencePercent());
     }
 
     // ---------- liberación: subida y bajada
@@ -130,7 +139,7 @@ public final class KiSystem {
 
     // ---------- VEL: movimiento y salto
 
-    /** Multiplicador de la velocidad de movimiento: {@code clamp((VEL efectiva / base)^exponente, 0,5; máximo)}. */
+    /** Multiplicador de la velocidad de movimiento: {@code clamp((VEL efectiva / base)^exponente, 0,5; máximo)}; a 0 % vale 1 (vanilla). */
     public static double factorVelocidad(int velValue, double porcentaje, BalanceParams p) {
         return factorMovimiento(velValue, porcentaje, p.release().speedExponent(), p.release().speedMax(), p);
     }
@@ -142,7 +151,7 @@ public final class KiSystem {
 
     private static double factorMovimiento(int velValue, double porcentaje, double exponente, double maximo, BalanceParams p) {
         if (velValue < 1) throw new IllegalArgumentException("VEL debe ser >= 1: " + velValue);
-        double velEfectiva = velValue * factorLiberacion(porcentaje, p);
+        double velEfectiva = statEfectiva(velValue, p.release().velBase(), porcentaje, p);
         double raw = Math.pow(velEfectiva / p.release().velBase(), exponente);
         return Math.max(0.5, Math.min(maximo, raw));
     }

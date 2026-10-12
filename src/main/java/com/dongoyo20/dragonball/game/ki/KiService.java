@@ -117,9 +117,9 @@ public final class KiService {
         return KiSystem.reservaMaxima(kiValue(player), BalanceManager.get());
     }
 
-    /** Factor que la liberación aplica a VIT, FUE y VEL (1 con la liberación inicial). */
-    public static double factorLiberacion(ServerPlayer player) {
-        return KiSystem.factorLiberacion(ProgressService.get(player).ki().liberacion(), BalanceManager.get());
+    /** Liberación actual del jugador, en %. */
+    public static double liberacion(ServerPlayer player) {
+        return ProgressService.get(player).ki().liberacion();
     }
 
     // ---------- simulación
@@ -152,7 +152,7 @@ public final class KiService {
         KiSystem.Estado state = KiSystem.avanzar(new KiSystem.Estado(ki.kiActual(), release), kiValue(player), conValue(player), ticks, p);
         KiData next = KiData.sane(state.ki(), state.liberacion(), ki.limite());
 
-        // La liberación llegó a 0 porque se acabó el ki (no porque el jugador la bajara con X): aviso de indefensión
+        // La liberación llegó a 0 porque se acabó el ki (no porque el jugador la bajara con X): aviso informativo, sin castigo
         if (ki.liberacion() > 0.0 && next.liberacion() <= 0.0 && next.kiActual() <= 0.0) {
             messageSink.accept(player, Component.translatable("message.dragonball.no_ki"));
         }

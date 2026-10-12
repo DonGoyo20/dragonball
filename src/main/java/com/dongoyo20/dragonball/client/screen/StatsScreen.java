@@ -85,7 +85,7 @@ public final class StatsScreen extends Screen {
                 g.drawString(font, Component.translatable("screen.dragonball.stats.not_implemented"), colBase, y + 1, SUBTLE);
             } else {
                 g.drawString(font, Integer.toString(base), colBase, y + 1, TEXT);
-                double eff = AttributeValues.effectiveValue(i, base, release);
+                double eff = AttributeValues.effectiveValue(i, base, release, params);
                 g.drawString(font, String.format("%.1f", eff), colEff, y + 1,
                         AttributeValues.scalesWithRelease(i) ? TEXT : SUBTLE);
             }

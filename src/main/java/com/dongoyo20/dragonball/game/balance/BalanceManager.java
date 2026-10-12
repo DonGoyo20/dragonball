@@ -64,8 +64,6 @@ public final class BalanceManager {
     static final Codec<ReleaseParams> RELEASE_CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.DOUBLE.optionalFieldOf("initial_limit", RD.initialLimit()).forGetter(ReleaseParams::initialLimit),
             Codec.DOUBLE.optionalFieldOf("reference_percent", RD.referencePercent()).forGetter(ReleaseParams::referencePercent),
-            Codec.DOUBLE.optionalFieldOf("max_damage_taken_factor", RD.maxDamageTakenFactor()).forGetter(ReleaseParams::maxDamageTakenFactor),
-            Codec.DOUBLE.optionalFieldOf("min_damage_dealt_factor", RD.minDamageDealtFactor()).forGetter(ReleaseParams::minDamageDealtFactor),
             Codec.DOUBLE.optionalFieldOf("ramp_up_per_second", RD.rampUpPerSecond()).forGetter(ReleaseParams::rampUpPerSecond),
             Codec.DOUBLE.optionalFieldOf("ramp_down_per_second", RD.rampDownPerSecond()).forGetter(ReleaseParams::rampDownPerSecond),
             Codec.DOUBLE.optionalFieldOf("vel_base", RD.velBase()).forGetter(ReleaseParams::velBase),

@@ -91,8 +91,6 @@ class BalanceParamsTest {
         assertEquals(D, new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99));
         assertEquals(50.0, D.release().initialLimit());
         assertEquals(50.0, D.release().referencePercent());
-        assertEquals(4.0, D.release().maxDamageTakenFactor());
-        assertEquals(0.25, D.release().minDamageDealtFactor());
     }
 
     @Test
@@ -102,12 +100,9 @@ class BalanceParamsTest {
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, new KiParams(0, 1, 50, 10, 0, 1, 60, -1, 2, 50), ok.release()).problem());  // coste negativo
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, new KiParams(0, 1, 50, 10, 0, 1, 60, 0.2, 200, 50), ok.release()).problem()); // regen > 100 %
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, new KiParams(0, 1, 0, 0, 0, 1, 60, 0.2, 2, 50), ok.release()).problem());     // reserva 0
-        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(120, 50, 4, 0.25, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());
-        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 0, 4, 0.25, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());
-        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 50, 0.5, 0.25, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());
-        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 50, 4, 0.25, 10, 20, 8, 1, 0.5, 0.5, 0.25, 1.8)).problem()); // speed_max < 1
-        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 50, 4, 0, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());   // suelo de daño hecho 0
-        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 50, 4, 1.5, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem()); // suelo > 1
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(120, 50, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 0, 10, 20, 8, 1, 0.5, 2.5, 0.25, 1.8)).problem());
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 50, 10, 20, 8, 1, 0.5, 0.5, 0.25, 1.8)).problem()); // speed_max < 1
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, null, ok.release()).problem());
     }
 }

@@ -40,22 +40,45 @@ class KiSystemTest {
         assertTrue(KiSystem.regeneracionPorTick(0, 49.9) > 0.0 && KiSystem.regeneracionPorTick(0, 49.9) < 0.001);
     }
 
+    private static double eff(double base, double lib) { return KiSystem.statEfectiva(base, 8.0, lib, P); }
+
     @Test
-    void effectiveStatIsBaseTimesRelease() {
-        assertEquals(4.0, KiSystem.statEfectiva(8, 50), 1e-12);
-        assertEquals(8.0, KiSystem.statEfectiva(8, 100), 1e-12);
-        assertEquals(0.0, KiSystem.statEfectiva(8, 0), 1e-12);
-        assertThrows(IllegalArgumentException.class, () -> KiSystem.statEfectiva(-1.0, 50));
-        assertThrows(IllegalArgumentException.class, () -> KiSystem.statEfectiva(8, 101));
+    void piecewiseEffectiveStatWithBase18() {
+        assertEquals(8.0, eff(18, 0), 1e-12);      // vanilla
+        assertEquals(13.0, eff(18, 25), 1e-12);    // a mitad de camino
+        assertEquals(18.0, eff(18, 50), 1e-12);    // los del mod
+        assertEquals(27.0, eff(18, 75), 1e-12);
+        assertEquals(36.0, eff(18, 100), 1e-12);   // el doble
     }
 
     @Test
-    void combatFactorKeepsTheVerifiedBalanceAtTheInitialRelease() {
-        assertEquals(1.0, KiSystem.factorLiberacion(50, P), 1e-12);
-        assertEquals(2.0, KiSystem.factorLiberacion(100, P), 1e-12);
-        assertEquals(0.5, KiSystem.factorLiberacion(25, P), 1e-12);
-        assertEquals(0.0, KiSystem.factorLiberacion(0, P), 1e-12);           // indefenso
-        assertEquals(0.2, KiSystem.factorLiberacion(10, P), 1e-12);          // lineal, sin suelo
+    void piecewiseEffectiveStatWithBase8NewCharacter() {
+        assertEquals(8.0, eff(8, 0), 1e-12);
+        assertEquals(8.0, eff(8, 25), 1e-12);
+        assertEquals(8.0, eff(8, 50), 1e-12);
+        assertEquals(16.0, eff(8, 100), 1e-12);
+    }
+
+    @Test
+    void piecewiseIsContinuousAtFiftyAndMonotonic() {
+        for (double base : new double[] {8, 18, 26, 99}) {
+            assertEquals(base, eff(base, 50), 1e-12, "en 50 % vale la base " + base);
+            assertEquals(eff(base, 50), eff(base, 50.0000001), 1e-5, "continua en 50 % " + base);
+            double prev = -1;
+            for (double lib = 0; lib <= 100; lib += 2.5) {
+                double v = eff(base, lib);
+                assertTrue(v >= prev - 1e-12, "no decrece, base " + base + " lib " + lib);
+                prev = v;
+            }
+        }
+    }
+
+    @Test
+    void piecewiseRejectsInvalidInputs() {
+        assertThrows(IllegalArgumentException.class, () -> eff(-1.0, 50));
+        assertThrows(IllegalArgumentException.class, () -> eff(8, 101));
+        assertThrows(IllegalArgumentException.class, () -> eff(8, -1));
+        assertThrows(IllegalArgumentException.class, () -> KiSystem.statEfectiva(8, 8, 50, 0.0));
     }
 
     @Test
@@ -109,9 +132,11 @@ class KiSystemTest {
         assertEquals(Math.pow(2.0, 0.25), KiSystem.factorSalto(8, 100, P), 1e-9);
         assertEquals(2.5, KiSystem.factorVelocidad(26, 100, P), 1e-9);       // tope de velocidad
         assertEquals(1.8, KiSystem.factorSalto(99, 100, P), 1e-9);           // tope de salto
-        assertEquals(0.5, KiSystem.factorVelocidad(8, 0, P), 1e-9);          // factor 0 → el suelo del movimiento (0,5)
-        assertEquals(0.5, KiSystem.factorSalto(8, 0, P), 1e-9);
-        assertTrue(KiSystem.factorVelocidad(1, 0, P) >= 0.5, "nunca por debajo del 0,5");
+        assertEquals(1.0, KiSystem.factorVelocidad(8, 0, P), 1e-9);          // 0 % = vanilla, no lento
+        assertEquals(1.0, KiSystem.factorSalto(8, 0, P), 1e-9);
+        assertEquals(1.0, KiSystem.factorVelocidad(26, 0, P), 1e-9);         // también con VEL alta
+        assertTrue(KiSystem.factorVelocidad(26, 25, P) > 1.0 && KiSystem.factorVelocidad(26, 25, P) < KiSystem.factorVelocidad(26, 50, P));
+        assertTrue(KiSystem.factorVelocidad(1, 50, P) >= 0.5, "nunca por debajo del 0,5");
         assertThrows(IllegalArgumentException.class, () -> KiSystem.factorVelocidad(0, 50, P));
     }
 
@@ -134,7 +159,7 @@ class KiSystemTest {
     void effectiveCombatStatsUseTheNewOverloads() {
         // VIT efectiva 16 (liberación 100 %): el golpe de 3 HP se reduce a 3 × (8/16)^3
         assertEquals(0.375, HealthSystem.danioAplicadoEfectivo(3.0, 16, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);
-        // VIT efectiva 4 (liberación 0 % con el suelo del factor): ×8
+        // VIT efectiva 4 (valor artificial, solo comprueba la fórmula): ×8
         assertEquals(24.0, HealthSystem.danioAplicadoEfectivo(3.0, 4, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);
         // el suelo del daño continuo sigue valiendo
         assertEquals(0.5, HealthSystem.danioAplicadoEfectivo(4.0, 40, TipoDanio.ESCALA_CON_SUELO, P), 1e-9);
@@ -148,41 +173,42 @@ class KiSystemTest {
     }
 
     @Test
-    void releaseFactorZeroMeansTheNoKiPunishmentOfFourAndAQuarter() {
-        // Daño recibido: sin liberación (factor 0) el multiplicador es el tope ×4, para cualquier VIT y cualquier tipo escalable
-        for (int vit : new int[] {8, 26, 99}) {
-            assertEquals(12.0, HealthSystem.danioAplicadoLiberado(3.0, vit, 0.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9, "VIT " + vit);
+    void noKiMeansVanillaWithoutPunishment() {
+        // Al 0 % (sin ki) el jugador es vanilla, con cualquier VIT/FUE: ni ×4 recibido ni ×0,25 hecho
+        for (int stat : new int[] {8, 18, 26, 99}) {
+            assertEquals(3.0, HealthSystem.danioAplicadoLiberado(3.0, stat, 0.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9, "VIT " + stat);
+            assertEquals(1.0, FuerzaSystem.danioSalienteLiberado(1.0, stat, 0.0, P), 1e-9, "FUE " + stat);
         }
-        // Daño hecho: sin liberación el multiplicador es el suelo ×0,25, para cualquier FUE
-        for (int fue : new int[] {8, 26, 99}) {
-            assertEquals(0.25, FuerzaSystem.danioSalienteLiberado(1.0, fue, 0.0, P), 1e-9, "FUE " + fue);
-        }
-        // El vacío y /kill siguen sin escalar; el daño continuo respeta su suelo y nunca sube de lo original
         assertEquals(4.0, HealthSystem.danioAplicadoLiberado(4.0, 8, 0.0, TipoDanio.NO_ESCALA, P), 1e-9);
         assertEquals(1.0, HealthSystem.danioAplicadoLiberado(1.0, 8, 0.0, TipoDanio.ESCALA_CON_SUELO, P), 1e-9);
     }
 
     @Test
-    void releaseFactorOneKeepsTheVerifiedBalanceAndTwoDoublesTheStats() {
-        for (int vit : new int[] {8, 18, 26, 99}) {
-            assertEquals(HealthSystem.danioAplicado(3.0, vit, TipoDanio.ESCALA_SIN_SUELO, P),
-                    HealthSystem.danioAplicadoLiberado(3.0, vit, 1.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-12, "VIT " + vit);
-            assertEquals(FuerzaSystem.danioSaliente(1.0, vit, P), FuerzaSystem.danioSalienteLiberado(1.0, vit, 1.0, P), 1e-9, "FUE " + vit);
+    void combatAtFiftyKeepsTheVerifiedBalanceAndAtHundredDoublesTheStats() {
+        for (int stat : new int[] {8, 18, 26, 99}) {
+            assertEquals(HealthSystem.danioAplicado(3.0, stat, TipoDanio.ESCALA_SIN_SUELO, P),
+                    HealthSystem.danioAplicadoLiberado(3.0, stat, 50.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-12, "VIT " + stat);
+            assertEquals(FuerzaSystem.danioSaliente(1.0, stat, P), FuerzaSystem.danioSalienteLiberado(1.0, stat, 50.0, P), 1e-9, "FUE " + stat);
         }
-        assertEquals(0.375, HealthSystem.danioAplicadoLiberado(3.0, 8, 2.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);   // (8/16)^3
-        assertEquals(8.0, FuerzaSystem.danioSalienteLiberado(1.0, 8, 2.0, P), 1e-9);                                    // (16/8)^3
+        assertEquals(0.375, HealthSystem.danioAplicadoLiberado(3.0, 8, 100.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);   // (8/16)^3
+        assertEquals(8.0, FuerzaSystem.danioSalienteLiberado(1.0, 8, 100.0, P), 1e-9);                                    // (16/8)^3
+        // VIT 18 al 100 % = VIT efectiva 36
+        assertEquals(3.0 * Math.pow(8.0 / 36.0, 3), HealthSystem.danioAplicadoLiberado(3.0, 18, 100.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);
     }
 
     @Test
-    void lowButNonZeroReleaseIsCappedAtTheSamePunishment() {
-        // factor 0,5 con VIT 8: (8/4)^3 = 8 → tope ×4; con factor 0,8: (1/0,8)^3 = 1,953 (por debajo del tope)
-        assertEquals(12.0, HealthSystem.danioAplicadoLiberado(3.0, 8, 0.5, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);
-        assertEquals(3.0 * Math.pow(1 / 0.8, 3), HealthSystem.danioAplicadoLiberado(3.0, 8, 0.8, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);
-        // FUE con factor 0,5: (0,5)^3 = 0,125 → suelo 0,25; con factor 0,8: 0,512
-        assertEquals(0.25, FuerzaSystem.danioSalienteLiberado(1.0, 8, 0.5, P), 1e-9);
-        assertEquals(0.512, FuerzaSystem.danioSalienteLiberado(1.0, 8, 0.8, P), 1e-9);
+    void combatBetweenZeroAndFiftyInterpolatesFromVanilla() {
+        // FUE 18 al 25 %: FUE efectiva 13 → (13/8)^3
+        assertEquals(Math.pow(13.0 / 8.0, 3), FuerzaSystem.danioSalienteLiberado(1.0, 18, 25.0, P), 1e-9);
+        // VIT 18 al 25 %: VIT efectiva 13 → (8/13)^3
+        assertEquals(3.0 * Math.pow(8.0 / 13.0, 3), HealthSystem.danioAplicadoLiberado(3.0, 18, 25.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);
+        // jamás peor que vanilla con liberación baja
+        for (double lib = 0; lib <= 50; lib += 5) {
+            assertTrue(HealthSystem.danioAplicadoLiberado(3.0, 18, lib, TipoDanio.ESCALA_SIN_SUELO, P) <= 3.0 + 1e-12);
+            assertTrue(FuerzaSystem.danioSalienteLiberado(1.0, 18, lib, P) >= 1.0 - 1e-12);
+        }
         assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicadoLiberado(3.0, 8, -0.1, TipoDanio.ESCALA_SIN_SUELO, P));
         assertThrows(IllegalArgumentException.class, () -> FuerzaSystem.danioSalienteLiberado(1.0, 8, Double.NaN, P));
-        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicadoLiberado(3.0, 7, 1.0, TipoDanio.ESCALA_SIN_SUELO, P));
+        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicadoLiberado(3.0, 7, 50.0, TipoDanio.ESCALA_SIN_SUELO, P));
     }
 }

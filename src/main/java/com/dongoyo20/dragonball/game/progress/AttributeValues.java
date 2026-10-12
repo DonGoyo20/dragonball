@@ -30,8 +30,13 @@ public final class AttributeValues {
         };
     }
 
-    /** Valor mostrado como "efectivo": {@code base × liberación / 100} para VIT, FUE y VEL; igual a la base en el resto. */
-    public static double effectiveValue(int index, int base, double releasePercent) {
-        return scalesWithRelease(index) ? KiSystem.statEfectiva((double) base, releasePercent) : base;
+    /**
+     * Valor "efectivo" según la liberación (función a trozos: vanilla 8 a 0 %, el del mod a 50 %, el doble a 100 %) para
+     * VIT, FUE y VEL; igual a la base en el resto.
+     */
+    public static double effectiveValue(int index, int base, double releasePercent, BalanceParams p) {
+        if (!scalesWithRelease(index)) return base;
+        double vanilla = switch (index) { case 0 -> p.vitBase(); case 1 -> p.fueBase(); default -> p.release().velBase(); };
+        return KiSystem.statEfectiva(base, vanilla, releasePercent, p);
     }
 }

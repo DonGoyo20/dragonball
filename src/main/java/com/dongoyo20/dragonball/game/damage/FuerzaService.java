@@ -1,6 +1,7 @@
 package com.dongoyo20.dragonball.game.damage;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.core.KiSystem;
 import com.dongoyo20.dragonball.core.DanioCuerpo;
 import com.dongoyo20.dragonball.core.FuerzaSystem;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
@@ -25,9 +26,10 @@ public final class FuerzaService {
         return FuerzaSystem.fueValue(Math.min(upgrades, p.fueMaxUpgrades()), p);
     }
 
-    /** FUE efectiva = FUE × factor de liberación (con la liberación inicial es la FUE base). */
+    /** FUE efectiva según la liberación (vanilla 8 a 0 %, la del mod a 50 %, el doble a 100 %). */
     public static double fueEfectiva(ServerPlayer player) {
-        return fue(player) * KiService.factorLiberacion(player);
+        BalanceParams p = BalanceManager.get();
+        return KiSystem.statEfectiva(fue(player), p.fueBase(), KiService.liberacion(player), p);
     }
 
     /** ¿Es un arma del mod? Hoy el tag está vacío (el mod no tiene armas). */
@@ -53,7 +55,7 @@ public final class FuerzaService {
     /** Daño final del golpe: escalado con FUE si el arma lo permite, o el de vanilla si no. */
     public static float danioFinal(ServerPlayer player, ItemStack arma, float danioVanilla, Predicate<ItemStack> esDelMod) {
         if (!clasificar(arma, esDelMod).escalaConFuerza()) return danioVanilla;
-        return (float) FuerzaSystem.danioSalienteLiberado(danioVanilla, fue(player), KiService.factorLiberacion(player), BalanceManager.get());
+        return (float) FuerzaSystem.danioSalienteLiberado(danioVanilla, fue(player), KiService.liberacion(player), BalanceManager.get());
     }
 
     public static float danioFinal(ServerPlayer player, ItemStack arma, float danioVanilla) {

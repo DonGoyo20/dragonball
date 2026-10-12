@@ -41,6 +41,6 @@
  "screen.dragonball.stats.footer": "Compra mejoras con /dragonball upgrade <atributo>. Cerrar: V o Esc",
  "command.dragonball.ki": "Ki %s / %s | liberación %s%% (límite %s%%)",
  "command.dragonball.release_limit": "Límite de liberación fijado en %s%%",
- "message.dragonball.no_ki": "¡Sin Ki! Estás indefenso",
+ "message.dragonball.no_ki": "¡Sin Ki! Tu liberación vuelve a 0 %",
  "message.dragonball.must_stand_still": "Debes estar quieto para liberar Ki"
 }

@@ -121,25 +121,13 @@ public final class HealthSystem {
     }
 
     /**
-     * Daño recibido con la liberación aplicada a VIT: {@code vitEfectiva = VIT × factor}. El multiplicador
-     * {@code (vitBase / vitEfectiva)^exponente} se limita al tope de {@code maxDamageTakenFactor} (×4): con factor 0 (sin ki o
-     * liberación 0 %) VIT efectiva es 0 y la fórmula daría infinito; en su lugar el personaje queda "indefenso" con ×4.
-     * Con la liberación inicial (factor 1) el resultado es el de siempre.
+     * Daño recibido con la liberación aplicada a VIT: la VIT efectiva sale de {@link KiSystem#statEfectiva} (vanilla 8 a 0 %,
+     * VIT del mod a 50 %, el doble a 100 %) y se aplica la fórmula de siempre. No hay castigo: al 0 % el daño es el de vanilla.
      */
-    public static double danioAplicadoLiberado(double danioVanilla, int vitBase, double factor, TipoDanio tipo, BalanceParams p) {
+    public static double danioAplicadoLiberado(double danioVanilla, int vitBase, double porcentaje, TipoDanio tipo, BalanceParams p) {
         checkVit(vitBase, p);
-        if (danioVanilla < 0 || Double.isNaN(danioVanilla)) {
-            throw new IllegalArgumentException("daño negativo o NaN: " + danioVanilla);
-        }
-        if (Double.isNaN(factor) || factor < 0) throw new IllegalArgumentException("factor de liberación inválido: " + factor);
-        double cap = p.release().maxDamageTakenFactor();
-        double multiplier = factor <= 0.0 ? cap : Math.min(cap, Math.pow(p.vitBase() / (vitBase * factor), p.damageExponent()));
-        double escalado = danioVanilla * multiplier;
-        return switch (tipo) {
-            case ESCALA_SIN_SUELO -> escalado;
-            case ESCALA_CON_SUELO -> Math.min(danioVanilla, Math.max(escalado, p.continuousFloor()));
-            case NO_ESCALA -> danioVanilla;
-        };
+        double vitEfectiva = KiSystem.statEfectiva(vitBase, p.vitBase(), porcentaje, p);
+        return danioAplicadoEfectivo(danioVanilla, vitEfectiva, tipo, p);
     }
 
     private static void checkVit(int vit, BalanceParams p) {

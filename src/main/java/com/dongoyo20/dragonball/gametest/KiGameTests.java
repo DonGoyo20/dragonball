@@ -209,11 +209,11 @@ public final class KiGameTests {
         setProgress(high, ups(0, 0, 0, 0, 0), new KiData(50, 100, 100));
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, 1, 1, 1);
 
-        low.hurt(low.damageSources().mobAttack(zombie), 1.0F);     // liberación 0 %: factor 0 → indefenso, tope ×4
-        mid.hurt(mid.damageSources().mobAttack(zombie), 1.0F);     // 50 %: el balance ya verificado → ×1
+        low.hurt(low.damageSources().mobAttack(zombie), 1.0F);     // liberación 0 %: vanilla (VIT efectiva 8), sin castigo
+        mid.hurt(mid.damageSources().mobAttack(zombie), 1.0F);     // 50 %: los atributos del mod (VIT 8) → ×1
         high.hurt(high.damageSources().mobAttack(zombie), 1.0F);   // 100 %: VIT efectiva 16 → ×1/8
 
-        near(helper, 20.0 - low.getHealth(), 4.0, 0.01, "0 % de liberación (tope ×4)");
+        near(helper, 20.0 - low.getHealth(), 1.0, 0.01, "0 % de liberación (vanilla, sin castigo)");
         near(helper, 20.0 - mid.getHealth(), 1.0, 0.01, "50 % de liberación");
         near(helper, 20.0 - high.getHealth(), 0.125, 0.01, "100 % de liberación");
         helper.succeed();
@@ -235,7 +235,7 @@ public final class KiGameTests {
         a.hurt(mid.damageSources().playerAttack(mid), 1.0F);
         b.hurt(high.damageSources().playerAttack(high), 1.0F);
 
-        near(helper, 1000.0 - z.getHealth(), 0.25, 0.05, "puño al 0 % (suelo ×0,25)");
+        near(helper, 1000.0 - z.getHealth(), 1.0, 0.05, "puño al 0 % (vanilla ×1, sin castigo)");
         near(helper, 1000.0 - a.getHealth(), 1.0, 0.05, "puño al 50 %");
         near(helper, 1000.0 - b.getHealth(), FuerzaSystem.danioSalienteEfectivo(1.0, 16, BalanceParams.DEFAULT), 0.05, "puño al 100 % (×8)");
         helper.succeed();
@@ -267,6 +267,12 @@ public final class KiGameTests {
         setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 50, 100));
         KiService.advance(player, 1, true, 0);
         near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "al 50 % no hay modificador de velocidad");
+        setProgress(player, ups(0, 0, 10, 0, 0), new KiData(50, 0, 100));   // VEL 18 al 0 %
+        KiService.advance(player, 1, true, 0);
+        near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "al 0 % la velocidad es la de vanilla (no lento)");
+        near(helper, KiService.jumpModifierAmount(player), 0.0, 1e-9, "al 0 % el salto es el de vanilla");
+        setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 50, 100));
+        KiService.advance(player, 1, true, 0);
         near(helper, KiService.jumpModifierAmount(player), 0.0, 1e-9, "al 50 % no hay modificador de salto");
 
         setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 100, 100));
@@ -300,20 +306,20 @@ public final class KiGameTests {
         helper.succeed();
     }
 
-    // ---------- castigo sin ki y avisos
+    // ---------- sin ki (sin castigo) y avisos
 
     @GameTest(template = TEMPLATE)
-    public static void withoutKiTheCharacterTakesFourTimesAndDealsAQuarter(GameTestHelper helper) {
+    public static void withoutKiTheCharacterIsVanillaWithoutPunishment(GameTestHelper helper) {
         ServerPlayer player = newPlayer(helper);
         setProgress(player, ups(10, 10, 0, 0, 0), new KiData(0.0, 0.0, 50));   // VIT 18 y FUE 18, sin ki
         Zombie attacker = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, 1, 1, 1);
         Zombie victim = tank(helper);
 
-        player.hurt(player.damageSources().mobAttack(attacker), 1.0F);             // ×4 aunque VIT sea 18 (con ki sería ×0,088)
-        victim.hurt(player.damageSources().playerAttack(player), 1.0F);            // ×0,25 aunque FUE sea 18 (con ki sería ×11)
+        player.hurt(player.damageSources().mobAttack(attacker), 1.0F);             // vanilla (×1), no ×4 ni ×0,088
+        victim.hurt(player.damageSources().playerAttack(player), 1.0F);            // vanilla (×1), no ×0,25 ni ×11
 
-        near(helper, 20.0 - player.getHealth(), 4.0, 0.01, "daño recibido sin ki");
-        near(helper, 1000.0 - victim.getHealth(), 0.25, 0.05, "daño hecho sin ki");
+        near(helper, 20.0 - player.getHealth(), 1.0, 0.01, "daño recibido sin ki = vanilla");
+        near(helper, 1000.0 - victim.getHealth(), 1.0, 0.05, "daño hecho sin ki = vanilla");
         helper.succeed();
     }
 

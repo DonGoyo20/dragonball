@@ -1,6 +1,7 @@
 package com.dongoyo20.dragonball.game.health;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.core.KiSystem;
 import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.TipoDanio;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
@@ -34,13 +35,14 @@ public final class HealthService {
     }
 
     /** Daño de vanilla (ya reducido por armadura y efectos) convertido al daño que se debe restar. */
-    /** VIT efectiva = VIT × factor de liberación (con la liberación inicial es la VIT base). */
+    /** VIT efectiva según la liberación (vanilla 8 a 0 %, la del mod a 50 %, el doble a 100 %). */
     public static double vitEfectiva(ServerPlayer player) {
-        return vit(player) * KiService.factorLiberacion(player);
+        BalanceParams p = BalanceManager.get();
+        return KiSystem.statEfectiva(vit(player), p.vitBase(), KiService.liberacion(player), p);
     }
 
     public static float aplicarDanioEscalado(ServerPlayer player, float danioVanilla, TipoDanio tipo) {
-        return (float) HealthSystem.danioAplicadoLiberado(danioVanilla, vit(player), KiService.factorLiberacion(player), tipo, BalanceManager.get());
+        return (float) HealthSystem.danioAplicadoLiberado(danioVanilla, vit(player), KiService.liberacion(player), tipo, BalanceManager.get());
     }
 
     /** Daño de estado continuo: se aplica cada pocos ticks mientras dure la situación (lava, fuego, veneno…). */

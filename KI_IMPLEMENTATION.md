@@ -28,23 +28,33 @@
 | Base y crecimiento | KI 0 (+1), CON 0 (+1), VEL 8 (+1) | Con KI 0 la reserva es 50, como pediste; VEL como VIT y FUE |
 | VEL → movimiento / salto | `clamp((VEL efectiva/8)^0,5, 0,5, 2,5)` y `clamp(...^0,25, 0,5, 1,8)` | El diseño no daba fórmula; se aplica con modificadores transitorios |
 | Liberación inicial | 50 % (= límite) | Para que un personaje nuevo se comporte como en lo ya verificado |
-| Castigo sin ki / liberación baja | recibido ×4 (tope), hecho ×0,25 (suelo) | Decisión del usuario (2026-10-12) |
+| Efecto de la liberación en VIT/FUE/VEL | función a trozos (ver abajo); **sin castigo** por falta de ki | Decisión del usuario (2026-10-12, 3.ª versión) |
 
-## Cómo se aplica la liberación al combate (ajustado el 2026-10-12, 2.ª versión)
-La pantalla de estadísticas muestra la fórmula literal `base × liberación/100`. En combate y movimiento VIT, FUE y VEL usan el **factor de liberación** `max(0, liberación / 50)` (referencia 50 %):
-- **0 %** → factor 0 → "indefenso".
-- **50 %** (la inicial) → factor 1 → stats completas; todo igual que antes de existir la liberación (balance ya verificado).
-- **100 %** → factor 2 → doble de stats (VIT 8 recibe ×1/8 de daño; FUE 8 hace ×8).
-Antes el factor tenía un suelo de 0,5; se quitó (decisión del usuario).
+## Cómo se aplica la liberación (función a trozos, 2026-10-12, 3.ª versión)
+Sustituye a las dos versiones anteriores (`base × lib/100`, luego `max(0, lib/50)` con castigo ×4 / ×0,25). Modelo del usuario: a 0 % el jugador es vanilla (atributos 8); de 0 a 50 % sube linealmente hasta los atributos del mod; a 50 % tiene los del mod; de 50 a 100 % se multiplican hasta el doble.
 
-**Castigo sin ki / liberación baja.** Con factor 0 las fórmulas cúbicas darían daño recibido infinito y daño hecho cero. Para que el castigo sea el pedido (**×4 recibido, ×0,25 hecho**) el multiplicador del daño recibido tiene un **tope ×4** (`max_damage_taken_factor`) y el del daño hecho un **suelo ×0,25** (`min_damage_dealt_factor`). Es mi interpretación de cómo unir "factor 0" con "×4 / ×0,25":
-- Sin ki la liberación es 0, así que ese estado y "0 % con ki" dan el mismo castigo (×4 / ×0,25, para cualquier VIT y FUE: un VIT 26 sin ki recibe ×4, no ×0,03).
-- Con liberación baja pero no 0 el tope también actúa: por debajo de ~31 % de liberación (factor < 0,63) el multiplicador teórico supera ×4 y se queda en ×4; por debajo de ~63 % de la liberación de referencia el daño hecho también está en el suelo cuando FUE = 8. A 40 % (factor 0,8): recibes ×1,95 y haces ×0,51.
+```
+liberación <= 50:  efectiva = 8 + (base - 8) × (liberación / 50)
+liberación >  50:  efectiva = base × (liberación / 50)
+```
+Es continua en 50 % (ambas ramas dan `base`). El 8 es el valor vanilla de cada atributo (`vit_base`, `fue_base`, `vel_base`) y el 50 es `release.reference_percent`.
+
+| Liberación | base 18 | base 8 (personaje nuevo) |
+|---|---|---|
+| 0 % | 8 | 8 |
+| 25 % | 13 | 8 |
+| 50 % | 18 | 8 |
+| 75 % | 27 | 12 |
+| 100 % | 36 | 16 |
+
+- VIT, FUE y VEL usan esa estadística efectiva en sus fórmulas de siempre: `(8/VIT_ef)^3` de daño recibido, `(FUE_ef/8)^3` de daño hecho, `clamp((VEL_ef/8)^exp)` de movimiento y salto. La pantalla de estadísticas muestra el mismo valor efectivo.
+- **0 %**: daño y movimiento de vanilla (VIT 8, FUE 8, VEL 8), para cualquier base. **Sin castigo**: no hay ×4 recibido, ×0,25 hecho ni velocidad ×0,5.
+- **Sin ki** la liberación baja a 0 (regla de siempre) y el jugador queda como vanilla, nunca peor.
+- Eliminado: el factor `max(0, lib/50)` y los parámetros `max_damage_taken_factor` y `min_damage_dealt_factor` de `combat.json` (un archivo antiguo que aún los tenga los ignora).
 - El vacío y `/kill` siguen sin escalar; el daño continuo respeta su suelo de 0,5 HP.
-- El movimiento (VEL) con factor 0 queda en su suelo de 0,5 (la mitad de velocidad y salto); no se pidió cambiarlo.
 
 **Avisos en la barra de acción** (mensajes traducidos en los 8 idiomas):
-- "¡Sin Ki! Estás indefenso": cuando la liberación llega a 0 **porque se acabó el ki**. Si el jugador la baja a 0 con X teniendo ki, no sale (sería falso decir "sin ki").
+- "¡Sin Ki! Tu liberación vuelve a 0 %" (solo informativo): cuando la liberación llega a 0 **porque se acabó el ki**. Si el jugador la baja a 0 con X teniendo ki, no sale (sería falso decir "sin ki").
 - "Debes estar quieto para liberar Ki": cuando mantiene C, se está moviendo y la liberación aún no ha llegado al límite. Como máximo una vez cada 2 segundos (40 ticks) por jugador.
 
 ## HUD (esquina superior izquierda)
@@ -68,15 +78,7 @@ Ancho 280 px, centrada, fondo difuminado de vanilla. De arriba abajo: título "E
 ## Compatibilidad con partidas existentes
 Los guardados anteriores no tienen el campo `ki`: se cargan con el ki inicial (50 de 50, liberación 50 %, límite 50 %). Un guardado dañado se recorta a rangos válidos. Comprar mejoras o ganar XP no reinicia el ki (probado).
 
-## Resultados (ejecutados, 2026-10-12, tras los 4 ajustes)
-- `./gradlew build`: BUILD SUCCESSFUL; **JUnit 41/41** (nuevos: factor 0 = castigo ×4/×0,25 para cualquier VIT/FUE, factor 1 = balance verificado, factor 2 = doble, zona intermedia con tope y suelo, validaciones).
-- `./gradlew runGameTestServer`: **"All 52 required tests passed"** (KiGameTests 19). Nuevos o cambiados: daño recibido al 0 % = ×4 (antes ×8), daño hecho al 0 % = ×0,25, castigo sin ki con VIT 18 y FUE 18, aviso "Sin Ki" una sola vez y solo por agotamiento, aviso de estar quieto como máximo una vez cada 40 ticks (instantes 0, 10, 39, 40, 41, 79, 80 → 3 avisos) y solo si se intenta subir moviéndose y aún hay margen.
-- **Cliente real con pantalla virtual** (captura `docs/img/ki_hud_adjustments.png`): con liberación 50 % se ve la tercera línea; tras mantener X hasta 0 % la línea desaparece y el ki se regenera a 50/50; mantener C mientras se camina muestra "Debes estar quieto para liberar Ki" en la barra de acción. **No se vio en pantalla** el aviso "¡Sin Ki!" (solo en pruebas automáticas, con un destino de mensajes de prueba).
-- Ejecuciones anteriores (primera versión del ciclo): ver el historial del repositorio.
-
-## Limitaciones y pendiente
-- No hay técnicas, maestros ni la habilidad que sube el límite: el límite solo se cambia con `/dragonball releaselimit <0-100>` (operadores; para pruebas).
-- DEF y POD no se implementan (CON solo abarata el gasto de la liberación).
-- Vuelo, Kamehameha y demás técnicas siguen sin existir; ahora tendrán el ki para gastar.
-- Los números de la tabla de arriba son provisionales y hay que ajustarlos jugando (datos, sin recompilar).
-- El HUD no anima las barras (saltan); la pantalla no compra mejoras.
+## Resultados (ejecutados, 2026-10-12, tras la función a trozos)
+- JUnit **43/43** (`./gradlew test`). Nuevos: base 18 (0/25/50/75/100 % → 8/13/18/27/36), base 8 (8/8/8/16), continuidad en 50 % y monotonía, entradas inválidas, sin ki = vanilla sin castigo, 50 % = balance ya verificado, 100 % = doble, interpolación 0–50 %, VEL a 0 % = ×1. Eliminados los tests del castigo y del factor.
+- GameTest **52/52** (`./gradlew runGameTestServer`): daño recibido al 0 % = ×1 (antes ×4), daño hecho al 0 % = ×1 (antes ×0,25), sin ki con VIT 18 / FUE 18 = vanilla, VEL 18 al 0 % = sin modificador de velocidad ni salto.
+- **No verificado en el PC del usuario** ni en pantalla. No se ejecutó `tools/verify_integrations.sh` en este ciclo.
