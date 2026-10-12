@@ -21,7 +21,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
  * {@code actuallyHurt}, después de la armadura, los encantamientos y las pociones de vanilla, y justo antes de restar
  * vida. Así la protección de vanilla sigue funcionando y solo se reescala el daño que de verdad iba a caer.
  * Todo el daño escala salvo el vacío y {@code /kill}; el de estado continuo (lava, fuego, ahogamiento, veneno…) tiene un
- * suelo de 1 HP por aplicación. Los porqués y la lista completa están en {@link HealthService#clasificar}.
+ * suelo de 0,5 HP por aplicación. Los porqués y la lista completa están en {@link HealthService#clasificar}.
  */
 @EventBusSubscriber(modid = DragonBall.MOD_ID)
 public final class HealthEvents {

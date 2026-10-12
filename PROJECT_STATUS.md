@@ -38,7 +38,7 @@ Decisiones del usuario: vida con fracción 0–1 (20 HP vanilla reales; vida rea
 Viabilidad verificada en el código fuente de NeoForge 21.1.259: `LivingDamageEvent.Pre` (+ `LivingIncomingDamageEvent`), `LivingHealEvent`, `LivingDeathEvent`, `PlayerEvent.Clone`, `PlayerLoggedInEvent`, `PlayerTickEvent.Pre/Post`, `getHealth/setHealth`, sincronización con `AttachmentType.Builder.sync(StreamCodec)`. Detalle, flujo, valores provisionales y plan de pruebas en `HEALTH_FEASIBILITY.md`. Pendiente de confirmación: 4 puntos al final de ese documento. No hay código nuevo todavía.
 
 ## Ciclo VIT → salud (2026-10-11; cúbica y tres categorías de daño 2026-10-12)
-Implementado; la versión lineal se verificó en el juego. Ahora: fórmula cúbica `(8/VIT)^3` y clasificación de daño en 3 categorías (escala sin suelo / con suelo de 1 HP / no escala: vacío y `/kill`). Tests automáticos: JUnit 14/14, GameTest 17/17. **La fórmula cúbica y las tres categorías no se han probado aún en el juego real.** Ver `HEALTH_IMPLEMENTATION.md` y `SYSTEMS.md` §3.1–3.2.1 (deuda técnica).
+Implementado; la versión lineal se verificó en el juego. Ahora: fórmula cúbica `(8/VIT)^3` y clasificación de daño en 3 categorías (escala sin suelo / con suelo de 0,5 HP —bajado desde 1,0 el 2026-10-12— / no escala: vacío y `/kill`). Tests automáticos: JUnit 14/14, GameTest 17/17. **La fórmula cúbica y las tres categorías no se han probado aún en el juego real.** Ver `HEALTH_IMPLEMENTATION.md` y `SYSTEMS.md` §3.1–3.2.1 (deuda técnica).
 
 ## Decisiones cerradas (2026-10-12) — BESTIARY.md §15 resuelto
 1. Quinto luchador enmascarado de Baba: **fuera de la beta** (canon poco claro; posible en la 1.0).

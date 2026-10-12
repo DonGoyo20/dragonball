@@ -4,7 +4,7 @@ package com.dongoyo20.dragonball.core;
 public enum TipoDanio {
     /** Daño puntual (criaturas, caída, explosiones…): {@code daño × (8/VIT)^3}. */
     ESCALA_SIN_SUELO,
-    /** Daño de estado continuo (lava, fuego, ahogamiento, veneno…): la cúbica, con un suelo de 1 HP por aplicación. */
+    /** Daño de estado continuo (lava, fuego, ahogamiento, veneno…): la cúbica, con un suelo de 0,5 HP por aplicación. */
     ESCALA_CON_SUELO,
     /** Vacío y /kill: se aplica tal cual. */
     NO_ESCALA

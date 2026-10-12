@@ -136,8 +136,8 @@ public final class HealthGameTests {
         vit99.hurt(vit99.damageSources().lava(), 4.0F);
 
         assertHealth(helper, vit8, 16.0, "lava con VIT 8");
-        assertHealth(helper, vit26, 19.0, "lava con VIT 26 (suelo de 1 HP)");
-        assertHealth(helper, vit99, 19.0, "lava con VIT 99 (suelo de 1 HP)");
+        assertHealth(helper, vit26, 19.5, "lava con VIT 26 (suelo de 0,5 HP)");
+        assertHealth(helper, vit99, 19.5, "lava con VIT 99 (suelo de 0,5 HP)");
         helper.succeed();
     }
 

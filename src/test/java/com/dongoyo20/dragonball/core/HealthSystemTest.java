@@ -55,13 +55,16 @@ class HealthSystemTest {
     }
 
     @Test
-    void continuousDamageKeepsAFloorOfOneHp() {
+    void continuousDamageKeepsAFloorOfHalfAnHp() {
+        assertEquals(0.5, HealthSystem.SUELO_CONTINUO, 1e-12);
         assertEquals(4.0, HealthSystem.danioAplicado(4.0, 8, CON), 1e-9);   // lava con VIT base: sin cambio
-        assertEquals(1.0, HealthSystem.danioAplicado(4.0, 26, CON), 1e-9);  // 4 × (8/26)^3 = 0,116 → suelo
-        assertEquals(1.0, HealthSystem.danioAplicado(4.0, 99, CON), 1e-9);
+        assertEquals(0.5, HealthSystem.danioAplicado(4.0, 26, CON), 1e-9);  // 4 × (8/26)^3 = 0,116 → suelo
+        assertEquals(0.5, HealthSystem.danioAplicado(4.0, 99, CON), 1e-9);
         // por encima del suelo se comporta como la cúbica
         assertEquals(4.0 * Math.pow(8.0 / 12.0, 3), HealthSystem.danioAplicado(4.0, 12, CON), 1e-9); // 1,185
-        // el suelo nunca aumenta un daño que ya era menor que 1
+        // el suelo nunca aumenta un daño original menor que el suelo: min(0,3; max(escalado; 0,5)) = 0,3
+        assertEquals(0.3, HealthSystem.danioAplicado(0.3, 99, CON), 1e-9);
+        assertEquals(0.3, HealthSystem.danioAplicado(0.3, 8, CON), 1e-9);
         assertEquals(0.5, HealthSystem.danioAplicado(0.5, 99, CON), 1e-9);
         assertEquals(0.0, HealthSystem.danioAplicado(0.0, 99, CON), 1e-9);
     }

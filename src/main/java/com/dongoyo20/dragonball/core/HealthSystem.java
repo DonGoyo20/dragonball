@@ -12,7 +12,7 @@ package com.dongoyo20.dragonball.core;
  * vanilla (la amenaza inicial no cambia), VIT 18 lo deja en ~9 % y VIT 30 en ~2 %.
  *
  * <p><b>Alcance (2026-10-12):</b> todo el daño escala con VIT salvo el vacío y {@code /kill} ({@link TipoDanio}); el de
- * estado continuo tiene un suelo de 1 HP. Ver SYSTEMS.md §3.1.
+ * estado continuo tiene un suelo de 0,5 HP por aplicación. Ver SYSTEMS.md §3.1.
  *
  * <p><b>Deuda técnica:</b> SYSTEMS.md §3.2 define el daño como {@code 0,05 × (A/D)^0,75} con
  * {@code D = DEF^0,7 × VIT^0,3}. Esta fórmula es mucho más fuerte que el diseño (VIT^3 frente a VIT^0,3) y no
@@ -63,15 +63,19 @@ public final class HealthSystem {
         return (hpVanilla / VANILLA_MAX_HP) * vidaMaxima;
     }
 
-    /** Suelo del daño de estado continuo, en HP vanilla por aplicación (evita que VIT 99 sea inmune a la lava). */
-    public static final double SUELO_CONTINUO = 1.0;
+    /**
+     * Suelo del daño de estado continuo, en HP vanilla por aplicación (evita que VIT 99 sea inmune a la lava).
+     * Era 1,0; se bajó a 0,5 (2026-10-12) porque con 1,0 la lava seguía siendo demasiado dañina para un personaje
+     * con VIT alta, que debería ser casi inmune a los daños ambientales (sin llegar a serlo del todo).
+     */
+    public static final double SUELO_CONTINUO = 0.5;
 
     /**
      * Daño en HP vanilla que se resta de verdad.
      * <ul>
      *   <li>{@code ESCALA_SIN_SUELO}: {@code danioVanilla × (VIT_BASE / VIT)^3}.</li>
      *   <li>{@code ESCALA_CON_SUELO}: lo mismo, pero nunca menos de {@link #SUELO_CONTINUO} (ni más que el daño
-     *       original: el suelo no puede aumentar un daño que ya era menor que 1).</li>
+     *       original: el suelo no puede aumentar un daño original menor que el suelo).</li>
      *   <li>{@code NO_ESCALA}: el daño original (vacío y /kill).</li>
      * </ul>
      */
