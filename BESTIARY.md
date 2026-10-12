@@ -126,7 +126,7 @@ Los jefes **no aparecen al azar**: tienen lugar y condición.
 | Red Ribbon | Bases, Torre Músculo | Patrullas y escuadrones, tiradores, alarma que llama refuerzos, **recompensa por desmantelar la instalación**, comandantes como jefes, Black y Red como objetivos de misión |
 | Baba | Arena | Cuatro combates especiales en secuencia, con regla propia por luchador |
 | Piccolo Daimaō | Zonas protegidas | Cacería de Tambourine, Cymbal y Drum; Piano cierra la categoría; ataques contra NPC |
-| Saga Saiyan | Eventos | Saibamen (grupos de 3) en la invasión; Raditz, Nappa y Vegeta solo por misión/evento |
+| Saga Saiyan | Eventos | Saibamen (grupos de 3, con autodestrucción) en la invasión; Raditz, Nappa y Vegeta (con fase Ozaru) solo por misión/evento. Ver `BETA_BOSSES.md` |
 
 ## 9. Habilidades especiales: canon o decisión de diseño
 | Entidad | Habilidad | Estado |
@@ -138,13 +138,13 @@ Los jefes **no aparecen al azar**: tienen lugar y condición.
 | Murasaki, Blue, Metallitron, Buyon, Tao Pai Pai | Técnicas genéricas del juego (golpe pesado, ki, cañón) | **Decisión de diseño**; no se atribuyen poderes canónicos concretos |
 | Buyon | Nivel entre Metallitron y Tao | La fuente dice que su poder no está claro: **decisión de diseño** |
 | Tambourine, Cymbal, Drum, Piano | Técnicas genéricas | **Decisión de diseño**; se diferencian por rol (cazador, recolector, combatiente, lugarteniente) |
-| Saibamen | Autodestrucción | **De memoria**; en el juego, ataque de ki que lo mata |
-| Vegeta | Fase Ozaru | **De memoria**; diseñada, **no simulada** (cambia de arquetipo y técnicas a mitad del combate) |
+| Saibamen | Autodestrucción | **De memoria**; **decisión cerrada (2026-10-12): SÍ.** Al morir el Saibaman se autodestruye con daño en área al jugador cercano; no daña a otros Saibamen; el daño escala con VIT como el de cualquier criatura (§15) |
+| Vegeta | Fase Ozaru | **De memoria**; **decisión cerrada (2026-10-12): SÍ, como fase final del jefe.** Diseñada, **no simulada** (cambia de arquetipo y técnicas a mitad del combate; las estadísticas de la fase están sin definir) |
 
 No se ha inventado ningún poder canónico: lo no confirmado está marcado como adaptación.
 
 ## 10. Verificación del canon
-16 personajes con nombre **verificados** en búsqueda (fuentes de fans), 6 **de memoria** (Pilaf, Shu, Mai, Raditz, Nappa, Vegeta) y el resto **original** (fauna, bandidos y unidades genéricas). **No incluidos:** "Man-Wolf" (no aparece en ninguna fuente) y el quinto luchador enmascarado de Baba.
+16 personajes con nombre **verificados** en búsqueda (fuentes de fans), 6 **de memoria** (Pilaf, Shu, Mai, Raditz, Nappa, Vegeta) y el resto **original** (fauna, bandidos y unidades genéricas). **No incluidos:** "Man-Wolf" (no aparece en ninguna fuente) y el quinto luchador enmascarado de Baba (**fuera de la beta por decisión del usuario, 2026-10-12**; se podrá añadir en la 1.0 si se aclara el canon).
 
 ## 11. Jefes secretos de la beta ([DISEÑO])
 | Jefe | Nivel | Pista | Recompensa (cualitativa) |
@@ -269,7 +269,11 @@ Generada desde `bestiary.json`. "Mejoras equiv." = XP del enemigo ÷ coste de un
 - Las fuentes de canon son wikis de fans, no material oficial.
 - Mobs vanilla fuera de la lista (golem, aldeanos…) sin nivel todavía.
 
-## 15. Preguntas abiertas
-1. ¿El quinto luchador de Baba (enmascarado) lo dejamos fuera de la beta?
-2. ¿Los Saibamen: te vale que la autodestrucción los mate (como adaptación)?
-3. ¿Vegeta con fase Ozaru entra en la beta o queda como "si es viable"? Es lo más arriesgado de implementar.
+## 15. Preguntas abiertas — RESUELTAS (2026-10-12)
+Las tres preguntas están cerradas por decisión del usuario. No se ha cambiado el alcance de la beta ni `design_data/beta/bestiary.json` (los datos ya encajan: el Saibaman ya tiene la técnica `autodestruccion` y el quinto luchador no figura).
+
+| # | Pregunta | Decisión | Justificación |
+|---|---|---|---|
+| 1 | ¿El quinto luchador enmascarado de Baba entra en la beta? | **FUERA de la beta.** Se podrá añadir en la 1.0 si se aclara el canon. | No está claro en el canon clásico qué personaje es; se deja fuera para no arriesgar. La arena de Baba queda con 4 luchadores verificados (Fangs, See-Through, Bandages, Spike). |
+| 2 | ¿La autodestrucción de los Saibamen? | **SÍ.** Cuando un Saibaman muere se autodestruye: daño en área al jugador dentro del radio; **no daña a otros Saibamen** (para no romper el combate en grupo); el daño **escala con VIT** como cualquier criatura (categoría ESCALA_SIN_SUELO, `SYSTEMS.md` §3.1). | Mantiene la identidad del Saibaman. Nota de implementación futura: una explosión de vanilla dañaría a los otros Saibamen; hará falta daño en área propio filtrado, con el Saibaman como causante para que se clasifique como criatura. Radio y daño: sin definir. |
+| 3 | ¿Vegeta con fase Ozaru en la beta? | **SÍ, como fase final del jefe.** Primera fase de combate normal; después se transforma en Ozaru (cambia el aspecto —modelo o escala— y suben las estadísticas). Es el jefe final de la beta: derrotarlo cierra la saga Saiyajin. Si el modelo 3D del mono gigante es demasiado costoso, se representa como cambio de fase con aura y estadísticas, sin cambiar el modelo. | Es lo más arriesgado de implementar: cambia de arquetipo y técnicas a mitad del combate. **Pendiente:** definir las estadísticas de la fase Ozaru y simularla (garantía de historia) antes de implementarla. |

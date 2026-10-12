@@ -26,51 +26,68 @@ class HealthSystemTest {
         assertEquals(0.85 * 225.0, HealthSystem.vidaRealActual(17.0, 225.0), 1e-9);
     }
 
+    private static final TipoDanio SIN = TipoDanio.ESCALA_SIN_SUELO;
+    private static final TipoDanio CON = TipoDanio.ESCALA_CON_SUELO;
+    private static final TipoDanio NO = TipoDanio.NO_ESCALA;
+
     @Test
-    void damageIsVanillaAtBaseVitAndShrinksWithVit() {
-        assertEquals(3.0, HealthSystem.danioAplicado(3.0, 8), 1e-9);
-        assertEquals(0.2634, HealthSystem.danioAplicado(3.0, 18), 1e-3);   // 3 × (8/18)^3
-        assertEquals(0.0569, HealthSystem.danioAplicado(3.0, 30), 1e-3);   // 3 × (8/30)^3
-        assertEquals(20.25, HealthSystem.danioAplicado(20.25, 8), 1e-9);   // creeper a bocajarro, VIT base
-        assertEquals(1.778, HealthSystem.danioAplicado(20.25, 18), 1e-3);  // el mismo creeper con VIT 18
-        assertEquals(0.0, HealthSystem.danioAplicado(0.0, 50), 1e-9);
+    void pointDamageIsVanillaAtBaseVitAndShrinksCubically() {
+        assertEquals(3.0, HealthSystem.danioAplicado(3.0, 8, SIN), 1e-9);
+        assertEquals(0.2634, HealthSystem.danioAplicado(3.0, 18, SIN), 1e-3);     // 3 × (8/18)^3
+        assertEquals(0.0569, HealthSystem.danioAplicado(3.0, 30, SIN), 1e-3);     // 3 × (8/30)^3
+        assertEquals(20.25, HealthSystem.danioAplicado(20.25, 8, SIN), 1e-9);     // creeper a bocajarro, VIT base
+        assertEquals(1.778, HealthSystem.danioAplicado(20.25, 18, SIN), 1e-3);
+        assertEquals(17.0 * Math.pow(8.0 / 26.0, 3), HealthSystem.danioAplicado(17.0, 26, SIN), 1e-9); // caída de 20 bloques
+        assertEquals(0.495, HealthSystem.danioAplicado(17.0, 26, SIN), 1e-3);
+        assertTrue(HealthSystem.danioAplicado(3.0, 99, SIN) > 0 && HealthSystem.danioAplicado(3.0, 99, SIN) < 0.003,
+                "VIT 99: daño muy pequeño pero no cero");
+        assertEquals(0.0, HealthSystem.danioAplicado(0.0, 50, SIN), 1e-9);
+    }
+
+    @Test
+    void pointDamageIsMonotonicallyDecreasingInVit() {
         double previous = Double.MAX_VALUE;
         for (int vit = 8; vit <= 99; vit++) {
-            double d = HealthSystem.danioAplicado(3.0, vit);
+            double d = HealthSystem.danioAplicado(3.0, vit, SIN);
             assertTrue(d <= previous && d > 0, "monótono decreciente en VIT " + vit);
             previous = d;
         }
     }
 
     @Test
-    void cubicFormulaIsMuchStrongerThanLinearAndStillBelowVanilla() {
-        for (int vit = 9; vit <= 99; vit++) {
-            double cubic = HealthSystem.danioAplicado(3.0, vit);
-            double linear = 3.0 * 8.0 / vit;
-            assertTrue(cubic < linear && cubic < 3.0, "VIT " + vit);
+    void continuousDamageKeepsAFloorOfOneHp() {
+        assertEquals(4.0, HealthSystem.danioAplicado(4.0, 8, CON), 1e-9);   // lava con VIT base: sin cambio
+        assertEquals(1.0, HealthSystem.danioAplicado(4.0, 26, CON), 1e-9);  // 4 × (8/26)^3 = 0,116 → suelo
+        assertEquals(1.0, HealthSystem.danioAplicado(4.0, 99, CON), 1e-9);
+        // por encima del suelo se comporta como la cúbica
+        assertEquals(4.0 * Math.pow(8.0 / 12.0, 3), HealthSystem.danioAplicado(4.0, 12, CON), 1e-9); // 1,185
+        // el suelo nunca aumenta un daño que ya era menor que 1
+        assertEquals(0.5, HealthSystem.danioAplicado(0.5, 99, CON), 1e-9);
+        assertEquals(0.0, HealthSystem.danioAplicado(0.0, 99, CON), 1e-9);
+    }
+
+    @Test
+    void unscaledDamageIsReturnedAsIsForAnyVit() {
+        for (int vit : new int[] {8, 18, 26, 99}) {
+            assertEquals(4.0, HealthSystem.danioAplicado(4.0, vit, NO), 1e-9, "VIT " + vit);
+            assertEquals(Float.MAX_VALUE, HealthSystem.danioAplicado(Float.MAX_VALUE, vit, NO), 1e-3 * Float.MAX_VALUE);
         }
-        assertTrue(HealthSystem.danioAplicado(3.0, 18) < 0.6, "un zombi con VIT 18 quita menos de 0,3 corazones");
-        assertTrue(HealthSystem.danioAplicado(3.0, 99) > 0.0, "nunca llega a 0");
     }
 
     @Test
     void vitOutOfRangeThrows() {
+        for (TipoDanio t : TipoDanio.values()) {
+            assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicado(3.0, 7, t));
+            assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicado(3.0, 100, t));
+        }
         assertThrows(IllegalArgumentException.class, () -> HealthSystem.vidaRealMaxima(7));
         assertThrows(IllegalArgumentException.class, () -> HealthSystem.vidaRealMaxima(100));
-        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicado(3.0, 7));
-        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicado(3.0, 100));
     }
 
     @Test
     void invalidDamageThrows() {
-        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicado(-1.0, 8));
-        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicado(Double.NaN, 8));
-    }
-
-    @Test
-    void environmentalDamageMeansNoAttacker() {
-        assertTrue(HealthSystem.esDanioDeEntorno(false)); // caída, lava, ahogamiento: sin atacante
-        assertFalse(HealthSystem.esDanioDeEntorno(true)); // ataque de zombi: hay atacante
+        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicado(-1.0, 8, SIN));
+        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicado(Double.NaN, 8, CON));
     }
 
     @Test

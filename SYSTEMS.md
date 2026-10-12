@@ -116,8 +116,17 @@ Ya no hay "puntos de técnica": las habilidades (técnicas, especiales, formas) 
 
 ## 3. Combate
 
-### 3.1 Vida como porcentaje
-La vida real se guarda como **fracción (0–1)** y se muestra en la barra de Minecraft como proporción. Así ninguna cantidad de VIT rompe el límite de vida de Minecraft (ver TECHNICAL_DESIGN §6; a verificar en Fase 2). El daño de entorno de Minecraft (lava, caídas) se convierte a porcentaje con un valor de peligro propio y no escala con el nivel, salvo decisión posterior.
+### 3.1 Vida como porcentaje y qué daño escala (actualizado 2026-10-12)
+La vida real se guarda como **fracción (0–1)** y se muestra en la barra de Minecraft como proporción. Así ninguna cantidad de VIT rompe el límite de vida de Minecraft. **Todo el daño de Minecraft escala con VIT**, salvo dos excepciones, y el daño de estado continuo tiene un suelo (decisión del usuario, 2026-10-12; fórmula en §3.2.1):
+
+| Categoría | Qué daños | Fórmula |
+|---|---|---|
+| **ESCALA_SIN_SUELO** | Criaturas (zombi, creeper, esqueleto, flechas…), caída, explosiones (TNT, creeper, cama del Nether) y cualquier otro daño puntual | `daño × (8 / VIT)^3` |
+| **ESCALA_CON_SUELO** | Estado continuo: lava, fuego (`in_fire`, `on_fire`), magma (`hot_floor`), hoguera, ahogamiento, veneno, wither, cactus, arbusto dulce, congelación, asfixia en bloque, hacinamiento, borde del mundo… | `max(daño × (8 / VIT)^3, 1,0)`, sin superar nunca el daño original |
+| **NO_ESCALA** | Vacío (`fell_out_of_world`) y `/kill` (`generic_kill`) | daño original |
+
+Por qué: el vacío y `/kill` son mecanismos de vanilla para sacar al jugador del mundo o matarlo a propósito; si escalaran, el vacío dejaría de ser una red de seguridad y `/kill` no funcionaría con VIT alta. El suelo de 1 HP evita que VIT 99 sea inmune a la lava, el fuego o el veneno. El suelo se aplica por cada aplicación de daño (vanilla aplica daño continuo cada pocos ticks por la invulnerabilidad entre golpes). Limitación conocida: el veneno y las pociones de daño instantáneo comparten el tipo `magic` y reciben el mismo trato (con suelo).
+Esto sustituye a la regla anterior "el daño de entorno no escala".
 
 ### 3.2 Daño de un golpe (como % de la vida del defensor)
 `daño = 0,05 × clamp((A/D)^0,75 , 0,001 , 200)`
@@ -132,7 +141,7 @@ La vida real se guarda como **fracción (0–1)** y se muestra en la barra de Mi
 Hasta que existan DEF y el poder de ataque `A` de los enemigos, el daño que reciben los jugadores se calcula así (`core/HealthSystem.java`, `game/health/HealthEvents.java`):
 - `valor_VIT = 8 + 1,0 × mejoras_VIT` (valores del Saiyajin como base universal hasta que existan razas), tope 99 (91 mejoras).
 - El jugador conserva 20 HP de vanilla; `vida_real = (HP_vanilla / 20) × 12,5 × valor_VIT`. No se guarda aparte.
-- `daño_aplicado = daño_vanilla × (8 / valor_VIT)^3`, después de armadura y pociones (`LivingDamageEvent.Pre`). Solo daño causado por criaturas vivas; el de entorno (caída, lava, ahogamiento, TNT, `/kill`) no se escala, como dice §3.1.
+- `daño_aplicado = daño_vanilla × (8 / valor_VIT)^3`, después de armadura y pociones (`LivingDamageEvent.Pre`). Todo el daño escala salvo el vacío y `/kill`; el continuo tiene un suelo de 1 HP (tabla en §3.1).
 - Al subir VIT la barra vanilla no cambia; la vida real sube en la misma proporción.
 
 **Por qué cúbica (decisión del usuario, 2026-10-12).** La versión lineal (`^1`) era demasiado suave en pruebas reales: con VIT 18 un zombi de nivel 1 quitaba medio corazón y un creeper a bocajarro (20,25 HP entrantes) 4,5 corazones. Con `^3`:

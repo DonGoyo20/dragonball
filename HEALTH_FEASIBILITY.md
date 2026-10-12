@@ -88,3 +88,6 @@ Limitación conocida: los jugadores simulados de GameTest necesitan el truco `ma
 
 ## Nota 2026-10-12: la fórmula provisional pasó de lineal a cúbica
 Las secciones 3 y 5 de este documento describen la versión lineal inicial `f = (daño/20) × (8/VIT)`. Tras la prueba en el juego se cambió a `daño_aplicado = daño_vanilla × (8/VIT)^3` (más fuerte; decisión del usuario). Las cifras vigentes y la deuda técnica están en `SYSTEMS.md` §3.2.1 y `HEALTH_IMPLEMENTATION.md`. La arquitectura y las APIs verificadas no cambian.
+
+## Nota 2026-10-12 (2): clasificación de daño
+La sección 3 (puntos 9 y 10) decía que el daño de entorno no se escala. Esa regla fue sustituida: ahora hay tres categorías (escala sin suelo, escala con suelo de 1 HP, no escala: vacío y `/kill`). Ver `SYSTEMS.md` §3.1 y `HEALTH_IMPLEMENTATION.md`.

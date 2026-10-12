@@ -108,7 +108,7 @@ Ejemplos (P, no definitivos): una ruta de un artista marcial rival (escuela de l
 ### 8.1 Qué entra en la beta (P)
 - **Niveles totales 1 a ~171** (la puerta 2 queda cerrada). Tiempo aproximado a ritmo de diseño: ~16 h. **Cierre de la beta (decisión tuya):** se acaba al derrotar a Vegeta, no por un número. Como la puerta 2 (Super Saiyajin) no existe en la beta, el nivel total queda en la práctica en ~171 sin necesidad de un tope explícito.
 - **Puerta 1:** Kaio-ken (Saiyajin y Terrícola; las demás razas con su forma 2 o equivalente).
-- **Historia (orden propuesto, ajustado el 2026-10-11 al ampliar el alcance):** banda de Pilaf (niveles 9–26) → Red Ribbon (20–52, con Tao Pai Pai como jefe) → luchadores de Baba (40–52, arena opcional) → hijos de Piccolo Daimaō (62–76) → llegada de los saiyajin: Raditz (95) → Saibamen en grupos de 3 (108) → Nappa (140) → **Vegeta** (171) como jefe final. El detalle de todos los enemigos está en `BESTIARY.md`.
+- **Historia (orden propuesto, ajustado el 2026-10-11 al ampliar el alcance):** banda de Pilaf (niveles 9–26) → Red Ribbon (20–52, con Tao Pai Pai como jefe) → luchadores de Baba (40–52, arena opcional) → hijos de Piccolo Daimaō (62–76) → llegada de los saiyajin: Raditz (95) → Saibamen en grupos de 3 (108) → Nappa (140) → **Vegeta** (171) como jefe final, **con fase Ozaru** (decisión 2026-10-12: tras una primera fase normal se transforma en Ozaru con aspecto y estadísticas distintos; si el modelo del mono gigante es demasiado costoso, cambio de fase con aura y estadísticas). Los **Saibamen se autodestruyen** al morir con daño en área al jugador cercano (no a otros Saibamen). El **quinto luchador enmascarado de Baba queda fuera de la beta**. El detalle de todos los enemigos está en `BESTIARY.md` y el de los jefes en `BETA_BOSSES.md`.
 - **Maestros:** Roshi, Kami-sama, Kaio-sama, Piccolo.
 - **Otro Mundo** con Camino de la Serpiente y el planeta de Kaio.
 - **Razas jugables:** Saiyajin y Terrícola (RACES §11).
@@ -129,3 +129,4 @@ El volumen "sin fin" de Elden Ring se construye después, añadiendo datos, no c
 Cerrado: el mapa muestra tu posición y el terreno visto, sin marcar objetivos; la beta termina al derrotar a Vegeta.
 
 Preguntas abiertas: ninguna por ahora en este documento.
+4. **Bestiario §15 (2026-10-12):** quinto luchador de Baba fuera de la beta; autodestrucción de los Saibamen sí (daño en área, no daña a otros Saibamen, escala con VIT); Vegeta con fase Ozaru como fase final del jefe. Ver `BESTIARY.md` §15 y `BETA_BOSSES.md`.

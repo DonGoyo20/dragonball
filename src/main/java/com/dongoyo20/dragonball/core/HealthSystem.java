@@ -11,6 +11,9 @@ package com.dongoyo20.dragonball.core;
  * de nivel 1 seguía quitando medio corazón con VIT 18: demasiado suave. Con el cubo, VIT 8 mantiene el daño de
  * vanilla (la amenaza inicial no cambia), VIT 18 lo deja en ~9 % y VIT 30 en ~2 %.
  *
+ * <p><b>Alcance (2026-10-12):</b> todo el daño escala con VIT salvo el vacío y {@code /kill} ({@link TipoDanio}); el de
+ * estado continuo tiene un suelo de 1 HP. Ver SYSTEMS.md §3.1.
+ *
  * <p><b>Deuda técnica:</b> SYSTEMS.md §3.2 define el daño como {@code 0,05 × (A/D)^0,75} con
  * {@code D = DEF^0,7 × VIT^0,3}. Esta fórmula es mucho más fuerte que el diseño (VIT^3 frente a VIT^0,3) y no
  * depende del poder del atacante, porque todavía no existen DEF ni el poder de ataque {@code A} de los enemigos.
@@ -60,21 +63,29 @@ public final class HealthSystem {
         return (hpVanilla / VANILLA_MAX_HP) * vidaMaxima;
     }
 
-    /** Daño en HP vanilla que se resta de verdad: {@code danioVanilla × (VIT_BASE / VIT)^3}. */
-    public static double danioAplicado(double danioVanilla, int vitActual) {
+    /** Suelo del daño de estado continuo, en HP vanilla por aplicación (evita que VIT 99 sea inmune a la lava). */
+    public static final double SUELO_CONTINUO = 1.0;
+
+    /**
+     * Daño en HP vanilla que se resta de verdad.
+     * <ul>
+     *   <li>{@code ESCALA_SIN_SUELO}: {@code danioVanilla × (VIT_BASE / VIT)^3}.</li>
+     *   <li>{@code ESCALA_CON_SUELO}: lo mismo, pero nunca menos de {@link #SUELO_CONTINUO} (ni más que el daño
+     *       original: el suelo no puede aumentar un daño que ya era menor que 1).</li>
+     *   <li>{@code NO_ESCALA}: el daño original (vacío y /kill).</li>
+     * </ul>
+     */
+    public static double danioAplicado(double danioVanilla, int vitActual, TipoDanio tipo) {
         checkVit(vitActual);
         if (danioVanilla < 0 || Double.isNaN(danioVanilla)) {
             throw new IllegalArgumentException("daño negativo o NaN: " + danioVanilla);
         }
-        return danioVanilla * Math.pow(VIT_BASE / vitActual, DANIO_EXPONENTE);
-    }
-
-    /**
-     * El daño de entorno (caída, lava, ahogamiento, fuego, vacío, /kill…) no tiene entidad atacante y no se
-     * escala (SYSTEMS.md §3.1). El juego decide {@code hayAtacante} a partir del DamageSource.
-     */
-    public static boolean esDanioDeEntorno(boolean hayAtacante) {
-        return !hayAtacante;
+        double escalado = danioVanilla * Math.pow(VIT_BASE / vitActual, DANIO_EXPONENTE);
+        return switch (tipo) {
+            case ESCALA_SIN_SUELO -> escalado;
+            case ESCALA_CON_SUELO -> Math.min(danioVanilla, Math.max(escalado, SUELO_CONTINUO));
+            case NO_ESCALA -> danioVanilla;
+        };
     }
 
     private static void checkVit(int vit) {

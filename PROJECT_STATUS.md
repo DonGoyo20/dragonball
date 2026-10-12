@@ -37,11 +37,16 @@ Completada: ver `ATTRIBUTE_AUDIT.md`. Hay 7 atributos (no 5), sin ningún efecto
 Decisiones del usuario: vida con fracción 0–1 (20 HP vanilla reales; vida real derivada), este ciclo solo VIT → salud, tope 99 en `tryUpgrade`, VEL solo esquiva, razas no son prerrequisito (valores base universales), sin HUD este ciclo, traducciones EN/ES de los 7 atributos.
 Viabilidad verificada en el código fuente de NeoForge 21.1.259: `LivingDamageEvent.Pre` (+ `LivingIncomingDamageEvent`), `LivingHealEvent`, `LivingDeathEvent`, `PlayerEvent.Clone`, `PlayerLoggedInEvent`, `PlayerTickEvent.Pre/Post`, `getHealth/setHealth`, sincronización con `AttachmentType.Builder.sync(StreamCodec)`. Detalle, flujo, valores provisionales y plan de pruebas en `HEALTH_FEASIBILITY.md`. Pendiente de confirmación: 4 puntos al final de ese documento. No hay código nuevo todavía.
 
-## Ciclo VIT → salud (2026-10-11; fórmula cúbica 2026-10-12)
-Implementado y verificado en el juego por el usuario con la fórmula lineal; se cambió a cúbica `(8/VIT)^3` por ser demasiado suave. Tests automáticos con la nueva fórmula: JUnit 13, GameTest 15. **La fórmula cúbica no se ha probado aún en el juego real.** Ver `HEALTH_IMPLEMENTATION.md`. Deuda técnica en `SYSTEMS.md` §3.2.1.
+## Ciclo VIT → salud (2026-10-11; cúbica y tres categorías de daño 2026-10-12)
+Implementado; la versión lineal se verificó en el juego. Ahora: fórmula cúbica `(8/VIT)^3` y clasificación de daño en 3 categorías (escala sin suelo / con suelo de 1 HP / no escala: vacío y `/kill`). Tests automáticos: JUnit 14/14, GameTest 17/17. **La fórmula cúbica y las tres categorías no se han probado aún en el juego real.** Ver `HEALTH_IMPLEMENTATION.md` y `SYSTEMS.md` §3.1–3.2.1 (deuda técnica).
+
+## Decisiones cerradas (2026-10-12) — BESTIARY.md §15 resuelto
+1. Quinto luchador enmascarado de Baba: **fuera de la beta** (canon poco claro; posible en la 1.0).
+2. Saibamen: **SÍ se autodestruyen** al morir, con daño en área al jugador cercano, sin dañar a otros Saibamen, con daño escalado por VIT.
+3. Vegeta: **SÍ con fase Ozaru** como fase final del jefe (con alternativa de aura y estadísticas sin modelo nuevo). Pendiente: definir y simular la fase. Solo documentado; sin código. Ver `BETA_BOSSES.md`.
 
 ## Documentos
-GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas en detalle), SYSTEMS.md (reglas base: niveles, ki, combate, comida, entrenamiento), CONTENT_DESIGN.md (exploración, jefes secretos, rutas de personaje), ABILITIES.md (habilidades, formas y requisitos), BETA_RACES.md (Saiyajin y Humano en la beta), BESTIARY.md (enemigos y jefes de la beta; datos en design_data/beta/bestiary.json), BESTIARY_PLAN.md (análisis técnico y plan de implementación del bestiario), tools/simulator (simulador de equilibrio en Python), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).
+GDD.md (diseño), WORLD_DESIGN.md (mundo, juego libre, niveles), RACES.md (razas en detalle), SYSTEMS.md (reglas base: niveles, ki, combate, comida, entrenamiento), CONTENT_DESIGN.md (exploración, jefes secretos, rutas de personaje), ABILITIES.md (habilidades, formas y requisitos), BETA_RACES.md (Saiyajin y Humano en la beta), BETA_BOSSES.md (jefes de la beta), BESTIARY.md (enemigos y jefes de la beta; datos en design_data/beta/bestiary.json), BESTIARY_PLAN.md (análisis técnico y plan de implementación del bestiario), tools/simulator (simulador de equilibrio en Python), TECHNICAL_DESIGN.md (arquitectura), ROADMAP.md, REFERENCES.md (investigación).
 
 ## Problemas conocidos
 - Investigación basada solo en búsquedas; no se leyó código de otros mods.
