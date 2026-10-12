@@ -35,7 +35,8 @@
   "defense": {
     "def_base": 8.0,
     "def_growth": 1.0,
-    "damage_exponent": 3.0
+    "damage_exponent": 3.0,
+    "defense_multiplier": 1.25
   },
   "pod": {
     "pod_base": 8.0,

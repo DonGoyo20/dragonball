@@ -69,7 +69,8 @@ public final class BalanceManager {
     static final Codec<DefenseParams> DEFENSE_CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.DOUBLE.optionalFieldOf("def_base", DFD.defBase()).forGetter(DefenseParams::defBase),
             Codec.DOUBLE.optionalFieldOf("def_growth", DFD.defGrowth()).forGetter(DefenseParams::defGrowth),
-            Codec.DOUBLE.optionalFieldOf("damage_exponent", DFD.damageExponent()).forGetter(DefenseParams::damageExponent)
+            Codec.DOUBLE.optionalFieldOf("damage_exponent", DFD.damageExponent()).forGetter(DefenseParams::damageExponent),
+            Codec.DOUBLE.optionalFieldOf("defense_multiplier", DFD.multiplier()).forGetter(DefenseParams::multiplier)
     ).apply(i, DefenseParams::new));
 
     static final Codec<PodParams> POD_CODEC = RecordCodecBuilder.create(i -> i.group(

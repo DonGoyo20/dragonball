@@ -111,6 +111,7 @@ class BalanceParamsTest {
         assertEquals(8.0, D.defense().defBase());
         assertEquals(1.0, D.defense().defGrowth());
         assertEquals(3.0, D.defense().damageExponent());
+        assertEquals(1.25, D.defense().multiplier());
         assertEquals(8.0, D.pod().podBase());
         assertEquals(1.0, D.pod().podGrowth());
         assertEquals(91, D.defMaxUpgrades());

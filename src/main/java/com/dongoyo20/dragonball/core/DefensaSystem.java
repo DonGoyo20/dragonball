@@ -1,9 +1,16 @@
 package com.dongoyo20.dragonball.core;
 
 /**
- * DEF (defensa) en Java puro. Decisión provisional mía, simétrica a VIT y FUE: el daño instantáneo recibido (golpes,
- * proyectiles, explosiones, caídas…) se multiplica por {@code (8 / DEF efectiva)^3}. Con DEF 8 no cambia; con DEF 18, ×0,088.
- * Se suma a la reducción de VIT (ver {@link HealthSystem}): VIT 18 y DEF 18 juntas dan ×0,0077.
+ * DEF (defensa) en Java puro. El daño instantáneo recibido (golpes, proyectiles, explosiones, caídas…) se multiplica por
+ * {@code min(1, defense_multiplier × (8 / DEF efectiva)^3)}, con {@code defense_multiplier = 1,25} (decisión del usuario,
+ * 2026-10-12: con la fórmula pura VIT 18 + DEF 18 era ×0,0077, casi inmune; el multiplicador la deja en un 25 % más de daño).
+ * <ul>
+ *   <li>DEF 8 (o liberación 0 %): ×1, vanilla. El tope {@code min(1, …)} evita que el multiplicador empeore el daño por
+ *       debajo de DEF ~8,6 (sin él, DEF 8 recibiría ×1,25 por culpa de la propia mejora).</li>
+ *   <li>DEF 18 sola: {@code 1,25 × 0,0878 = ×0,110}.</li>
+ *   <li>VIT 18 + DEF 18 (se suman a la reducción de VIT, ver {@link HealthSystem}): {@code 0,0878 × 0,110 = ×0,0097}.</li>
+ *   <li>Liberación 100 %: la DEF efectiva se duplica; el multiplicador sigue siendo 1,25.</li>
+ * </ul>
  *
  * <p>La DEF efectiva depende de la liberación igual que VIT, FUE y VEL ({@link KiSystem#statEfectiva}): a 0 % es vanilla, a
  * 50 % la del mod, a 100 % el doble.
@@ -35,12 +42,16 @@ public final class DefensaSystem {
         return upgrades >= 0 && upgrades < p.defMaxUpgrades();
     }
 
-    /** Multiplicador del daño recibido por una DEF <b>efectiva</b> (ya con la liberación aplicada). Debe ser positiva. */
+    /**
+     * Multiplicador del daño recibido por una DEF <b>efectiva</b> (ya con la liberación aplicada), que debe ser positiva:
+     * {@code min(1, multiplicador × (defBase / defEfectiva)^exponente)}.
+     */
     public static double multiplicadorEfectivo(double defEfectiva, BalanceParams p) {
         if (!(defEfectiva > 0) || Double.isInfinite(defEfectiva)) {
             throw new IllegalArgumentException("DEF efectiva debe ser positiva: " + defEfectiva);
         }
-        return Math.pow(p.defense().defBase() / defEfectiva, p.defense().damageExponent());
+        double raw = p.defense().multiplier() * Math.pow(p.defense().defBase() / defEfectiva, p.defense().damageExponent());
+        return Math.min(1.0, raw);
     }
 
     /** Multiplicador del daño recibido con la DEF del jugador y su liberación (en %). */

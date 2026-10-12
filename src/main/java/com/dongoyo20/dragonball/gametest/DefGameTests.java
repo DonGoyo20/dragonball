@@ -53,14 +53,24 @@ public final class DefGameTests {
         ServerPlayer def8 = newPlayer(helper);
         ServerPlayer def18 = newPlayer(helper);
         setProgress(def8, 0, 0, 50);
-        setProgress(def18, 10, 0, 50);                                   // DEF 18 al 50 %: ×(8/18)^3 = 0,0878
+        setProgress(def18, 10, 0, 50);                                   // DEF 18 al 50 %: ×1,25·(8/18)^3 = 0,110
         Zombie z = zombie(helper);
 
         def8.hurt(def8.damageSources().mobAttack(z), 4.0F);
         def18.hurt(def18.damageSources().mobAttack(z), 4.0F);
 
         near(helper, 20.0 - def8.getHealth(), 4.0, 0.01, "DEF 8: daño de vanilla");
-        near(helper, 20.0 - def18.getHealth(), 4.0 * Math.pow(8.0 / 18.0, 3), 0.01, "DEF 18");
+        near(helper, 20.0 - def18.getHealth(), 4.0 * 1.25 * Math.pow(8.0 / 18.0, 3), 0.01, "DEF 18 (×0,110)");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void vitEighteenPlusDefEighteenIsTwentyFivePercentMoreThanBefore(GameTestHelper helper) {
+        ServerPlayer player = newPlayer(helper);
+        ProgressService.set(player, new PlayerProgress(0, List.of(10, 0, 10, 0, 0, 0, 0), new KiData(50, 50, 100)));   // VIT 18 y DEF 18
+        Zombie z = zombie(helper);
+        player.hurt(player.damageSources().mobAttack(z), 20.0F);          // 20 HP de vanilla: se mide la reducción
+        near(helper, 20.0 - player.getHealth(), 20.0 * 1.25 * Math.pow(8.0 / 18.0, 6), 0.005, "VIT 18 + DEF 18 (×0,0097)");
         helper.succeed();
     }
 
@@ -77,7 +87,7 @@ public final class DefGameTests {
 
         near(helper, 20.0 - zero.getHealth(), 4.0, 0.01, "DEF al 0 % = vanilla");
         // al 100 % también VIT 8 pasa a 16 (×1/8): el resultado combina las dos reducciones
-        near(helper, 20.0 - full.getHealth(), 4.0 * Math.pow(8.0 / 36.0, 3) * 0.125, 0.002, "DEF al 100 % (con VIT doble)");
+        near(helper, 20.0 - full.getHealth(), 4.0 * 1.25 * Math.pow(8.0 / 36.0, 3) * 0.125, 0.002, "DEF al 100 % (con VIT doble)");
         helper.succeed();
     }
 
@@ -120,8 +130,8 @@ public final class DefGameTests {
     @GameTest(template = TEMPLATE)
     public static void defAndPodBalanceComesFromDataAndIsValidated(GameTestHelper helper) {
         var parsed = com.dongoyo20.dragonball.game.balance.BalanceManager.parse(com.google.gson.JsonParser.parseString(
-                "{\"defense\": {\"damage_exponent\": 2}, \"pod\": {\"pod_base\": 10}}"));
-        helper.assertTrue(parsed.defense().damageExponent() == 2.0 && parsed.defense().defBase() == 8.0, "clave de DEF cambiada, el resto por defecto");
+                "{\"defense\": {\"damage_exponent\": 2, \"defense_multiplier\": 1.5}, \"pod\": {\"pod_base\": 10}}"));
+        helper.assertTrue(parsed.defense().damageExponent() == 2.0 && parsed.defense().multiplier() == 1.5 && parsed.defense().defBase() == 8.0, "claves de DEF cambiadas, el resto por defecto");
         helper.assertTrue(parsed.pod().podBase() == 10.0 && parsed.pod().podGrowth() == 1.0, "clave de POD cambiada");
 
         java.util.List<String> errors = new java.util.ArrayList<>();

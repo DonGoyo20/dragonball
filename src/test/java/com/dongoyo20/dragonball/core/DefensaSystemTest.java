@@ -34,35 +34,64 @@ class DefensaSystemTest {
         assertThrows(IllegalArgumentException.class, () -> KiSystem.podValue(92, P));
     }
 
+    private static final double M = 1.25;
+
     @Test
-    void defOfEightMeansNoExtraReduction() {
-        assertEquals(1.0, DefensaSystem.multiplicador(8, 50, P), 1e-12);
+    void defOfEightMeansNoChange() {
+        assertEquals(1.0, DefensaSystem.multiplicador(8, 50, P), 1e-12);        // el tope min(1, ...) evita el ×1,25
         assertEquals(10.0, DefensaSystem.danioTrasDefensa(10.0, 8, 50, P), 1e-12);
     }
 
     @Test
-    void defReducesDamageCubically() {
-        assertEquals(Math.pow(8.0 / 18.0, 3), DefensaSystem.multiplicador(18, 50, P), 1e-12);   // ×0,088
-        assertEquals(Math.pow(8.0 / 26.0, 3), DefensaSystem.multiplicador(26, 50, P), 1e-12);
-        assertEquals(10.0 * Math.pow(8.0 / 99.0, 3), DefensaSystem.danioTrasDefensa(10.0, 99, 50, P), 1e-9);
+    void defEighteenAloneIsOnePointTwoFiveTimesTheCubicReduction() {
+        assertEquals(M * Math.pow(8.0 / 18.0, 3), DefensaSystem.multiplicador(18, 50, P), 1e-12);
+        assertEquals(0.110, DefensaSystem.multiplicador(18, 50, P), 5e-4);                          // ×0,110
+        assertEquals(M * Math.pow(8.0 / 99.0, 3), DefensaSystem.multiplicador(99, 50, P), 1e-12);
+    }
+
+    @Test
+    void vitEighteenPlusDefEighteenIsTwentyFivePercentMoreThanBefore() {
+        double vit = HealthSystem.danioAplicadoLiberado(1.0, 18, 50, TipoDanio.ESCALA_SIN_SUELO, P);
+        double both = vit * DefensaSystem.multiplicador(18, 50, P);
+        assertEquals(0.00963, both, 1e-5);                                                           // ×0,0096 (0,0077 × 1,25; "0,0097" redondeado)
+        assertEquals(1.25, both / Math.pow(8.0 / 18.0, 6), 1e-9);                                    // +25 % sobre ×0,0077
+    }
+
+    @Test
+    void defNeverMakesDamageWorseThanVanilla() {
+        for (int def = 8; def <= 99; def++) {
+            for (double lib = 0; lib <= 100; lib += 12.5) {
+                double m = DefensaSystem.multiplicador(def, lib, P);
+                assertTrue(m <= 1.0 + 1e-12 && m > 0.0, "DEF " + def + " lib " + lib + " → " + m);
+            }
+        }
+        double prev = 2.0;                                                                           // más DEF nunca da más daño
+        for (int def = 8; def <= 99; def++) {
+            double m = DefensaSystem.multiplicador(def, 50, P);
+            assertTrue(m <= prev + 1e-12, "DEF " + def);
+            prev = m;
+        }
     }
 
     @Test
     void defFollowsThePiecewiseRelease() {
-        // 0 %: vanilla para cualquier DEF
+        // 0 %: vanilla para cualquier DEF (DEF efectiva 8 → ×1, no ×1,25)
         for (int def : new int[] {8, 18, 99}) assertEquals(1.0, DefensaSystem.multiplicador(def, 0, P), 1e-12, "DEF " + def);
         // 25 %: DEF 18 → efectiva 13
-        assertEquals(Math.pow(8.0 / 13.0, 3), DefensaSystem.multiplicador(18, 25, P), 1e-12);
-        // 100 %: DEF 18 → efectiva 36; DEF 8 → 16
-        assertEquals(Math.pow(8.0 / 36.0, 3), DefensaSystem.multiplicador(18, 100, P), 1e-12);
-        assertEquals(0.125, DefensaSystem.multiplicador(8, 100, P), 1e-12);
+        assertEquals(M * Math.pow(8.0 / 13.0, 3), DefensaSystem.multiplicador(18, 25, P), 1e-12);
+        // 100 %: DEF 18 → efectiva 36; DEF 8 → 16. El multiplicador sigue siendo 1,25
+        assertEquals(M * Math.pow(8.0 / 36.0, 3), DefensaSystem.multiplicador(18, 100, P), 1e-12);
+        assertEquals(M * 0.125, DefensaSystem.multiplicador(8, 100, P), 1e-12);
     }
 
     @Test
-    void defAndVitStack() {
-        double vit = HealthSystem.danioAplicadoLiberado(3.0, 18, 50, TipoDanio.ESCALA_SIN_SUELO, P);
-        double both = vit * DefensaSystem.multiplicador(18, 50, P);
-        assertEquals(3.0 * Math.pow(8.0 / 18.0, 6), both, 1e-9);
+    void multiplierIsConfigurable() {
+        BalanceParams x15 = new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,
+                new DefenseParams(8, 1, 3, 1.5), PodParams.DEFAULT);
+        assertEquals(1.5 * Math.pow(8.0 / 18.0, 3), DefensaSystem.multiplicador(18, 50, x15), 1e-12);
+        BalanceParams x1 = new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,
+                new DefenseParams(8, 1, 3, 1.0), PodParams.DEFAULT);
+        assertEquals(Math.pow(8.0 / 18.0, 3), DefensaSystem.multiplicador(18, 50, x1), 1e-12);       // sin multiplicador = la fórmula de antes
     }
 
     @Test
@@ -78,11 +107,15 @@ class DefensaSystemTest {
     void defAndPodParamsAreValidated() {
         assertNull(P.problem());
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,
-                new DefenseParams(0, 1, 3), PodParams.DEFAULT).problem());
+                new DefenseParams(0, 1, 3, 1.25), PodParams.DEFAULT).problem());
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,
-                new DefenseParams(8, 0, 3), PodParams.DEFAULT).problem());
+                new DefenseParams(8, 0, 3, 1.25), PodParams.DEFAULT).problem());
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,
-                new DefenseParams(8, 1, 9), PodParams.DEFAULT).problem());
+                new DefenseParams(8, 1, 9, 1.25), PodParams.DEFAULT).problem());
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,
+                new DefenseParams(8, 1, 3, 0), PodParams.DEFAULT).problem());
+        assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,
+                new DefenseParams(8, 1, 3, Double.NaN), PodParams.DEFAULT).problem());
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,
                 DefenseParams.DEFAULT, new PodParams(-1, 1)).problem());
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, KiParams.DEFAULT, ReleaseParams.DEFAULT,

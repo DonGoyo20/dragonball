@@ -50,6 +50,9 @@ Sustituye la fórmula `max(0, lib/50)` y elimina el castigo por falta de ki (×4
 ## Fase 1 DMZ: DEF y POD (2026-10-12)
 DEF implementada (valor, compra, tope 99, reducción cúbica del daño instantáneo, escala con la liberación); POD con valor y compra pero **sin efecto** hasta que existan las técnicas; CON sin cambios. Datos en `combat.json` (`defense`, `pod`). JUnit 53/53, GameTest 57/57. **No verificado en el PC del usuario.** Ver `DEF_POD_IMPLEMENTATION.md`.
 
+## Ajuste de DEF: multiplicador 1,25 (2026-10-12)
+El usuario verificó DEF y VIT + DEF era casi inmunidad (×0,0077). Se añadió `defense.defense_multiplier = 1,25` (configurable en `combat.json`): reducción de DEF = `min(1, 1,25 × (8/DEF efectiva)^3)`; DEF 18 sola ×0,110, VIT 18 + DEF 18 ×0,0096 (+25 %), DEF 8 y 0 % de liberación siguen en ×1 (el tope en 1 evita que DEF empeore el daño). JUnit 55/55, GameTest 58/58. Sin tocar VIT, FUE, POD, CON, Ki ni HUD. **No verificado en el PC del usuario.**
+
 ## Correcciones tras probar la función a trozos (2026-10-12)
 (1) Corazones de vanilla ocultos mientras el HUD del mod esté visible; (2) el bonus de VEL ya no estira el FOV (se deshace en el cálculo del FOV del cliente); (3) el salto sube con VEL (misma mejora, sin atributo aparte); (4) el bonus de velocidad y de salto solo se aplica **mientras el jugador corre**. JUnit 44/44, GameTest 52/52; corazones y FOV solo compilados, no vistos en pantalla. Ver `KI_IMPLEMENTATION.md`.
 
