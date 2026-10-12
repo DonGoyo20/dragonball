@@ -32,7 +32,7 @@ Mod de **Dragon Ball RPG para Minecraft Java 1.21.1 + NeoForge 21.1.259** (Java 
 | FTB Quests: capítulo de prueba con 3 misiones | sí | datos | las 3 se completan en juego |
 | KubeJS: script que cambia la XP de la araña | sí | datos | verificado (49 XP en vez de 10) |
 | Traducciones | — | es_es + variantes es_mx/ar/cl/uy/ve/ec | **por verificar en el PC** |
-| VIT → salud (`HealthSystem`, `LivingDamageEvent.Pre`, tope 99 en VIT) | sí | sí | fórmula cúbica `(8/VIT)^3`; tests automáticos (JUnit 14, GameTest 15); la versión lineal se probó en juego, la cúbica está pendiente de probar |
+| VIT → salud (`HealthSystem`, `LivingDamageEvent.Pre`, tope 99 en VIT) | sí | sí | fórmula cúbica `(8/VIT)^3`; tests automáticos (JUnit 13, GameTest 15); la versión lineal se probó en juego, la cúbica está pendiente de probar |
 | Efecto del resto de atributos en combate, ki, técnicas, razas, formas, maestros, Otro Mundo, HUD, sincronización al cliente | sí | **no** | — |
 Código: Java en `src/main/java/com/dongoyo20/dragonball/` (`core/Progression` puro; `game/progress`, `game/bestiary`, `game/entity`, `game/command`, `game/advancement`; `client/WildWolfRenderer`). Comandos: `/dragonball progress | upgrade <vit|fue|def|vel|ki|pod|con> | givexp <n>`.
 Tests: `./gradlew build` (JUnit), `./gradlew runGameTestServer` (6 GameTest), `tools/verify_integrations.sh` (núcleo + FTB + KubeJS). Simulador de equilibrio en Python (`tools/simulator`, 29 pruebas), datos en `design_data/beta/bestiary.json`.
