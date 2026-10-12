@@ -4,6 +4,8 @@ import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.game.progress.ProgressService;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
 
 /** Puente entre el jugador de Minecraft y las fórmulas de {@link HealthSystem}. No guarda estado propio. */
 public final class HealthService {
@@ -29,8 +31,14 @@ public final class HealthService {
         return (float) HealthSystem.danioAplicado(danioVanilla, vit(player));
     }
 
-    /** Sin entidad atacante (ni directa ni causante) = daño de entorno. */
+    /**
+     * Hay "atacante" cuando el causante del daño es una criatura viva: zombi (cuerpo a cuerpo), esqueleto (la flecha
+     * es la entidad directa, el esqueleto el causante), creeper (el creeper es el causante de su explosión).
+     * La TNT encendida es entorno aunque la haya encendido un jugador: su entidad directa es la TNT.
+     */
     public static boolean esDanioDeEntorno(DamageSource source) {
-        return HealthSystem.esDanioDeEntorno(source.getEntity() != null || source.getDirectEntity() != null);
+        boolean hayAtacante = source.getEntity() instanceof LivingEntity
+                && !(source.getDirectEntity() instanceof PrimedTnt);
+        return HealthSystem.esDanioDeEntorno(hayAtacante);
     }
 }

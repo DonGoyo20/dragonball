@@ -63,7 +63,8 @@ public final class HealthGameTests {
 
         player.hurt(player.damageSources().mobAttack(zombie), 3.0F);
 
-        assertHealth(helper, player, 20.0 - 3.0 * 8.0 / 18.0, "VIT 18");
+        assertHealth(helper, player, 20.0 - 3.0 * Math.pow(8.0 / 18.0, 3), "VIT 18"); // ≈ 19,74
+        helper.assertTrue(20.0 - player.getHealth() < 0.6, "con VIT 18 el zombi quita menos de 0,3 corazones");
         helper.succeed();
     }
 
@@ -86,6 +87,50 @@ public final class HealthGameTests {
         ServerPlayer player = newPlayer(helper);
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, 1, 1, 1);
         helper.assertTrue(!HealthService.esDanioDeEntorno(player.damageSources().mobAttack(zombie)), "zombi = no entorno");
+        helper.succeed();
+    }
+
+    /**
+     * Daño de explosión construido igual que vanilla ({@code Explosion.getDamageSource}: entidad directa y causante).
+     * No se usa una explosión real porque su daño depende de la distancia y de la exposición medida contra los
+     * bloques del recinto de pruebas (daba ~1 HP a 4 bloques), lo que haría la prueba frágil.
+     */
+    @GameTest(template = TEMPLATE)
+    public static void creeperExplosionIsScaledByVit(GameTestHelper helper) {
+        ServerPlayer vit8 = newPlayer(helper);
+        ServerPlayer vit18 = newPlayer(helper);
+        setVitUpgrades(vit18, 10);
+        net.minecraft.world.entity.monster.Creeper creeper = helper.spawnWithNoFreeWill(EntityType.CREEPER, 4, 1, 1);
+        net.minecraft.world.damagesource.DamageSource blast = helper.getLevel().damageSources().explosion(creeper, creeper);
+        helper.assertTrue(!HealthService.esDanioDeEntorno(blast), "el creeper cuenta como criatura");
+
+        vit8.hurt(blast, 20.25F);   // creeper a bocajarro medido en el juego
+        vit18.hurt(blast, 20.25F);
+
+        helper.assertTrue(!vit8.isAlive() || vit8.getHealth() < 0.5, "VIT 8: el creeper mata o deja al borde (vida " + vit8.getHealth() + ")");
+        assertHealth(helper, vit18, 20.0 - 20.25 * Math.pow(8.0 / 18.0, 3), "VIT 18 ante el creeper"); // ≈ 18,22
+        helper.assertTrue(20.0 - vit18.getHealth() < 2.0, "con VIT 18 el creeper quita menos de 1 corazón");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void tntExplosionIsNotScaledEvenIfLitByAPlayer(GameTestHelper helper) {
+        ServerPlayer vit8 = newPlayer(helper);
+        ServerPlayer vit18 = newPlayer(helper);
+        setVitUpgrades(vit18, 10);
+        // El dueño de la TNT es una criatura viva (peor caso: el causante sería "vivo"); un jugador no sirve aquí
+        // porque con PvP desactivado en el servidor de pruebas vanilla ignora el daño entre jugadores.
+        Zombie owner = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, 4, 1, 1);
+        net.minecraft.world.entity.item.PrimedTnt tnt = new net.minecraft.world.entity.item.PrimedTnt(
+                helper.getLevel(), 0, 0, 0, owner);
+        net.minecraft.world.damagesource.DamageSource blast = helper.getLevel().damageSources().explosion(tnt, owner);
+        helper.assertTrue(HealthService.esDanioDeEntorno(blast), "la TNT es entorno aunque la haya encendido una criatura");
+
+        vit8.hurt(blast, 6.0F);
+        vit18.hurt(blast, 6.0F);
+
+        assertHealth(helper, vit8, 14.0, "TNT con VIT 8");
+        assertHealth(helper, vit18, 14.0, "TNT con VIT 18 (sin escalar)");
         helper.succeed();
     }
 

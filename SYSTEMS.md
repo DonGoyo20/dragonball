@@ -128,13 +128,23 @@ La vida real se guarda como **fracción (0–1)** y se muestra en la barra de Mi
 - Con `A = D` se necesitan unos 20 golpes. Con 100× más poder, ~10× más daño; con 100× menos, ~10× menos.
 - Ningún golpe supera el 100 %.
 
-### 3.2.1 Fórmula provisional de VIT → salud (implementada 2026-10-11) — DEUDA TÉCNICA
+### 3.2.1 Fórmula provisional de VIT → salud (implementada 2026-10-11, cúbica desde 2026-10-12) — DEUDA TÉCNICA
 Hasta que existan DEF y el poder de ataque `A` de los enemigos, el daño que reciben los jugadores se calcula así (`core/HealthSystem.java`, `game/health/HealthEvents.java`):
 - `valor_VIT = 8 + 1,0 × mejoras_VIT` (valores del Saiyajin como base universal hasta que existan razas), tope 99 (91 mejoras).
 - El jugador conserva 20 HP de vanilla; `vida_real = (HP_vanilla / 20) × 12,5 × valor_VIT`. No se guarda aparte.
-- `daño_aplicado = daño_vanilla × (8 / valor_VIT)`, después de armadura y pociones (`LivingDamageEvent.Pre`). Solo daño causado por entidades; el de entorno (caída, lava, ahogamiento, `/kill`) no se escala, como dice §3.1.
+- `daño_aplicado = daño_vanilla × (8 / valor_VIT)^3`, después de armadura y pociones (`LivingDamageEvent.Pre`). Solo daño causado por criaturas vivas; el de entorno (caída, lava, ahogamiento, TNT, `/kill`) no se escala, como dice §3.1.
 - Al subir VIT la barra vanilla no cambia; la vida real sube en la misma proporción.
-**Deuda:** esto es lineal en VIT (`VIT^1`), más fuerte que el diseño de §3.2 (`VIT^0,3` dentro de `D`) y no depende del enemigo. Debe sustituirse por la fórmula de §3.2 cuando existan DEF y los poderes de ataque; mientras tanto un enemigo de nivel 171 pega como uno de nivel 1.
+
+**Por qué cúbica (decisión del usuario, 2026-10-12).** La versión lineal (`^1`) era demasiado suave en pruebas reales: con VIT 18 un zombi de nivel 1 quitaba medio corazón y un creeper a bocajarro (20,25 HP entrantes) 4,5 corazones. Con `^3`:
+
+| Golpe (HP vanilla) | VIT 8 | VIT 18 | VIT 30 |
+|---|---|---|---|
+| Zombi (3) | 3,0 (1,5 corazones) | 0,26 (0,13 corazones) | 0,057 |
+| Creeper a bocajarro (20,25) | 20,25 (mata) | 1,78 (0,89 corazones) | 0,38 |
+
+El creeper ya se interceptaba con la fórmula lineal (20,25 × 8/18 = 9 HP = 4,5 corazones): no era un fallo.
+
+**Deuda:** `VIT^3` es mucho más fuerte que el diseño de §3.2 (`VIT^0,3` dentro de `D`) y no depende del enemigo; mientras tanto un enemigo de nivel 171 pega como uno de nivel 1. Cuando existan DEF y el poder de ataque de los enemigos, se combinará con ellos.
 
 ### 3.3 Esquiva
 `prob_esquiva = clamp(0,10 + 0,20 · ln(E_VEL_defensor / E_VEL_atacante), 0, 0,6)`

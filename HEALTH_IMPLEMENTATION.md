@@ -1,4 +1,4 @@
-# HEALTH_IMPLEMENTATION — Ciclo VIT → salud (2026-10-11)
+# HEALTH_IMPLEMENTATION — Ciclo VIT → salud (2026-10-11; fórmula cúbica 2026-10-12)
 
 ## Qué se implementó
 Primer atributo funcional: VIT reduce el daño que reciben los jugadores. Diseño y APIs: `HEALTH_FEASIBILITY.md`; fórmula y deuda: `SYSTEMS.md` §3.2.1.
@@ -33,3 +33,11 @@ GameTests nuevos: zombi con VIT base → 17,0 HP; con VIT 18 → 18,667 HP; caí
 
 ## Verificación manual
 Ver el final de la respuesta del ciclo / README: survival, `/dragonball progress`, dejarse pegar por un zombi, `/dragonball givexp 500` + `/dragonball upgrade vit` ×10, repetir.
+
+## Cambio 2026-10-12: fórmula cúbica
+Tras probarlo en el juego, el usuario vio que la fórmula lineal era demasiado suave (zombi con VIT 18: medio corazón; creeper a bocajarro: 4,5 corazones). Decisión confirmada: `daño_aplicado = daño_vanilla × (8 / VIT)^3`.
+- `HealthSystem.danioAplicado` usa `Math.pow(VIT_BASE / vit, DANIO_EXPONENTE)` con `DANIO_EXPONENTE = 3`. JavaDoc con la decisión y la deuda técnica.
+- Creeper: **comportamiento esperado, no un fallo.** Su explosión llega a `LivingDamageEvent.Pre` con el creeper como entidad causante, y ya se escalaba con la fórmula lineal (20,25 × 8/18 = 9 HP).
+- Clasificación de entorno afinada: hay "atacante" si `source.getEntity()` es una `LivingEntity` y la entidad directa no es TNT (`PrimedTnt`). Zombi, flecha de esqueleto y creeper se escalan; caída, lava, ahogamiento, TNT (aunque la encienda una criatura o un jugador) y `/kill` no.
+- Tests: JUnit con 18 → 0,2634, 30 → 0,0569, creeper 20,25 → 1,778 y comprobación de que el cubo es siempre más fuerte que el lineal. GameTest: zombi VIT 8 → 17,0; VIT 18 → 19,74 (menos de 0,3 corazones); creeper VIT 8 muere/borde, VIT 18 → 18,22; TNT sin escalar.
+- **Los GameTest de explosión usan `DamageSource` construidos como en vanilla, no explosiones reales**: una explosión real daba solo ~1 HP a 4 bloques en el recinto de pruebas (depende de la exposición medida contra bloques), lo que hacía la prueba frágil. El comportamiento con un creeper real queda para tu verificación manual. Con PvP desactivado el servidor de pruebas ignora el daño entre jugadores, por eso el dueño de la TNT de prueba es un zombi.

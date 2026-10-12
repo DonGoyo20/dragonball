@@ -85,3 +85,6 @@ Limitación conocida: los jugadores simulados de GameTest necesitan el truco `ma
 2. ¿Aceptas la fórmula lineal provisional de VIT (más fuerte que el diseño) como paso previo a `D = DEF^0,7 × VIT^0,3`?
 3. ¿Daño de entorno sin escalar (como SYSTEMS §3.1)?
 4. ¿Base universal = valores del Saiyajin hasta que haya razas?
+
+## Nota 2026-10-12: la fórmula provisional pasó de lineal a cúbica
+Las secciones 3 y 5 de este documento describen la versión lineal inicial `f = (daño/20) × (8/VIT)`. Tras la prueba en el juego se cambió a `daño_aplicado = daño_vanilla × (8/VIT)^3` (más fuerte; decisión del usuario). Las cifras vigentes y la deuda técnica están en `SYSTEMS.md` §3.2.1 y `HEALTH_IMPLEMENTATION.md`. La arquitectura y las APIs verificadas no cambian.

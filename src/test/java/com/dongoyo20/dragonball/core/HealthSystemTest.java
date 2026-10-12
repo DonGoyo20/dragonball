@@ -29,7 +29,10 @@ class HealthSystemTest {
     @Test
     void damageIsVanillaAtBaseVitAndShrinksWithVit() {
         assertEquals(3.0, HealthSystem.danioAplicado(3.0, 8), 1e-9);
-        assertEquals(1.3333, HealthSystem.danioAplicado(3.0, 18), 1e-3);
+        assertEquals(0.2634, HealthSystem.danioAplicado(3.0, 18), 1e-3);   // 3 × (8/18)^3
+        assertEquals(0.0569, HealthSystem.danioAplicado(3.0, 30), 1e-3);   // 3 × (8/30)^3
+        assertEquals(20.25, HealthSystem.danioAplicado(20.25, 8), 1e-9);   // creeper a bocajarro, VIT base
+        assertEquals(1.778, HealthSystem.danioAplicado(20.25, 18), 1e-3);  // el mismo creeper con VIT 18
         assertEquals(0.0, HealthSystem.danioAplicado(0.0, 50), 1e-9);
         double previous = Double.MAX_VALUE;
         for (int vit = 8; vit <= 99; vit++) {
@@ -37,6 +40,17 @@ class HealthSystemTest {
             assertTrue(d <= previous && d > 0, "monótono decreciente en VIT " + vit);
             previous = d;
         }
+    }
+
+    @Test
+    void cubicFormulaIsMuchStrongerThanLinearAndStillBelowVanilla() {
+        for (int vit = 9; vit <= 99; vit++) {
+            double cubic = HealthSystem.danioAplicado(3.0, vit);
+            double linear = 3.0 * 8.0 / vit;
+            assertTrue(cubic < linear && cubic < 3.0, "VIT " + vit);
+        }
+        assertTrue(HealthSystem.danioAplicado(3.0, 18) < 0.6, "un zombi con VIT 18 quita menos de 0,3 corazones");
+        assertTrue(HealthSystem.danioAplicado(3.0, 99) > 0.0, "nunca llega a 0");
     }
 
     @Test

@@ -6,10 +6,15 @@ package com.dongoyo20.dragonball.core;
  * <p>Modelo: el jugador siempre tiene 20 HP de vanilla (la barra de corazones). La "vida real" no se guarda:
  * es {@code vidaReal = (hpVanilla / 20) × vidaRealMaxima(VIT)}.
  *
- * <p><b>Deuda técnica (fórmula provisional):</b> SYSTEMS.md §3.2 define el daño como
- * {@code 0,05 × (A/D)^0,75} con {@code D = DEF^0,7 × VIT^0,3}. Aquí VIT reduce el daño de forma <i>lineal</i>
- * ({@code VIT_BASE / VIT}), que es más fuerte que el diseño, porque todavía no existen DEF ni el poder de ataque
- * {@code A} de los enemigos. Se sustituirá cuando existan; la interfaz de este archivo debería sobrevivir.
+ * <p><b>Fórmula provisional (decisión del usuario, 2026-10-12):</b> el daño aplicado es
+ * {@code danioVanilla × (VIT_BASE / VIT)^3}. La primera versión era lineal ({@code ^1}) y en pruebas reales un zombi
+ * de nivel 1 seguía quitando medio corazón con VIT 18: demasiado suave. Con el cubo, VIT 8 mantiene el daño de
+ * vanilla (la amenaza inicial no cambia), VIT 18 lo deja en ~9 % y VIT 30 en ~2 %.
+ *
+ * <p><b>Deuda técnica:</b> SYSTEMS.md §3.2 define el daño como {@code 0,05 × (A/D)^0,75} con
+ * {@code D = DEF^0,7 × VIT^0,3}. Esta fórmula es mucho más fuerte que el diseño (VIT^3 frente a VIT^0,3) y no
+ * depende del poder del atacante, porque todavía no existen DEF ni el poder de ataque {@code A} de los enemigos.
+ * Cuando existan, se combinará con ellos; la interfaz de este archivo debería sobrevivir.
  */
 public final class HealthSystem {
     private HealthSystem() {}
@@ -24,6 +29,8 @@ public final class HealthSystem {
     public static final int VIT_MAX_UPGRADES = (int) Math.round((VIT_MAX - VIT_BASE) / VIT_GROWTH);
     /** Puntos de vida real por punto de valor de VIT. */
     public static final double VIDA_BASE = 12.5;
+    /** Exponente de la reducción de daño por VIT (provisional; ver el JavaDoc de la clase). */
+    public static final int DANIO_EXPONENTE = 3;
     /** Vida máxima de vanilla del jugador que usamos como barra. */
     public static final double VANILLA_MAX_HP = 20.0;
 
@@ -53,13 +60,13 @@ public final class HealthSystem {
         return (hpVanilla / VANILLA_MAX_HP) * vidaMaxima;
     }
 
-    /** Daño en HP vanilla que se resta de verdad: {@code danioVanilla × VIT_BASE / VIT}. */
+    /** Daño en HP vanilla que se resta de verdad: {@code danioVanilla × (VIT_BASE / VIT)^3}. */
     public static double danioAplicado(double danioVanilla, int vitActual) {
         checkVit(vitActual);
         if (danioVanilla < 0 || Double.isNaN(danioVanilla)) {
             throw new IllegalArgumentException("daño negativo o NaN: " + danioVanilla);
         }
-        return danioVanilla * (VIT_BASE / vitActual);
+        return danioVanilla * Math.pow(VIT_BASE / vitActual, DANIO_EXPONENTE);
     }
 
     /**
