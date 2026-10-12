@@ -9,6 +9,8 @@ import com.dongoyo20.dragonball.game.progress.ProgressService;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -40,6 +42,34 @@ public final class KiService {
     /** Ticks acumulados desde el último paso (contador propio: no depende de {@code tickCount}). */
     private static final Map<UUID, Integer> TICKS = new ConcurrentHashMap<>();
 
+    // ---------- avisos en la barra de acción
+
+    /** Mínimo de ticks entre dos avisos de "debes estar quieto" (2 segundos). */
+    public static final int STILL_WARNING_COOLDOWN_TICKS = 40;
+    private static final Map<UUID, Long> LAST_STILL_WARNING = new ConcurrentHashMap<>();
+
+    /** Dónde van los avisos (la barra de acción del jugador); las pruebas lo sustituyen para recogerlos. */
+    private static BiConsumer<ServerPlayer, Component> messageSink = (player, text) -> player.displayClientMessage(text, true);
+
+    /** Solo para pruebas: cambia el destino de los avisos y devuelve el anterior. */
+    public static BiConsumer<ServerPlayer, Component> setMessageSinkForTesting(BiConsumer<ServerPlayer, Component> sink) {
+        BiConsumer<ServerPlayer, Component> old = messageSink;
+        messageSink = sink;
+        return old;
+    }
+
+    /**
+     * Avisa "Debes estar quieto para liberar Ki" como máximo una vez cada {@link #STILL_WARNING_COOLDOWN_TICKS} ticks.
+     * Devuelve si el aviso se envió.
+     */
+    public static boolean warnMustStandStill(ServerPlayer player, long gameTime) {
+        Long last = LAST_STILL_WARNING.get(player.getUUID());
+        if (last != null && gameTime - last < STILL_WARNING_COOLDOWN_TICKS && gameTime >= last) return false;
+        LAST_STILL_WARNING.put(player.getUUID(), gameTime);
+        messageSink.accept(player, Component.translatable("message.dragonball.must_stand_still"));
+        return true;
+    }
+
     // ---------- entrada del jugador
 
     /** Se llama desde el paquete del cliente; cualquier valor fuera de [-1, 1] se recorta (nunca se confía en el cliente). */
@@ -51,6 +81,7 @@ public final class KiService {
         INPUT.remove(player);
         LAST_POS.remove(player);
         TICKS.remove(player);
+        LAST_STILL_WARNING.remove(player);
     }
 
     /** Cuenta un tick del jugador; devuelve true cada {@link #STEP_TICKS} ticks (entonces toca llamar a {@link #tick}). */
@@ -112,9 +143,19 @@ public final class KiService {
         BalanceParams p = BalanceManager.get();
         KiData ki = ProgressService.get(player).ki();
 
+        // Intenta subir pero se está moviendo (y aún hay margen hasta el límite): avisa, como mucho cada 2 s
+        if (direction > 0 && !still && ki.liberacion() < ki.limite()) {
+            warnMustStandStill(player, player.level().getGameTime());
+        }
+
         double release = KiSystem.siguientePorcentaje(ki.liberacion(), ki.limite(), direction, still, ticks, p);
         KiSystem.Estado state = KiSystem.avanzar(new KiSystem.Estado(ki.kiActual(), release), kiValue(player), conValue(player), ticks, p);
         KiData next = KiData.sane(state.ki(), state.liberacion(), ki.limite());
+
+        // La liberación llegó a 0 porque se acabó el ki (no porque el jugador la bajara con X): aviso de indefensión
+        if (ki.liberacion() > 0.0 && next.liberacion() <= 0.0 && next.kiActual() <= 0.0) {
+            messageSink.accept(player, Component.translatable("message.dragonball.no_ki"));
+        }
 
         if (Math.abs(next.kiActual() - ki.kiActual()) > EPSILON || Math.abs(next.liberacion() - ki.liberacion()) > EPSILON) {
             ProgressService.setKi(player, next);

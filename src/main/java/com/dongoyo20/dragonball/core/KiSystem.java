@@ -12,8 +12,11 @@ package com.dongoyo20.dragonball.core;
  * (liberación / 100)} ({@link #statEfectiva}); es lo que muestra la pantalla de estadísticas. Pero las fórmulas de combate
  * ya verificadas (VIT 8 = daño de vanilla, FUE 8 = ×1) suponen la estadística "completa". Aplicarlas tal cual con el límite
  * inicial de 50 % dejaría a un personaje nuevo con VIT efectiva 4 (recibe ×8 de daño) y FUE efectiva 4 (hace ×0,125).
- * Por eso el combate usa {@link #factorLiberacion}: {@code max(minFactor, liberación / referencia)}, con referencia = 50 %.
- * Con la liberación inicial el factor es 1 y nada cambia respecto a lo ya verificado; al 100 % vale 2; al 0 % vale el mínimo.
+ * Por eso el combate usa {@link #factorLiberacion}: {@code liberación / referencia}, con referencia = 50 %.
+ * Con la liberación inicial el factor es 1 y nada cambia respecto a lo ya verificado; al 100 % vale 2; al 0 % vale 0 (indefenso).
+ * Con factor 0 las fórmulas cúbicas darían daño infinito y daño hecho cero, así que el multiplicador del daño recibido tiene
+ * un tope (×4) y el del daño hecho un suelo (×0,25): es el castigo "sin ki" ({@code HealthSystem.danioAplicadoLiberado},
+ * {@code FuerzaSystem.danioSalienteLiberado}).
  */
 public final class KiSystem {
     private KiSystem() {}
@@ -86,7 +89,7 @@ public final class KiSystem {
     /** Factor que se aplica a VIT, FUE y VEL en combate y movimiento (ver el JavaDoc de la clase). */
     public static double factorLiberacion(double porcentaje, BalanceParams p) {
         checkPorcentaje(porcentaje);
-        return Math.max(p.release().minFactor(), porcentaje / p.release().referencePercent());
+        return Math.max(0.0, porcentaje / p.release().referencePercent());
     }
 
     // ---------- liberación: subida y bajada

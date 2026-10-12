@@ -85,4 +85,22 @@ public final class FuerzaSystem {
         }
         return danioVanilla * Math.pow(fueEfectiva / p.fueBase(), p.strengthExponent());
     }
+
+    /**
+     * Daño hecho con la liberación aplicada a FUE: {@code fueEfectiva = FUE × factor}. El multiplicador
+     * {@code (fueEfectiva / fueBase)^exponente} tiene un suelo de {@code minDamageDealtFactor} (×0,25): con factor 0 (sin ki o
+     * liberación 0 %) pegas con la cuarta parte del daño de vanilla, no con cero. Con la liberación inicial el resultado es el
+     * de siempre.
+     */
+    public static double danioSalienteLiberado(double danioVanilla, int fueBase, double factor, BalanceParams p) {
+        if (danioVanilla < 0 || Double.isNaN(danioVanilla)) {
+            throw new IllegalArgumentException("daño negativo o NaN: " + danioVanilla);
+        }
+        if (fueBase < p.fueBase() || fueBase > p.attributeCap()) {
+            throw new IllegalArgumentException("FUE fuera de [" + p.fueBase() + ", " + p.attributeCap() + "]: " + fueBase);
+        }
+        if (Double.isNaN(factor) || factor < 0) throw new IllegalArgumentException("factor de liberación inválido: " + factor);
+        double multiplier = Math.max(p.release().minDamageDealtFactor(), Math.pow(fueBase * factor / p.fueBase(), p.strengthExponent()));
+        return danioVanilla * multiplier;
+    }
 }

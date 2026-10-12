@@ -120,6 +120,28 @@ public final class HealthSystem {
         };
     }
 
+    /**
+     * Daño recibido con la liberación aplicada a VIT: {@code vitEfectiva = VIT × factor}. El multiplicador
+     * {@code (vitBase / vitEfectiva)^exponente} se limita al tope de {@code maxDamageTakenFactor} (×4): con factor 0 (sin ki o
+     * liberación 0 %) VIT efectiva es 0 y la fórmula daría infinito; en su lugar el personaje queda "indefenso" con ×4.
+     * Con la liberación inicial (factor 1) el resultado es el de siempre.
+     */
+    public static double danioAplicadoLiberado(double danioVanilla, int vitBase, double factor, TipoDanio tipo, BalanceParams p) {
+        checkVit(vitBase, p);
+        if (danioVanilla < 0 || Double.isNaN(danioVanilla)) {
+            throw new IllegalArgumentException("daño negativo o NaN: " + danioVanilla);
+        }
+        if (Double.isNaN(factor) || factor < 0) throw new IllegalArgumentException("factor de liberación inválido: " + factor);
+        double cap = p.release().maxDamageTakenFactor();
+        double multiplier = factor <= 0.0 ? cap : Math.min(cap, Math.pow(p.vitBase() / (vitBase * factor), p.damageExponent()));
+        double escalado = danioVanilla * multiplier;
+        return switch (tipo) {
+            case ESCALA_SIN_SUELO -> escalado;
+            case ESCALA_CON_SUELO -> Math.min(danioVanilla, Math.max(escalado, p.continuousFloor()));
+            case NO_ESCALA -> danioVanilla;
+        };
+    }
+
     private static void checkVit(int vit, BalanceParams p) {
         if (vit < p.vitBase() || vit > p.attributeCap()) {
             throw new IllegalArgumentException("VIT fuera de [" + p.vitBase() + ", " + p.attributeCap() + "]: " + vit);

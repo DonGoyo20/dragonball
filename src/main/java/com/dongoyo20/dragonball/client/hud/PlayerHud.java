@@ -21,7 +21,7 @@ import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 /**
  * HUD del mod, esquina superior izquierda: barra de Vida (verde) con "HP X / Y" y barra de Ki (cyan) con "Ki X / Y".
- * Debajo, en gris, una línea con la liberación actual y su límite (sin ella no hay forma de saber qué hace la tecla C).
+ * Debajo, en gris, una línea con la liberación actual y su límite, solo mientras la liberación es mayor que 0 %.
  * La vida mostrada es la vida real: {@code hp vanilla / 20 × vida real máxima}. Se oculta con la tecla H.
  */
 public final class PlayerHud implements LayeredDraw.Layer {
@@ -59,9 +59,12 @@ public final class PlayerHud implements LayeredDraw.Layer {
         bar(graphics, mc, X, Y, hp / maxHp, HEALTH_COLOR, Component.translatable("hud.dragonball.hp", Math.round(hp), Math.round(maxHp)));
         bar(graphics, mc, X, Y + HEIGHT + GAP, ki / maxKi, KI_COLOR,
                 Component.translatable("hud.dragonball.ki", Math.round(ki), Math.round(maxKi)));
-        graphics.drawString(mc.font, Component.translatable("hud.dragonball.release",
-                        Math.round(progress.ki().liberacion()), progress.ki().limite()),
-                X + 1, Y + 2 * (HEIGHT + GAP) + 1, SUBTLE, true);
+        // La línea de liberación solo aparece mientras se está liberando (> 0 %); en reposo se oculta
+        if (progress.ki().liberacion() > 0.0) {
+            graphics.drawString(mc.font, Component.translatable("hud.dragonball.release",
+                            Math.round(progress.ki().liberacion()), progress.ki().limite()),
+                    X + 1, Y + 2 * (HEIGHT + GAP) + 1, SUBTLE, true);
+        }
     }
 
     private static void bar(GuiGraphics graphics, Minecraft mc, int x, int y, double fraction, int color, Component label) {

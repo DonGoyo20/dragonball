@@ -53,7 +53,7 @@ public final class FuerzaService {
     /** Daño final del golpe: escalado con FUE si el arma lo permite, o el de vanilla si no. */
     public static float danioFinal(ServerPlayer player, ItemStack arma, float danioVanilla, Predicate<ItemStack> esDelMod) {
         if (!clasificar(arma, esDelMod).escalaConFuerza()) return danioVanilla;
-        return (float) FuerzaSystem.danioSalienteEfectivo(danioVanilla, fueEfectiva(player), BalanceManager.get());
+        return (float) FuerzaSystem.danioSalienteLiberado(danioVanilla, fue(player), KiService.factorLiberacion(player), BalanceManager.get());
     }
 
     public static float danioFinal(ServerPlayer player, ItemStack arma, float danioVanilla) {

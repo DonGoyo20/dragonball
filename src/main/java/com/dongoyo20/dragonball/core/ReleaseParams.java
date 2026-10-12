@@ -8,8 +8,9 @@ package com.dongoyo20.dragonball.core;
  * @param referencePercent <b>provisional</b>: % de liberación en el que las fórmulas de combate dan los valores ya
  *                        verificados (VIT 8 = daño de vanilla, FUE 8 = ×1). Con el límite inicial de 50 % el
  *                        personaje nuevo se comporta como antes de existir la liberación
- * @param minFactor       <b>provisional</b>: suelo del factor de liberación aplicado al combate y al movimiento, para
- *                        que con 0 % no haya divisiones por cero ni un personaje totalmente indefenso
+ * @param maxDamageTakenFactor <b>provisional</b>: tope del multiplicador del daño recibido cuando la liberación es baja
+ *                        (con 0 % de liberación o sin ki: ×4). Evita la división por cero y los daños absurdos
+ * @param minDamageDealtFactor <b>provisional</b>: suelo del multiplicador del daño hecho con liberación baja (×0,25)
  * @param rampUpPerSecond <b>provisional</b>: % que sube la liberación por segundo manteniendo la tecla (solo quieto)
  * @param rampDownPerSecond <b>provisional</b>: % que baja por segundo manteniendo la tecla
  * @param velBase         valor inicial de VEL
@@ -20,16 +21,18 @@ package com.dongoyo20.dragonball.core;
  * @param jumpMax         <b>provisional</b>: tope del multiplicador de salto
  */
 public record ReleaseParams(
-        double initialLimit, double referencePercent, double minFactor, double rampUpPerSecond, double rampDownPerSecond,
+        double initialLimit, double referencePercent, double maxDamageTakenFactor, double minDamageDealtFactor,
+        double rampUpPerSecond, double rampDownPerSecond,
         double velBase, double velGrowth, double speedExponent, double speedMax, double jumpExponent, double jumpMax) {
 
-    public static final ReleaseParams DEFAULT = new ReleaseParams(50.0, 50.0, 0.5, 10.0, 20.0, 8.0, 1.0, 0.5, 2.5, 0.25, 1.8);
+    public static final ReleaseParams DEFAULT = new ReleaseParams(50.0, 50.0, 4.0, 0.25, 10.0, 20.0, 8.0, 1.0, 0.5, 2.5, 0.25, 1.8);
 
     /** {@code null} si es válido; si no, una frase con el primer problema. */
     public String problem() {
         if (!(initialLimit >= 0 && initialLimit <= 100)) return "release.initial_limit debe estar entre 0 y 100";
         if (!(referencePercent > 0 && referencePercent <= 100)) return "release.reference_percent debe estar entre 0 (excluido) y 100";
-        if (!(minFactor > 0 && minFactor <= 1)) return "release.min_factor debe estar entre 0 (excluido) y 1";
+        if (!(maxDamageTakenFactor >= 1 && maxDamageTakenFactor <= 1000)) return "release.max_damage_taken_factor debe estar entre 1 y 1000";
+        if (!(minDamageDealtFactor > 0 && minDamageDealtFactor <= 1)) return "release.min_damage_dealt_factor debe estar entre 0 (excluido) y 1";
         if (!(rampUpPerSecond > 0 && rampUpPerSecond <= 1000)) return "release.ramp_up_per_second debe estar entre 0 (excluido) y 1000";
         if (!(rampDownPerSecond > 0 && rampDownPerSecond <= 1000)) return "release.ramp_down_per_second debe estar entre 0 (excluido) y 1000";
         if (!(velBase >= 1 && Double.isFinite(velBase))) return "release.vel_base debe ser un número >= 1";

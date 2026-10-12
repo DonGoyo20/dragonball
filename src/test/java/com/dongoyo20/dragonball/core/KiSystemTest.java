@@ -54,8 +54,8 @@ class KiSystemTest {
         assertEquals(1.0, KiSystem.factorLiberacion(50, P), 1e-12);
         assertEquals(2.0, KiSystem.factorLiberacion(100, P), 1e-12);
         assertEquals(0.5, KiSystem.factorLiberacion(25, P), 1e-12);
-        assertEquals(0.5, KiSystem.factorLiberacion(0, P), 1e-12);           // suelo
-        assertEquals(0.5, KiSystem.factorLiberacion(10, P), 1e-12);
+        assertEquals(0.0, KiSystem.factorLiberacion(0, P), 1e-12);           // indefenso
+        assertEquals(0.2, KiSystem.factorLiberacion(10, P), 1e-12);          // lineal, sin suelo
     }
 
     @Test
@@ -109,7 +109,8 @@ class KiSystemTest {
         assertEquals(Math.pow(2.0, 0.25), KiSystem.factorSalto(8, 100, P), 1e-9);
         assertEquals(2.5, KiSystem.factorVelocidad(26, 100, P), 1e-9);       // tope de velocidad
         assertEquals(1.8, KiSystem.factorSalto(99, 100, P), 1e-9);           // tope de salto
-        assertEquals(Math.sqrt(0.5), KiSystem.factorVelocidad(8, 0, P), 1e-9);
+        assertEquals(0.5, KiSystem.factorVelocidad(8, 0, P), 1e-9);          // factor 0 → el suelo del movimiento (0,5)
+        assertEquals(0.5, KiSystem.factorSalto(8, 0, P), 1e-9);
         assertTrue(KiSystem.factorVelocidad(1, 0, P) >= 0.5, "nunca por debajo del 0,5");
         assertThrows(IllegalArgumentException.class, () -> KiSystem.factorVelocidad(0, 50, P));
     }
@@ -144,5 +145,44 @@ class KiSystemTest {
         assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicadoEfectivo(3.0, 0, TipoDanio.ESCALA_SIN_SUELO, P));
         assertThrows(IllegalArgumentException.class, () -> FuerzaSystem.danioSalienteEfectivo(1.0, -1, P));
         assertThrows(IllegalArgumentException.class, () -> FuerzaSystem.danioSalienteEfectivo(1.0, Double.POSITIVE_INFINITY, P));
+    }
+
+    @Test
+    void releaseFactorZeroMeansTheNoKiPunishmentOfFourAndAQuarter() {
+        // Daño recibido: sin liberación (factor 0) el multiplicador es el tope ×4, para cualquier VIT y cualquier tipo escalable
+        for (int vit : new int[] {8, 26, 99}) {
+            assertEquals(12.0, HealthSystem.danioAplicadoLiberado(3.0, vit, 0.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9, "VIT " + vit);
+        }
+        // Daño hecho: sin liberación el multiplicador es el suelo ×0,25, para cualquier FUE
+        for (int fue : new int[] {8, 26, 99}) {
+            assertEquals(0.25, FuerzaSystem.danioSalienteLiberado(1.0, fue, 0.0, P), 1e-9, "FUE " + fue);
+        }
+        // El vacío y /kill siguen sin escalar; el daño continuo respeta su suelo y nunca sube de lo original
+        assertEquals(4.0, HealthSystem.danioAplicadoLiberado(4.0, 8, 0.0, TipoDanio.NO_ESCALA, P), 1e-9);
+        assertEquals(1.0, HealthSystem.danioAplicadoLiberado(1.0, 8, 0.0, TipoDanio.ESCALA_CON_SUELO, P), 1e-9);
+    }
+
+    @Test
+    void releaseFactorOneKeepsTheVerifiedBalanceAndTwoDoublesTheStats() {
+        for (int vit : new int[] {8, 18, 26, 99}) {
+            assertEquals(HealthSystem.danioAplicado(3.0, vit, TipoDanio.ESCALA_SIN_SUELO, P),
+                    HealthSystem.danioAplicadoLiberado(3.0, vit, 1.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-12, "VIT " + vit);
+            assertEquals(FuerzaSystem.danioSaliente(1.0, vit, P), FuerzaSystem.danioSalienteLiberado(1.0, vit, 1.0, P), 1e-9, "FUE " + vit);
+        }
+        assertEquals(0.375, HealthSystem.danioAplicadoLiberado(3.0, 8, 2.0, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);   // (8/16)^3
+        assertEquals(8.0, FuerzaSystem.danioSalienteLiberado(1.0, 8, 2.0, P), 1e-9);                                    // (16/8)^3
+    }
+
+    @Test
+    void lowButNonZeroReleaseIsCappedAtTheSamePunishment() {
+        // factor 0,5 con VIT 8: (8/4)^3 = 8 → tope ×4; con factor 0,8: (1/0,8)^3 = 1,953 (por debajo del tope)
+        assertEquals(12.0, HealthSystem.danioAplicadoLiberado(3.0, 8, 0.5, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);
+        assertEquals(3.0 * Math.pow(1 / 0.8, 3), HealthSystem.danioAplicadoLiberado(3.0, 8, 0.8, TipoDanio.ESCALA_SIN_SUELO, P), 1e-9);
+        // FUE con factor 0,5: (0,5)^3 = 0,125 → suelo 0,25; con factor 0,8: 0,512
+        assertEquals(0.25, FuerzaSystem.danioSalienteLiberado(1.0, 8, 0.5, P), 1e-9);
+        assertEquals(0.512, FuerzaSystem.danioSalienteLiberado(1.0, 8, 0.8, P), 1e-9);
+        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicadoLiberado(3.0, 8, -0.1, TipoDanio.ESCALA_SIN_SUELO, P));
+        assertThrows(IllegalArgumentException.class, () -> FuerzaSystem.danioSalienteLiberado(1.0, 8, Double.NaN, P));
+        assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicadoLiberado(3.0, 7, 1.0, TipoDanio.ESCALA_SIN_SUELO, P));
     }
 }

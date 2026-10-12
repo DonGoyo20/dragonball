@@ -40,7 +40,7 @@ public final class HealthService {
     }
 
     public static float aplicarDanioEscalado(ServerPlayer player, float danioVanilla, TipoDanio tipo) {
-        return (float) HealthSystem.danioAplicadoEfectivo(danioVanilla, vitEfectiva(player), tipo, BalanceManager.get());
+        return (float) HealthSystem.danioAplicadoLiberado(danioVanilla, vit(player), KiService.factorLiberacion(player), tipo, BalanceManager.get());
     }
 
     /** Daño de estado continuo: se aplica cada pocos ticks mientras dure la situación (lava, fuego, veneno…). */

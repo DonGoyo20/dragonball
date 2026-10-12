@@ -40,5 +40,7 @@
  "screen.dragonball.stats.not_implemented": "no effect yet",
  "screen.dragonball.stats.footer": "Buy upgrades with /dragonball upgrade <attribute>. Close: V or Esc",
  "command.dragonball.ki": "Ki %s / %s | release %s%% (limit %s%%)",
- "command.dragonball.release_limit": "Release limit set to %s%%"
+ "command.dragonball.release_limit": "Release limit set to %s%%",
+ "message.dragonball.no_ki": "Out of Ki! You are defenseless",
+ "message.dragonball.must_stand_still": "You must stand still to release Ki"
 }

@@ -209,11 +209,11 @@ public final class KiGameTests {
         setProgress(high, ups(0, 0, 0, 0, 0), new KiData(50, 100, 100));
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, 1, 1, 1);
 
-        low.hurt(low.damageSources().mobAttack(zombie), 1.0F);     // liberación 0 %: factor mínimo 0,5 → VIT efectiva 4 → ×8
+        low.hurt(low.damageSources().mobAttack(zombie), 1.0F);     // liberación 0 %: factor 0 → indefenso, tope ×4
         mid.hurt(mid.damageSources().mobAttack(zombie), 1.0F);     // 50 %: el balance ya verificado → ×1
         high.hurt(high.damageSources().mobAttack(zombie), 1.0F);   // 100 %: VIT efectiva 16 → ×1/8
 
-        near(helper, 20.0 - low.getHealth(), 8.0, 0.01, "0 % de liberación");
+        near(helper, 20.0 - low.getHealth(), 4.0, 0.01, "0 % de liberación (tope ×4)");
         near(helper, 20.0 - mid.getHealth(), 1.0, 0.01, "50 % de liberación");
         near(helper, 20.0 - high.getHealth(), 0.125, 0.01, "100 % de liberación");
         helper.succeed();
@@ -221,16 +221,21 @@ public final class KiGameTests {
 
     @GameTest(template = TEMPLATE)
     public static void releaseChangesTheMeleeDamageDealt(GameTestHelper helper) {
+        ServerPlayer none = newPlayer(helper);
         ServerPlayer mid = newPlayer(helper);
         ServerPlayer high = newPlayer(helper);
+        setProgress(none, ups(0, 0, 0, 0, 0), new KiData(50, 0, 100));
         setProgress(mid, ups(0, 0, 0, 0, 0), new KiData(50, 50, 100));
         setProgress(high, ups(0, 0, 0, 0, 0), new KiData(50, 100, 100));
+        Zombie z = tank(helper);
         Zombie a = tank(helper);
         Zombie b = tank(helper);
 
+        z.hurt(none.damageSources().playerAttack(none), 1.0F);
         a.hurt(mid.damageSources().playerAttack(mid), 1.0F);
         b.hurt(high.damageSources().playerAttack(high), 1.0F);
 
+        near(helper, 1000.0 - z.getHealth(), 0.25, 0.05, "puño al 0 % (suelo ×0,25)");
         near(helper, 1000.0 - a.getHealth(), 1.0, 0.05, "puño al 50 %");
         near(helper, 1000.0 - b.getHealth(), FuerzaSystem.danioSalienteEfectivo(1.0, 16, BalanceParams.DEFAULT), 0.05, "puño al 100 % (×8)");
         helper.succeed();
@@ -292,6 +297,84 @@ public final class KiGameTests {
         PlayerProgress after = before.tryUpgrade(0);
         helper.assertTrue(after != null && after.ki().equals(before.ki()), "comprar una mejora no reinicia el ki");
         helper.assertTrue(before.addXp(5).ki().equals(before.ki()) && before.withXp(3).ki().equals(before.ki()), "la XP tampoco");
+        helper.succeed();
+    }
+
+    // ---------- castigo sin ki y avisos
+
+    @GameTest(template = TEMPLATE)
+    public static void withoutKiTheCharacterTakesFourTimesAndDealsAQuarter(GameTestHelper helper) {
+        ServerPlayer player = newPlayer(helper);
+        setProgress(player, ups(10, 10, 0, 0, 0), new KiData(0.0, 0.0, 50));   // VIT 18 y FUE 18, sin ki
+        Zombie attacker = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, 1, 1, 1);
+        Zombie victim = tank(helper);
+
+        player.hurt(player.damageSources().mobAttack(attacker), 1.0F);             // ×4 aunque VIT sea 18 (con ki sería ×0,088)
+        victim.hurt(player.damageSources().playerAttack(player), 1.0F);            // ×0,25 aunque FUE sea 18 (con ki sería ×11)
+
+        near(helper, 20.0 - player.getHealth(), 4.0, 0.01, "daño recibido sin ki");
+        near(helper, 1000.0 - victim.getHealth(), 0.25, 0.05, "daño hecho sin ki");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void outOfKiWarnsOnceAndLoweringReleaseYourselfDoesNot(GameTestHelper helper) {
+        ServerPlayer player = newPlayer(helper);
+        List<String> messages = new java.util.ArrayList<>();
+        var old = KiService.setMessageSinkForTesting((p, text) -> messages.add(((net.minecraft.network.chat.contents.TranslatableContents) text.getContents()).getKey()));
+        try {
+            setProgress(player, ups(0, 0, 0, 0, 0), new KiData(0.01, 50, 50));
+            KiService.advance(player, 20, true, 0);                               // el ki se agota: la liberación baja a 0
+            helper.assertTrue(messages.equals(List.of("message.dragonball.no_ki")), "un único aviso 'Sin Ki': " + messages);
+
+            KiService.advance(player, 20, true, 0);                               // ya está a 0: no repite el aviso
+            helper.assertTrue(messages.size() == 1, "no se repite estando ya a 0");
+
+            messages.clear();
+            setProgress(player, ups(0, 0, 0, 0, 0), new KiData(40, 30, 50));
+            KiService.advance(player, 100, true, -1);                             // el jugador la baja a 0 con X: sin aviso de falta de ki
+            helper.assertTrue(ProgressService.get(player).ki().liberacion() == 0.0 && messages.isEmpty(),
+                    "bajarla uno mismo no es quedarse sin ki: " + messages);
+        } finally {
+            KiService.setMessageSinkForTesting(old);
+        }
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void standStillWarningAppearsAtMostOnceEveryTwoSeconds(GameTestHelper helper) {
+        ServerPlayer player = newPlayer(helper);
+        List<String> messages = new java.util.ArrayList<>();
+        var old = KiService.setMessageSinkForTesting((p, text) -> messages.add(((net.minecraft.network.chat.contents.TranslatableContents) text.getContents()).getKey()));
+        try {
+            KiService.forget(player.getUUID());
+            // el aviso en sí: instantes 0, 10, 39 (dentro de los 40 ticks) no repiten; 40 y 80 sí
+            int sent = 0;
+            for (long t : new long[] {0, 10, 39, 40, 41, 79, 80}) {
+                if (KiService.warnMustStandStill(player, t)) sent++;
+            }
+            helper.assertTrue(sent == 3 && messages.size() == 3, "3 avisos en 80 ticks (0, 40 y 80), hubo " + sent);
+            helper.assertTrue(messages.stream().allMatch("message.dragonball.must_stand_still"::equals), "es el aviso de estar quieto");
+
+            // por el camino real: intentar subir moviéndose avisa; quieto no; en el límite no
+            KiService.forget(player.getUUID());
+            messages.clear();
+            setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 10, 50));
+            KiService.advance(player, 5, false, 1);
+            KiService.advance(player, 5, false, 1);                               // mismo instante de juego: no se repite
+            helper.assertTrue(messages.size() == 1, "moviéndose y pulsando C avisa una sola vez: " + messages);
+            messages.clear();
+            KiService.forget(player.getUUID());
+            KiService.advance(player, 5, true, 1);
+            KiService.advance(player, 5, false, 0);
+            helper.assertTrue(messages.isEmpty(), "quieto o sin pulsar C no avisa: " + messages);
+            setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 50, 50));     // ya en el límite: subir no tendría efecto
+            KiService.advance(player, 5, false, 1);
+            helper.assertTrue(messages.isEmpty(), "en el límite no avisa: " + messages);
+        } finally {
+            KiService.setMessageSinkForTesting(old);
+            KiService.forget(player.getUUID());
+        }
         helper.succeed();
     }
 }
