@@ -179,6 +179,9 @@ Misma velocidad = 10 %; el doble de velocidad ≈ 24 %; tope 60 %.
 ### 3.4 Enemigos
 Cada tipo de enemigo se define por **atributos efectivos** propios (`E`) en un archivo de datos (bestiario), con un arquetipo: bruto (FUE/VIT), veloz (VEL), de ki (POD/KI). Los mobs vanilla reciben valores al arrancar (zombi, esqueleto…). Si un mob no está definido, se le asigna un valor por defecto según su vida de vanilla.
 
+### 3.5 Razas como datos (implementado 2026-10-12, Fase 3a)
+Ver `RAZAS_IMPLEMENTATION.md`. Cada raza es un JSON (`data/dragonball/races/<id>.json`) con los valores iniciales de los 7 atributos y sus rasgos (solo texto por ahora). **Terrícola** (por defecto): VIT 8, FUE 8, DEF 8, VEL 8, KI 0, POD 8, CON 0. **Saiyajin**: VIT 9, FUE 10, DEF 9, VEL 10, KI 0, POD 8, CON 0. Valor del atributo = inicial de la raza + 1 × mejoras, tope 99 en el valor (misma compra y mismo coste para todas las razas; una raza que empieza más alto tiene menos mejoras). La liberación (§4.2.1) y las fórmulas de VIT, FUE, DEF y esquiva se aplican sobre el valor de la raza, con 8 como valor vanilla. La raza del jugador es un attachment (`terricola` por defecto) que se conserva al morir. `/dragonball race info|list|set`; `set` (operador) reinicia las mejoras.
+
 ## 4. Ki
 
 ### 4.1 Reserva

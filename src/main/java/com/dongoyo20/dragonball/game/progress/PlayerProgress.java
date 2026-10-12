@@ -1,10 +1,9 @@
 package com.dongoyo20.dragonball.game.progress;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
-import com.dongoyo20.dragonball.core.DefensaSystem;
-import com.dongoyo20.dragonball.core.FuerzaSystem;
-import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.Progression;
+import com.dongoyo20.dragonball.core.raza.Atributo;
+import com.dongoyo20.dragonball.core.raza.Atributos;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
 import com.dongoyo20.dragonball.game.ki.KiData;
 import io.netty.buffer.ByteBuf;
@@ -78,26 +77,28 @@ public record PlayerProgress(long xp, List<Integer> upgrades, KiData ki) {
     }
 
     /**
-     * ¿El atributo ya está en el tope? Los siete atributos tienen valores y tope (POD aún sin efecto: llegará con las técnicas de ki).
+     * ¿El atributo ya está en el tope (valor 99)? Con el valor inicial por defecto (Terrícola). Con otra raza hay que pasar su
+     * valor inicial: {@link #isAtCap(int, int)}.
      */
     public boolean isAtCap(int index) {
-        BalanceParams p = BalanceManager.get();
-        return switch (index) {
-            case 0 -> !HealthSystem.canUpgradeVit(upgrades.get(0), p);
-            case 1 -> !FuerzaSystem.canUpgradeFue(upgrades.get(1), p);
-            case 2 -> !DefensaSystem.canUpgradeDef(upgrades.get(2), p);
-            case 3 -> upgrades.get(3) >= p.velMaxUpgrades();
-            case 4 -> upgrades.get(4) >= p.kiMaxUpgrades();
-            case 5 -> upgrades.get(5) >= p.podMaxUpgrades();
-            case 6 -> upgrades.get(6) >= p.conMaxUpgrades();
-            default -> false;
-        };
+        return isAtCap(index, Atributos.baseDefecto(Atributo.values()[index], BalanceManager.get()));
+    }
+
+    /** ¿El atributo ya está en el tope, partiendo del valor inicial {@code raceBase} de la raza? (menos mejoras cuanto más alto empieza) */
+    public boolean isAtCap(int index, int raceBase) {
+        return !Atributos.puedeMejorar(Atributo.values()[index], raceBase, upgrades.get(index), BalanceManager.get());
     }
 
     /** Intenta comprar una mejora en el atributo {@code index}; devuelve null si no hay XP o el atributo ya está al tope. */
     public PlayerProgress tryUpgrade(int index) {
         if (index < 0 || index >= Progression.ATTRIBUTE_COUNT) return null;
-        if (isAtCap(index)) return null;
+        return tryUpgrade(index, Atributos.baseDefecto(Atributo.values()[index], BalanceManager.get()));
+    }
+
+    /** Igual, partiendo del valor inicial {@code raceBase} de la raza (el coste es el mismo para todas las razas). */
+    public PlayerProgress tryUpgrade(int index, int raceBase) {
+        if (index < 0 || index >= Progression.ATTRIBUTE_COUNT) return null;
+        if (isAtCap(index, raceBase)) return null;
         long cost = nextUpgradeCost();
         if (xp < cost) return null;
         List<Integer> next = new ArrayList<>(upgrades);

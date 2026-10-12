@@ -4,6 +4,8 @@ import com.dongoyo20.dragonball.DragonBall;
 import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.KiSystem;
+import com.dongoyo20.dragonball.core.raza.Atributo;
+import com.dongoyo20.dragonball.game.raza.RaceService;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
 import com.dongoyo20.dragonball.game.progress.AttributeValues;
 import com.dongoyo20.dragonball.game.progress.ModAttachments;
@@ -52,10 +54,10 @@ public final class PlayerHud implements LayeredDraw.Layer {
         PlayerProgress progress = mc.player.getData(ModAttachments.PROGRESS);
         BalanceParams params = BalanceManager.get();
 
-        int vit = AttributeValues.baseValue(0, progress, params);
+        int vit = AttributeValues.baseValue(0, progress, params, RaceService.base(mc.player, Atributo.VIT));
         double maxHp = HealthSystem.vidaRealMaxima(vit, params);
         double hp = HealthSystem.vidaRealActual(Math.max(0f, Math.min(mc.player.getHealth(), 20f)), maxHp);
-        double maxKi = KiSystem.reservaMaxima(AttributeValues.baseValue(4, progress, params), params);
+        double maxKi = KiSystem.reservaMaxima(AttributeValues.baseValue(4, progress, params, RaceService.base(mc.player, Atributo.KI)), params);
         double ki = Math.min(progress.ki().kiActual(), maxKi);
 
         bar(graphics, mc, X, Y, hp / maxHp, HEALTH_COLOR, Component.translatable("hud.dragonball.hp", Math.round(hp), Math.round(maxHp)));

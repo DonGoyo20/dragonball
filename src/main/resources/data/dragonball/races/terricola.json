@@ -1,0 +1,10 @@
+{
+  "id": "terricola",
+  "display_name": "race.dragonball.terricola",
+  "description": "race.dragonball.terricola.description",
+  "base_stats": { "vit": 8, "fue": 8, "def": 8, "vel": 8, "ki": 0, "pod": 8, "con": 0 },
+  "traits": [
+    { "id": "adaptable", "display_name": "trait.dragonball.adaptable", "description": "trait.dragonball.adaptable.description" },
+    { "id": "sin_cola", "display_name": "trait.dragonball.sin_cola", "description": "trait.dragonball.sin_cola.description" }
+  ]
+}

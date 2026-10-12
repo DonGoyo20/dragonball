@@ -1,10 +1,9 @@
 package com.dongoyo20.dragonball.game.progress;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
-import com.dongoyo20.dragonball.core.DefensaSystem;
-import com.dongoyo20.dragonball.core.FuerzaSystem;
-import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.KiSystem;
+import com.dongoyo20.dragonball.core.raza.Atributo;
+import com.dongoyo20.dragonball.core.raza.Atributos;
 
 /** Valor de cada atributo a partir de sus mejoras (común a servidor y cliente: la pantalla de estadísticas lo usa). */
 public final class AttributeValues {
@@ -18,19 +17,17 @@ public final class AttributeValues {
         return index == 0 || index == 1 || index == 2 || index == 3;
     }
 
-    /** Valor base del atributo {@code index} (orden VIT, FUE, DEF, VEL, KI, POD, CON) o {@link #UNDEFINED}. */
+    /** Valor del atributo {@code index} (orden VIT, FUE, DEF, VEL, KI, POD, CON) con el valor inicial por defecto (Terrícola). */
     public static int baseValue(int index, PlayerProgress progress, BalanceParams p) {
-        int up = progress.upgrades().get(index);
-        return switch (index) {
-            case 0 -> HealthSystem.vitValue(Math.min(up, p.vitMaxUpgrades()), p);
-            case 1 -> FuerzaSystem.fueValue(Math.min(up, p.fueMaxUpgrades()), p);
-            case 2 -> DefensaSystem.defValue(Math.min(up, p.defMaxUpgrades()), p);
-            case 3 -> KiSystem.velValue(Math.min(up, p.velMaxUpgrades()), p);
-            case 4 -> KiSystem.kiValue(Math.min(up, p.kiMaxUpgrades()), p);
-            case 5 -> KiSystem.podValue(Math.min(up, p.podMaxUpgrades()), p);
-            case 6 -> KiSystem.conValue(Math.min(up, p.conMaxUpgrades()), p);
-            default -> UNDEFINED;
-        };
+        return baseValue(index, progress, p, Atributos.baseDefecto(Atributo.values()[index], p));
+    }
+
+    /**
+     * Valor del atributo {@code index}: valor inicial de la raza + crecimiento × mejoras. Un guardado con más mejoras que el
+     * tope no debe romper el juego: se trata como el máximo.
+     */
+    public static int baseValue(int index, PlayerProgress progress, BalanceParams p, int raceBase) {
+        return Atributos.valorRecortado(Atributo.values()[index], raceBase, progress.upgrades().get(index), p);
     }
 
     /**

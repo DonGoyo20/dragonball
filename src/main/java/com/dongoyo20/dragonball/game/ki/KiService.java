@@ -3,6 +3,9 @@ package com.dongoyo20.dragonball.game.ki;
 import com.dongoyo20.dragonball.DragonBall;
 import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.core.KiSystem;
+import com.dongoyo20.dragonball.core.raza.Atributo;
+import com.dongoyo20.dragonball.core.raza.Atributos;
+import com.dongoyo20.dragonball.game.raza.RaceService;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
 import com.dongoyo20.dragonball.game.progress.PlayerProgress;
 import com.dongoyo20.dragonball.game.progress.ProgressService;
@@ -100,17 +103,17 @@ public final class KiService {
 
     public static int kiValue(ServerPlayer player) {
         BalanceParams p = BalanceManager.get();
-        return KiSystem.kiValue(Math.min(upgrades(player, "ki"), p.kiMaxUpgrades()), p);
+        return Atributos.valorRecortado(Atributo.KI, RaceService.base(player, Atributo.KI), upgrades(player, "ki"), p);
     }
 
     public static int conValue(ServerPlayer player) {
         BalanceParams p = BalanceManager.get();
-        return KiSystem.conValue(Math.min(upgrades(player, "con"), p.conMaxUpgrades()), p);
+        return Atributos.valorRecortado(Atributo.CON, RaceService.base(player, Atributo.CON), upgrades(player, "con"), p);
     }
 
     public static int velValue(ServerPlayer player) {
         BalanceParams p = BalanceManager.get();
-        return KiSystem.velValue(Math.min(upgrades(player, "vel"), p.velMaxUpgrades()), p);
+        return Atributos.valorRecortado(Atributo.VEL, RaceService.base(player, Atributo.VEL), upgrades(player, "vel"), p);
     }
 
     public static int kiMax(ServerPlayer player) {

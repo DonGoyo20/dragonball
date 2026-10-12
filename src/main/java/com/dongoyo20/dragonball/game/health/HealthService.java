@@ -2,6 +2,9 @@ package com.dongoyo20.dragonball.game.health;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.core.DefensaSystem;
+import com.dongoyo20.dragonball.core.raza.Atributo;
+import com.dongoyo20.dragonball.core.raza.Atributos;
+import com.dongoyo20.dragonball.game.raza.RaceService;
 import com.dongoyo20.dragonball.core.KiSystem;
 import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.TipoDanio;
@@ -24,7 +27,7 @@ public final class HealthService {
         BalanceParams p = BalanceManager.get();
         int upgrades = ProgressService.get(player).upgrades().get(ProgressService.attributeIndex("vit"));
         // Un guardado con más mejoras que el tope no debe romper el combate: se trata como el máximo.
-        return HealthSystem.vitValue(Math.min(upgrades, p.vitMaxUpgrades()), p);
+        return Atributos.valorRecortado(Atributo.VIT, RaceService.base(player, Atributo.VIT), upgrades, p);
     }
 
     public static double vidaRealMaxima(ServerPlayer player) {
@@ -46,7 +49,7 @@ public final class HealthService {
     public static int def(ServerPlayer player) {
         BalanceParams p = BalanceManager.get();
         int upgrades = ProgressService.get(player).upgrades().get(ProgressService.attributeIndex("def"));
-        return DefensaSystem.defValue(Math.min(upgrades, p.defMaxUpgrades()), p);
+        return Atributos.valorRecortado(Atributo.DEF, RaceService.base(player, Atributo.DEF), upgrades, p);
     }
 
     /** DEF efectiva según la liberación (vanilla 8 a 0 %, la del mod a 50 %, el doble a 100 %). */

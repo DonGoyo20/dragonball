@@ -13,6 +13,18 @@ public final class ModAttachments {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS =
             DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, DragonBall.MOD_ID);
 
+    /**
+     * Raza del jugador (su id). Valor por defecto {@code terricola}. Se guarda con el mundo, se conserva al morir y al cambiar
+     * de dimensión, y se sincroniza solo con su propio cliente (igual que el progreso).
+     */
+    public static final Supplier<AttachmentType<String>> RACE = ATTACHMENTS.register("race",
+            () -> AttachmentType.builder(() -> com.dongoyo20.dragonball.game.raza.RaceManager.DEFAULT_ID)
+                    .serialize(com.mojang.serialization.Codec.STRING)
+                    .sync((holder, to) -> holder == to && to.connection.hasChannel(SyncAttachmentsPayload.TYPE),
+                            net.minecraft.network.codec.ByteBufCodecs.STRING_UTF8)
+                    .copyOnDeath()
+                    .build());
+
     /** Progreso del jugador: se guarda con el mundo y se conserva al morir (en el Otro Mundo no se pierde nada). */
     public static final Supplier<AttachmentType<PlayerProgress>> PROGRESS = ATTACHMENTS.register("progress",
             () -> AttachmentType.builder(() -> PlayerProgress.EMPTY)

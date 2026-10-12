@@ -3,7 +3,9 @@ package com.dongoyo20.dragonball.game.command;
 import com.dongoyo20.dragonball.DragonBall;
 import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
+import com.dongoyo20.dragonball.core.raza.Atributo;
 import com.dongoyo20.dragonball.game.combate.EsquivaService;
+import com.dongoyo20.dragonball.game.raza.RaceService;
 import com.dongoyo20.dragonball.game.ki.KiData;
 import com.dongoyo20.dragonball.game.ki.KiService;
 import com.dongoyo20.dragonball.game.progress.PlayerProgress;
@@ -34,6 +36,7 @@ public final class DragonBallCommands {
                                 .executes(ctx -> upgrade(ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "attribute"), ctx.getSource()))))
                 .then(Commands.literal("balance").executes(ctx -> showBalance(ctx.getSource())))
                 .then(Commands.literal("ki").executes(ctx -> showKi(ctx.getSource().getPlayerOrException(), ctx.getSource())))
+                .then(RaceCommand.build())
                 .then(Commands.literal("esquiva").executes(ctx -> showDodge(ctx.getSource().getPlayerOrException(), ctx.getSource())))
                 .then(Commands.literal("releaselimit")
                         .requires(s -> s.hasPermission(2))
@@ -89,7 +92,7 @@ public final class DragonBallCommands {
             source.sendFailure(Component.translatable("command.dragonball.unknown_attribute", attribute));
             return 0;
         }
-        if (ProgressService.get(player).isAtCap(index)) {
+        if (ProgressService.get(player).isAtCap(index, RaceService.base(player, Atributo.values()[index]))) {
             source.sendFailure(Component.translatable("command.dragonball.attribute_at_cap", Component.translatable("attribute.dragonball." + attribute.toLowerCase()), BalanceManager.get().attributeCap()));
             return 0;
         }

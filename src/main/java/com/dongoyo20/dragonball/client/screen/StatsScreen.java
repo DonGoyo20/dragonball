@@ -4,6 +4,11 @@ import com.dongoyo20.dragonball.client.KeyBindings;
 import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.core.KiSystem;
 import com.dongoyo20.dragonball.core.Progression;
+import com.dongoyo20.dragonball.core.raza.Atributo;
+import com.dongoyo20.dragonball.core.raza.Race;
+import com.dongoyo20.dragonball.core.raza.Rasgo;
+import com.dongoyo20.dragonball.game.raza.RaceService;
+import net.minecraft.util.FormattedCharSequence;
 import com.dongoyo20.dragonball.game.balance.BalanceManager;
 import com.dongoyo20.dragonball.game.progress.AttributeValues;
 import com.dongoyo20.dragonball.game.progress.ModAttachments;
@@ -49,12 +54,14 @@ public final class StatsScreen extends Screen {
         BalanceParams params = BalanceManager.get();
 
         int left = (width - PANEL_WIDTH) / 2;
-        int y = Math.max(8, height / 2 - 100);
+        Race race = RaceService.raceOf(mc.player);
+        // Centrada, pero si el contenido (con los rasgos) no cabe en una ventana pequeña, sube para que se vea el pie
+        int y = Math.max(2, Math.min(height / 2 - 130, height - contentHeight(race) - 4));
         g.drawCenteredString(font, title, width / 2, y, TITLE);
         y += 16;
 
         long cost = progress.nextUpgradeCost();
-        g.drawString(font, Component.translatable("screen.dragonball.stats.race", Component.translatable("screen.dragonball.stats.race_none")), left, y, TEXT);
+        g.drawString(font, Component.translatable("screen.dragonball.stats.race", Component.translatable(race.displayName())), left, y, TEXT);
         y += ROW_HEIGHT;
         g.drawString(font, Component.translatable("screen.dragonball.stats.level", progress.totalLevel()), left, y, TEXT);
         y += ROW_HEIGHT;
@@ -80,7 +87,7 @@ public final class StatsScreen extends Screen {
         for (int i = 0; i < ProgressService.ATTRIBUTES.length; i++) {
             g.fill(left, y - 1, left + PANEL_WIDTH, y + ROW_HEIGHT - 1, i % 2 == 0 ? ROW_A : ROW_B);
             g.drawString(font, Component.translatable("attribute.dragonball." + ProgressService.ATTRIBUTES[i]), left + 2, y + 1, TEXT);
-            int base = AttributeValues.baseValue(i, progress, params);
+            int base = AttributeValues.baseValue(i, progress, params, race.base(Atributo.values()[i]));
             if (base == AttributeValues.UNDEFINED) {
                 g.drawString(font, Component.translatable("screen.dragonball.stats.not_implemented"), colBase, y + 1, SUBTLE);
             } else {
@@ -93,8 +100,34 @@ public final class StatsScreen extends Screen {
             y += ROW_HEIGHT;
         }
 
+        // rasgos de la raza (solo informativos): nombre y descripción, con salto de línea
         y += 6;
+        if (!race.traits().isEmpty()) {
+            g.drawString(font, Component.translatable("screen.dragonball.stats.traits"), left, y, SUBTLE);
+            y += ROW_HEIGHT;
+            for (Rasgo trait : race.traits()) {
+                Component line = Component.translatable(trait.displayName()).append(": ").append(Component.translatable(trait.description()));
+                for (FormattedCharSequence part : font.split(line, PANEL_WIDTH - 8)) {
+                    g.drawString(font, part, left + 4, y, TEXT);
+                    y += font.lineHeight + 1;
+                }
+            }
+            y += 4;
+        }
         g.drawString(font, Component.translatable("screen.dragonball.stats.footer"), left, y, SUBTLE);
+    }
+
+    /** Alto aproximado del contenido, para colocarlo dentro de la ventana. */
+    private int contentHeight(Race race) {
+        int h = 16 + 5 * ROW_HEIGHT + 4 + ROW_HEIGHT + 4 + ROW_HEIGHT + ProgressService.ATTRIBUTES.length * ROW_HEIGHT + 6 + ROW_HEIGHT;
+        if (!race.traits().isEmpty()) {
+            h += ROW_HEIGHT + 4;
+            for (Rasgo trait : race.traits()) {
+                Component line = Component.translatable(trait.displayName()).append(": ").append(Component.translatable(trait.description()));
+                h += font.split(line, PANEL_WIDTH - 8).size() * (font.lineHeight + 1);
+            }
+        }
+        return h;
     }
 
     /** Cuántas mejoras seguidas podrías comprar con la XP actual (el coste sube tras cada una). */

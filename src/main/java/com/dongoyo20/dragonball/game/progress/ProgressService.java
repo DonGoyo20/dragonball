@@ -39,7 +39,9 @@ public final class ProgressService {
 
     /** Compra una mejora de atributo. Devuelve false si falta XP o el índice no es válido. */
     public static boolean upgrade(ServerPlayer player, int attributeIndex) {
-        PlayerProgress next = get(player).tryUpgrade(attributeIndex);
+        if (attributeIndex < 0 || attributeIndex >= ATTRIBUTES.length) return false;
+        PlayerProgress next = get(player).tryUpgrade(attributeIndex,
+                com.dongoyo20.dragonball.game.raza.RaceService.base(player, com.dongoyo20.dragonball.core.raza.Atributo.values()[attributeIndex]));
         if (next == null) return false;
         set(player, next);
         return true;

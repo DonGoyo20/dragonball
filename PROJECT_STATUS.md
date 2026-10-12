@@ -50,6 +50,9 @@ Sustituye la fórmula `max(0, lib/50)` y elimina el castigo por falta de ki (×4
 ## Fase 1 DMZ: DEF y POD (2026-10-12)
 DEF implementada (valor, compra, tope 99, reducción cúbica del daño instantáneo, escala con la liberación); POD con valor y compra pero **sin efecto** hasta que existan las técnicas; CON sin cambios. Datos en `combat.json` (`defense`, `pod`). JUnit 53/53, GameTest 57/57. **No verificado en el PC del usuario.** Ver `DEF_POD_IMPLEMENTATION.md`.
 
+## Fase 3a DMZ: razas como datos (2026-10-12)
+Implementado: razas en `data/dragonball/races/*.json` (Terrícola por defecto y Saiyajin con VIT 9, FUE 10, DEF 9, VEL 10), valor de atributo = inicial de la raza + mejoras (tope 99 en el valor), raza del jugador como attachment sincronizado (`copyOnDeath`), carga con `/reload` y sincronización al cliente, `/dragonball race info|list|set` (`set` requiere operador y reinicia las mejoras), raza y rasgos (solo texto) en la pantalla V, 8 idiomas + inglés. Sin selección de personaje (3b) ni efectos de rasgos. No se tocaron la esquiva ni la liberación. JUnit 81/81, GameTest 80/80, integraciones OK. **No verificado en el PC del usuario.** Ver `RAZAS_IMPLEMENTATION.md`.
+
 ## Fase 2 DMZ: esquiva con coste de Ki (2026-10-12)
 Implementada: probabilidad `clamp(0,10 + 0,20·ln(VEL efectiva/8), 0,10, 0,60)` (VEL 18 → 26 %, VEL 36 → 40 %), coste `(5 + daño×0,1)/(1 + CON/60)` de ki, solo golpes de entidades, `LivingIncomingDamageEvent`, partículas de vanilla, aviso en barra de acción, comando `/dragonball esquiva`, datos en `combat.json` (`dodge`), 8 idiomas. Sin poise, parry ni stamina. JUnit 67/67, GameTest 67/67, integraciones OK. **No verificado en el PC del usuario.** Preguntas abiertas en `ESQUIVA_IMPLEMENTATION.md`.
 

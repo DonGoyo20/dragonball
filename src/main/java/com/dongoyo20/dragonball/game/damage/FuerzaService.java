@@ -1,6 +1,9 @@
 package com.dongoyo20.dragonball.game.damage;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.core.raza.Atributo;
+import com.dongoyo20.dragonball.core.raza.Atributos;
+import com.dongoyo20.dragonball.game.raza.RaceService;
 import com.dongoyo20.dragonball.core.KiSystem;
 import com.dongoyo20.dragonball.core.DanioCuerpo;
 import com.dongoyo20.dragonball.core.FuerzaSystem;
@@ -23,7 +26,7 @@ public final class FuerzaService {
         BalanceParams p = BalanceManager.get();
         int upgrades = ProgressService.get(player).upgrades().get(ProgressService.attributeIndex("fue"));
         // Un guardado con más mejoras que el tope no debe romper el combate: se trata como el máximo.
-        return FuerzaSystem.fueValue(Math.min(upgrades, p.fueMaxUpgrades()), p);
+        return Atributos.valorRecortado(Atributo.FUE, RaceService.base(player, Atributo.FUE), upgrades, p);
     }
 
     /** FUE efectiva según la liberación (vanilla 8 a 0 %, la del mod a 50 %, el doble a 100 %). */

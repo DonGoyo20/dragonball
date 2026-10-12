@@ -63,7 +63,7 @@ Estas decisiones están **cerradas**; si cambian, se reabren explícitamente (ve
 - **Referencia DMZ:** `CombatEvent`, `calculatePostMitigationDamage`, `DashHandler` (sin la parte de poise/guardia).
 - **Éxito:** tubería explícita en `core/` con tests de tablas de valores; engancha `LivingIncomingDamageEvent`/`LivingDamageEvent.Pre` sin romper VIT/FUE; GameTests con zombie (armadura 0); informe de diferencias entre fórmula DMZ y la nuestra.
 
-## Fase 3 — Razas y personaje como datos
+## Fase 3 — Razas y personaje como datos (3a IMPLEMENTADA 2026-10-12, pendiente de verificar en el PC; ver `RAZAS_IMPLEMENTATION.md`. Falta 3b: pantalla de selección de personaje)
 - **Qué:** registro de datapack `race` (stats base, escalado, regeneración, formas permitidas, pasiva), selección de raza/clase, `PlayerProgress` ampliado (migración de datos existente), comando y pantalla simples. **Sin modelos nuevos** (piel vanilla).
 - **Referencia DMZ:** `character.json`, `stats.json`.
 - **Éxito:** al menos las 3 razas de BETA_RACES jugables por datos; Codec con compatibilidad hacia atrás verificada por test; sync al cliente; KubeJS puede sobrescribir.
