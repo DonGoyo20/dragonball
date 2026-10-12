@@ -26,7 +26,7 @@ public final class HealthGameTests {
 
     @SuppressWarnings("removal")
     private static ServerPlayer newPlayer(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = GameTestSupport.mockPlayer(helper);
         // El jugador simulado nace en creativo (invulnerable): se pasa a supervivencia para recibir daño.
         player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
         // Los 60 primeros ticks el jugador es invulnerable (protección de aparición de ServerPlayer): se agotan.

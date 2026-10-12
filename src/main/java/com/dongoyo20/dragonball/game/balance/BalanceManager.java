@@ -3,6 +3,7 @@ package com.dongoyo20.dragonball.game.balance;
 import com.dongoyo20.dragonball.DragonBall;
 import com.dongoyo20.dragonball.core.BalanceParams;
 import com.dongoyo20.dragonball.core.DefenseParams;
+import com.dongoyo20.dragonball.core.DodgeParams;
 import com.dongoyo20.dragonball.core.KiParams;
 import com.dongoyo20.dragonball.core.PodParams;
 import com.dongoyo20.dragonball.core.ReleaseParams;
@@ -78,6 +79,17 @@ public final class BalanceManager {
             Codec.DOUBLE.optionalFieldOf("pod_growth", PD.podGrowth()).forGetter(PodParams::podGrowth)
     ).apply(i, PodParams::new));
 
+    private static final DodgeParams DOD = DodgeParams.DEFAULT;
+
+    static final Codec<DodgeParams> DODGE_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.DOUBLE.optionalFieldOf("base_chance", DOD.baseChance()).forGetter(DodgeParams::baseChance),
+            Codec.DOUBLE.optionalFieldOf("log_multiplier", DOD.logMultiplier()).forGetter(DodgeParams::logMultiplier),
+            Codec.DOUBLE.optionalFieldOf("max_chance", DOD.maxChance()).forGetter(DodgeParams::maxChance),
+            Codec.DOUBLE.optionalFieldOf("ki_cost_base", DOD.kiCostBase()).forGetter(DodgeParams::kiCostBase),
+            Codec.DOUBLE.optionalFieldOf("ki_cost_per_damage", DOD.kiCostPerDamage()).forGetter(DodgeParams::kiCostPerDamage),
+            Codec.DOUBLE.optionalFieldOf("con_reduction", DOD.conReduction()).forGetter(DodgeParams::conReduction)
+    ).apply(i, DodgeParams::new));
+
     static final Codec<ReleaseParams> RELEASE_CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.DOUBLE.optionalFieldOf("initial_limit", RD.initialLimit()).forGetter(ReleaseParams::initialLimit),
             Codec.DOUBLE.optionalFieldOf("reference_percent", RD.referencePercent()).forGetter(ReleaseParams::referencePercent),
@@ -105,7 +117,8 @@ public final class BalanceManager {
             KI_CODEC.optionalFieldOf("ki", KD).forGetter(BalanceParams::ki),
             RELEASE_CODEC.optionalFieldOf("release", RD).forGetter(BalanceParams::release),
             DEFENSE_CODEC.optionalFieldOf("defense", DFD).forGetter(BalanceParams::defense),
-            POD_CODEC.optionalFieldOf("pod", PD).forGetter(BalanceParams::pod)
+            POD_CODEC.optionalFieldOf("pod", PD).forGetter(BalanceParams::pod),
+            DODGE_CODEC.optionalFieldOf("dodge", DOD).forGetter(BalanceParams::dodge)
     ).apply(i, BalanceParams::new)).validate(p -> {
         String problem = p.problem();
         return problem == null ? DataResult.success(p) : DataResult.error(() -> problem);

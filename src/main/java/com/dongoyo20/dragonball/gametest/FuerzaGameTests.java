@@ -37,7 +37,7 @@ public final class FuerzaGameTests {
 
     @SuppressWarnings("removal")
     private static ServerPlayer newPlayer(GameTestHelper helper, int fueUpgrades) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = GameTestSupport.mockPlayer(helper);
         ProgressService.set(player, new PlayerProgress(0, List.of(0, fueUpgrades, 0, 0, 0, 0, 0)));
         return player;
     }

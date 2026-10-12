@@ -39,7 +39,7 @@ public final class KiGameTests {
 
     @SuppressWarnings("removal")
     private static ServerPlayer newPlayer(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = GameTestSupport.mockPlayer(helper);
         for (int i = 0; i < 61; i++) player.tick();                 // agotar la invulnerabilidad de aparición
         player.setGameMode(GameType.SURVIVAL);
         helper.getLevel().getServer().setDifficulty(Difficulty.NORMAL, true);

@@ -21,29 +21,38 @@ package com.dongoyo20.dragonball.core;
  * @param release          liberación de poder y VEL (movimiento)
  * @param defense          DEF (defensa)
  * @param pod              POD (poder de ki; sin efecto hasta que existan las técnicas)
+ * @param dodge            esquiva (probabilidad por VEL y coste en ki)
  */
 public record BalanceParams(
         double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
         double fueBase, double fueGrowth, double strengthExponent, int attributeCap,
-        KiParams ki, ReleaseParams release, DefenseParams defense, PodParams pod) {
+        KiParams ki, ReleaseParams release, DefenseParams defense, PodParams pod, DodgeParams dodge) {
 
     /** Los valores vigentes antes de que el balance fuera configurable (SYSTEMS.md §3.1, §3.2.1 y §3.2.2). */
     public static final BalanceParams DEFAULT = new BalanceParams(8.0, 1.0, 12.5, 3.0, 0.5, 8.0, 1.0, 3.0, 99,
-            KiParams.DEFAULT, ReleaseParams.DEFAULT, DefenseParams.DEFAULT, PodParams.DEFAULT);
+            KiParams.DEFAULT, ReleaseParams.DEFAULT, DefenseParams.DEFAULT, PodParams.DEFAULT, DodgeParams.DEFAULT);
 
-    /** Constructor sin los bloques de DEF y POD (valores por defecto). */
+    /** Constructor sin el bloque de esquiva (valores por defecto). */
+    public BalanceParams(double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
+                         double fueBase, double fueGrowth, double strengthExponent, int attributeCap,
+                         KiParams ki, ReleaseParams release, DefenseParams defense, PodParams pod) {
+        this(vitBase, vitGrowth, hpPerVit, damageExponent, continuousFloor, fueBase, fueGrowth, strengthExponent,
+                attributeCap, ki, release, defense, pod, DodgeParams.DEFAULT);
+    }
+
+    /** Constructor sin los bloques de DEF, POD y esquiva (valores por defecto). */
     public BalanceParams(double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
                          double fueBase, double fueGrowth, double strengthExponent, int attributeCap,
                          KiParams ki, ReleaseParams release) {
         this(vitBase, vitGrowth, hpPerVit, damageExponent, continuousFloor, fueBase, fueGrowth, strengthExponent,
-                attributeCap, ki, release, DefenseParams.DEFAULT, PodParams.DEFAULT);
+                attributeCap, ki, release, DefenseParams.DEFAULT, PodParams.DEFAULT, DodgeParams.DEFAULT);
     }
 
     /** Constructor de los nueve valores de VIT y FUE (ki, liberación, DEF y POD por defecto). */
     public BalanceParams(double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
                          double fueBase, double fueGrowth, double strengthExponent, int attributeCap) {
         this(vitBase, vitGrowth, hpPerVit, damageExponent, continuousFloor, fueBase, fueGrowth, strengthExponent,
-                attributeCap, KiParams.DEFAULT, ReleaseParams.DEFAULT, DefenseParams.DEFAULT, PodParams.DEFAULT);
+                attributeCap, KiParams.DEFAULT, ReleaseParams.DEFAULT, DefenseParams.DEFAULT, PodParams.DEFAULT, DodgeParams.DEFAULT);
     }
 
     /** Mejoras de VIT que caben bajo el tope (8 + 91 = 99 con los valores por defecto). */
@@ -106,6 +115,9 @@ public record BalanceParams(
         String podProblem = pod.problem();
         if (podProblem != null) return podProblem;
         if (attributeCap < defense.defBase() + defense.defGrowth()) return "attribute_cap debe permitir al menos una mejora de DEF";
+        if (dodge == null) return "falta el bloque dodge";
+        String dodgeProblem = dodge.problem();
+        if (dodgeProblem != null) return dodgeProblem;
         if (attributeCap < pod.podBase() + pod.podGrowth()) return "attribute_cap debe permitir al menos una mejora de POD";
         return null;
     }

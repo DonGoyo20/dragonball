@@ -61,7 +61,7 @@ public final class BalanceGameTests {
     @SuppressWarnings("removal")
     @GameTest(template = TEMPLATE)
     public static void changingTheBalanceChangesTheCombat(GameTestHelper helper) {
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerPlayer player = GameTestSupport.mockPlayer(helper);
         for (int i = 0; i < 61; i++) player.tick();            // agotar la invulnerabilidad de aparición
         player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
         helper.getLevel().getServer().setDifficulty(Difficulty.NORMAL, true);

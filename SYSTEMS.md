@@ -174,6 +174,8 @@ Ver `DEF_POD_IMPLEMENTATION.md`. El daño instantáneo recibido se multiplica po
 
 Misma velocidad = 10 %; el doble de velocidad ≈ 24 %; tope 60 %.
 
+**Implementada el 2026-10-12** (`ESQUIVA_IMPLEMENTATION.md`, provisional): como los enemigos aún no tienen VEL, el atacante se toma como 8 (vanilla): `prob = clamp(0,10 + 0,20 · ln(VEL_efectiva / 8), 0,10, 0,60)` con la VEL efectiva de la liberación (§4.2.1). Esquivar cuesta ki: `(5 + daño × 0,1) / (1 + CON/60)`; sin ki no se esquiva. Solo daño causado por una entidad (no lava, fuego, caída, explosiones, vacío ni `/kill`). Sin poise ni parry. Datos en `combat.json` (bloque `dodge`). **Deuda:** sustituir el 8 por la VEL real del atacante.
+
 ### 3.4 Enemigos
 Cada tipo de enemigo se define por **atributos efectivos** propios (`E`) en un archivo de datos (bestiario), con un arquetipo: bruto (FUE/VIT), veloz (VEL), de ki (POD/KI). Los mobs vanilla reciben valores al arrancar (zombi, esqueleto…). Si un mob no está definido, se le asigna un valor por defecto según su vida de vanilla.
 

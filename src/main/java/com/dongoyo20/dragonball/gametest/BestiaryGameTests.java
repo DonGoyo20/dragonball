@@ -24,7 +24,7 @@ public final class BestiaryGameTests {
 
     @SuppressWarnings("removal")
     private static ServerPlayer newPlayer(GameTestHelper helper) {
-        return helper.makeMockServerPlayerInLevel();
+        return GameTestSupport.mockPlayer(helper);
     }
 
     private static BestiaryEntry entry(EntityType<?> type) {

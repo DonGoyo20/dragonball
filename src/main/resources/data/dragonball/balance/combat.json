@@ -41,5 +41,13 @@
   "pod": {
     "pod_base": 8.0,
     "pod_growth": 1.0
+  },
+  "dodge": {
+    "base_chance": 0.10,
+    "log_multiplier": 0.20,
+    "max_chance": 0.60,
+    "ki_cost_base": 5.0,
+    "ki_cost_per_damage": 0.1,
+    "con_reduction": 60.0
   }
 }

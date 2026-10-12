@@ -42,5 +42,8 @@
  "command.dragonball.ki": "Ki %s / %s | liberación %s%% (límite %s%%)",
  "command.dragonball.release_limit": "Límite de liberación fijado en %s%%",
  "message.dragonball.no_ki": "¡Sin Ki! Tu liberación vuelve a 0 %",
- "message.dragonball.must_stand_still": "Debes estar quieto para liberar Ki"
+ "message.dragonball.must_stand_still": "Debes estar quieto para liberar Ki",
+ "dragonball.combat.dodged": "¡Esquivado!",
+ "dragonball.combat.no_ki_to_dodge": "Sin Ki para esquivar",
+ "command.dragonball.dodge": "Esquiva %s%% (VEL efectiva %s) | coste de un golpe de 1 HP: %s ki"
 }

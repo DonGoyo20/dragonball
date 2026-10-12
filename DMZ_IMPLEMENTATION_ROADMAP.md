@@ -58,7 +58,7 @@ Estas decisiones están **cerradas**; si cambian, se reabren explícitamente (ve
 - **Referencia DMZ:** escalado por raza/clase, regeneración `baseHp5/…`, coste de stat.
 - **Éxito:** 7 atributos con fórmula y tests JUnit; GameTests nuevos; JSON de balance con rechazo de archivo inválido; `StatsScreen` y comandos al día; sin regresiones (JUnit 41+, GameTest 52+); documento `*_IMPLEMENTATION.md` por stat.
 
-## Fase 2 — Defensa avanzada
+## Fase 2 — Defensa avanzada (esquiva IMPLEMENTADA 2026-10-12, pendiente de verificar en el PC; ver `ESQUIVA_IMPLEMENTATION.md`)
 - **Qué:** DEF con mitigación saturante `def/(k+def)` (a comparar con nuestra fórmula), evasión/dash con coste de Ki, núcleo puro de la tubería (atacante → víctima). **Fuera por decisión:** poise, parry y stamina. Un bloqueo simple (reducción fija, sin poise) solo si el usuario lo pide más adelante.
 - **Referencia DMZ:** `CombatEvent`, `calculatePostMitigationDamage`, `DashHandler` (sin la parte de poise/guardia).
 - **Éxito:** tubería explícita en `core/` con tests de tablas de valores; engancha `LivingIncomingDamageEvent`/`LivingDamageEvent.Pre` sin romper VIT/FUE; GameTests con zombie (armadura 0); informe de diferencias entre fórmula DMZ y la nuestra.

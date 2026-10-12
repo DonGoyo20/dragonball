@@ -117,4 +117,14 @@ class BalanceParamsTest {
         assertEquals(91, D.defMaxUpgrades());
         assertEquals(91, D.podMaxUpgrades());
     }
+
+    @Test
+    void dodgeDefaults() {
+        assertEquals(0.10, D.dodge().baseChance());
+        assertEquals(0.20, D.dodge().logMultiplier());
+        assertEquals(0.60, D.dodge().maxChance());
+        assertEquals(5.0, D.dodge().kiCostBase());
+        assertEquals(0.1, D.dodge().kiCostPerDamage());
+        assertEquals(60.0, D.dodge().conReduction());
+    }
 }

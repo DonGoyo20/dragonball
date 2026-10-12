@@ -38,7 +38,7 @@ public final class DragonBallGameTests {
      */
     @SuppressWarnings("removal")
     private static ServerPlayer newPlayer(GameTestHelper helper) {
-        return helper.makeMockServerPlayerInLevel();
+        return GameTestSupport.mockPlayer(helper);
     }
 
     @GameTest(template = TEMPLATE)

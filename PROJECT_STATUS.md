@@ -50,6 +50,9 @@ Sustituye la fórmula `max(0, lib/50)` y elimina el castigo por falta de ki (×4
 ## Fase 1 DMZ: DEF y POD (2026-10-12)
 DEF implementada (valor, compra, tope 99, reducción cúbica del daño instantáneo, escala con la liberación); POD con valor y compra pero **sin efecto** hasta que existan las técnicas; CON sin cambios. Datos en `combat.json` (`defense`, `pod`). JUnit 53/53, GameTest 57/57. **No verificado en el PC del usuario.** Ver `DEF_POD_IMPLEMENTATION.md`.
 
+## Fase 2 DMZ: esquiva con coste de Ki (2026-10-12)
+Implementada: probabilidad `clamp(0,10 + 0,20·ln(VEL efectiva/8), 0,10, 0,60)` (VEL 18 → 26 %, VEL 36 → 40 %), coste `(5 + daño×0,1)/(1 + CON/60)` de ki, solo golpes de entidades, `LivingIncomingDamageEvent`, partículas de vanilla, aviso en barra de acción, comando `/dragonball esquiva`, datos en `combat.json` (`dodge`), 8 idiomas. Sin poise, parry ni stamina. JUnit 67/67, GameTest 67/67, integraciones OK. **No verificado en el PC del usuario.** Preguntas abiertas en `ESQUIVA_IMPLEMENTATION.md`.
+
 ## Ajuste de DEF: multiplicador 1,25 (2026-10-12)
 El usuario verificó DEF y VIT + DEF era casi inmunidad (×0,0077). Se añadió `defense.defense_multiplier = 1,25` (configurable en `combat.json`): reducción de DEF = `min(1, 1,25 × (8/DEF efectiva)^3)`; DEF 18 sola ×0,110, VIT 18 + DEF 18 ×0,0096 (+25 %), DEF 8 y 0 % de liberación siguen en ×1 (el tope en 1 evita que DEF empeore el daño). JUnit 55/55, GameTest 58/58. Sin tocar VIT, FUE, POD, CON, Ki ni HUD. **No verificado en el PC del usuario.**
 
