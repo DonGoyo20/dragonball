@@ -33,7 +33,7 @@ public final class KiService {
     private static final double STILL_DISTANCE = 0.05;
     private static final double EPSILON = 1e-6;
 
-    private static final ResourceLocation SPEED_ID = ResourceLocation.fromNamespaceAndPath(DragonBall.MOD_ID, "vel_speed");
+    public static final ResourceLocation SPEED_ID = ResourceLocation.fromNamespaceAndPath(DragonBall.MOD_ID, "vel_speed");
     private static final ResourceLocation JUMP_ID = ResourceLocation.fromNamespaceAndPath(DragonBall.MOD_ID, "vel_jump");
 
     /** Tecla que mantiene cada jugador: 1 sube, -1 baja, 0 nada. Solo en memoria del servidor. */
@@ -163,11 +163,21 @@ public final class KiService {
         applyMovement(player, next, p);
     }
 
-    /** VEL efectiva → velocidad de movimiento y salto, con modificadores transitorios (no se guardan en el jugador). */
+    /**
+     * VEL efectiva → velocidad de movimiento y salto, con modificadores transitorios (no se guardan en el jugador).
+     * <b>Solo mientras el jugador corre</b> (doble W / Ctrl): caminando, parado o en el aire sin correr el jugador se mueve
+     * y salta como en vanilla, sea cual sea su VEL.
+     */
     private static void applyMovement(ServerPlayer player, KiData ki, BalanceParams p) {
         int vel = velValue(player);
-        setModifier(player.getAttribute(Attributes.MOVEMENT_SPEED), SPEED_ID, KiSystem.factorVelocidad(vel, ki.liberacion(), p) - 1.0);
-        setModifier(player.getAttribute(Attributes.JUMP_STRENGTH), JUMP_ID, KiSystem.factorSalto(vel, ki.liberacion(), p) - 1.0);
+        boolean sprinting = player.isSprinting();
+        setModifier(player.getAttribute(Attributes.MOVEMENT_SPEED), SPEED_ID, sprinting ? KiSystem.factorVelocidad(vel, ki.liberacion(), p) - 1.0 : 0.0);
+        setModifier(player.getAttribute(Attributes.JUMP_STRENGTH), JUMP_ID, sprinting ? KiSystem.factorSalto(vel, ki.liberacion(), p) - 1.0 : 0.0);
+    }
+
+    /** Reaplica solo el movimiento (barato): se llama cada tick para que correr/dejar de correr se note al instante. */
+    public static void updateMovement(ServerPlayer player) {
+        applyMovement(player, ProgressService.get(player).ki(), BalanceManager.get());
     }
 
     private static void setModifier(AttributeInstance attribute, ResourceLocation id, double amount) {

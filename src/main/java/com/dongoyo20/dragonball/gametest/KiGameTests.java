@@ -262,28 +262,34 @@ public final class KiGameTests {
     }
 
     @GameTest(template = TEMPLATE)
-    public static void velAffectsMovementSpeedAndJump(GameTestHelper helper) {
+    public static void velOnlyAffectsMovementWhileSprinting(GameTestHelper helper) {
         ServerPlayer player = newPlayer(helper);
-        setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 50, 100));
-        KiService.advance(player, 1, true, 0);
-        near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "al 50 % no hay modificador de velocidad");
-        setProgress(player, ups(0, 0, 10, 0, 0), new KiData(50, 0, 100));   // VEL 18 al 0 %
-        KiService.advance(player, 1, true, 0);
-        near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "al 0 % la velocidad es la de vanilla (no lento)");
-        near(helper, KiService.jumpModifierAmount(player), 0.0, 1e-9, "al 0 % el salto es el de vanilla");
-        setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 50, 100));
-        KiService.advance(player, 1, true, 0);
-        near(helper, KiService.jumpModifierAmount(player), 0.0, 1e-9, "al 50 % no hay modificador de salto");
+        setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 100, 100));          // VEL 8 al 100 %: ×√2 y ×2^0,25 si corre
 
-        setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 100, 100));
+        player.setSprinting(false);
         KiService.advance(player, 1, true, 0);
-        near(helper, KiService.speedModifierAmount(player), Math.sqrt(2.0) - 1.0, 1e-3, "al 100 %: velocidad ×√2");
-        near(helper, KiService.jumpModifierAmount(player), Math.pow(2.0, 0.25) - 1.0, 1e-3, "al 100 %: salto ×2^0,25");
-        near(helper, player.getAttributeValue(Attributes.MOVEMENT_SPEED), 0.1 * Math.sqrt(2.0), 0.002, "el atributo real del jugador cambia");
+        near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "sin correr, velocidad de vanilla");
+        near(helper, KiService.jumpModifierAmount(player), 0.0, 1e-9, "sin correr, salto de vanilla");
 
+        player.setSprinting(true);
+        KiService.updateMovement(player);                                           // lo que hace cada tick el evento
+        near(helper, KiService.speedModifierAmount(player), Math.sqrt(2.0) - 1.0, 1e-3, "corriendo al 100 %: velocidad ×√2");
+        near(helper, KiService.jumpModifierAmount(player), Math.pow(2.0, 0.25) - 1.0, 1e-3, "corriendo al 100 %: salto ×2^0,25");
+
+        player.setSprinting(false);
+        KiService.updateMovement(player);
+        near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "al dejar de correr se quita el bonus de velocidad");
+        near(helper, KiService.jumpModifierAmount(player), 0.0, 1e-9, "y el de salto");
+
+        // al 50 % con VEL 8 y al 0 % con VEL alta: corriendo tampoco hay bonus (vanilla)
         setProgress(player, ups(0, 0, 0, 0, 0), new KiData(50, 50, 100));
-        KiService.advance(player, 1, true, 0);
-        near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "al volver al 50 % se quita el modificador");
+        player.setSprinting(true);
+        KiService.updateMovement(player);
+        near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "VEL 8 al 50 %: sin bonus");
+        setProgress(player, ups(0, 0, 10, 0, 0), new KiData(50, 0, 100));
+        KiService.updateMovement(player);
+        near(helper, KiService.speedModifierAmount(player), 0.0, 1e-9, "VEL 18 al 0 %: sin bonus");
+        near(helper, KiService.jumpModifierAmount(player), 0.0, 1e-9, "VEL 18 al 0 %: sin bonus de salto");
         helper.succeed();
     }
 

@@ -27,6 +27,9 @@
 | "Quieto" | se movió < 0,05 bloques en los últimos 5 ticks y no está dando golpes | |
 | Base y crecimiento | KI 0 (+1), CON 0 (+1), VEL 8 (+1) | Con KI 0 la reserva es 50, como pediste; VEL como VIT y FUE |
 | VEL → movimiento / salto | `clamp((VEL efectiva/8)^0,5, 0,5, 2,5)` y `clamp(...^0,25, 0,5, 1,8)` | El diseño no daba fórmula; se aplica con modificadores transitorios |
+| VEL solo al correr (2026-10-12) | el bonus de velocidad **y de salto** solo existe mientras el jugador corre (doble W / Ctrl); caminando o parado es vanilla | Petición del usuario. Se reaplica cada tick en `KiService.updateMovement` |
+| FOV | `client/VelFovFix` deshace el bonus de VEL en el cálculo del FOV (`ComputeFovModifierEvent`, fórmula en `KiSystem.correccionFov`) | El bonus es un modificador de la velocidad y estiraba la cámara como una poción |
+| Corazones de vanilla | ocultos (capa `PLAYER_HEALTH`) mientras el HUD del mod esté visible (H los devuelve) | Petición del usuario |
 | Liberación inicial | 50 % (= límite) | Para que un personaje nuevo se comporte como en lo ya verificado |
 | Efecto de la liberación en VIT/FUE/VEL | función a trozos (ver abajo); **sin castigo** por falta de ki | Decisión del usuario (2026-10-12, 3.ª versión) |
 
@@ -81,4 +84,5 @@ Los guardados anteriores no tienen el campo `ki`: se cargan con el ki inicial (5
 ## Resultados (ejecutados, 2026-10-12, tras la función a trozos)
 - JUnit **43/43** (`./gradlew test`). Nuevos: base 18 (0/25/50/75/100 % → 8/13/18/27/36), base 8 (8/8/8/16), continuidad en 50 % y monotonía, entradas inválidas, sin ki = vanilla sin castigo, 50 % = balance ya verificado, 100 % = doble, interpolación 0–50 %, VEL a 0 % = ×1. Eliminados los tests del castigo y del factor.
 - GameTest **52/52** (`./gradlew runGameTestServer`): daño recibido al 0 % = ×1 (antes ×4), daño hecho al 0 % = ×1 (antes ×0,25), sin ki con VIT 18 / FUE 18 = vanilla, VEL 18 al 0 % = sin modificador de velocidad ni salto.
+- Cambios posteriores (VEL solo al correr, FOV, corazones): JUnit **44/44** (+`correccionFov`), GameTest **52/52** (`velOnlyAffectsMovementWhileSprinting` sustituye al anterior). **Corazones y FOV solo compilados; no vistos en pantalla.**
 - **No verificado en el PC del usuario** ni en pantalla. No se ejecutó `tools/verify_integrations.sh` en este ciclo.

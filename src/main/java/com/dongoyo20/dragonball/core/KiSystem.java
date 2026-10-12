@@ -156,6 +156,18 @@ public final class KiSystem {
         return Math.max(0.5, Math.min(maximo, raw));
     }
 
+    /**
+     * Corrección del FOV para que el bonus de VEL no estire la cámara. Vanilla usa {@code ((velocidad / velocidadAndando) + 1) / 2};
+     * con el bonus (multiplicador total {@code 1 + amount}) la velocidad sin él es {@code velocidad / (1 + amount)}. Devuelve
+     * {@code FOV sin bonus / FOV con bonus}: 1 sin bonus, menor que 1 con bonus.
+     */
+    public static double correccionFov(double velocidadConBonus, double velocidadAndando, double amount) {
+        if (velocidadAndando <= 0 || amount <= -1.0) return 1.0;
+        double con = (velocidadConBonus / velocidadAndando + 1.0) / 2.0;
+        double sin = (velocidadConBonus / (1.0 + amount) / velocidadAndando + 1.0) / 2.0;
+        return con <= 0 ? 1.0 : sin / con;
+    }
+
     private static void checkPorcentaje(double porcentaje) {
         if (Double.isNaN(porcentaje) || porcentaje < 0 || porcentaje > 100) {
             throw new IllegalArgumentException("porcentaje de liberación fuera de [0, 100]: " + porcentaje);

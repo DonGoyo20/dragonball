@@ -18,6 +18,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
 /**
  * HUD del mod, esquina superior izquierda: barra de Vida (verde) con "HP X / Y" y barra de Ki (cyan) con "Ki X / Y".
@@ -82,6 +84,12 @@ public final class PlayerHud implements LayeredDraw.Layer {
         @SubscribeEvent
         public static void registerLayer(RegisterGuiLayersEvent event) {
             event.registerAboveAll(ID, new PlayerHud());
+        }
+
+        /** Los corazones de vanilla sobran: la vida real ya se muestra en la barra HP (solo si el HUD del mod está visible). */
+        @SubscribeEvent
+        public static void hideVanillaHearts(RenderGuiLayerEvent.Pre event) {
+            if (visible && VanillaGuiLayers.PLAYER_HEALTH.equals(event.getName())) event.setCanceled(true);
         }
     }
 }

@@ -211,4 +211,12 @@ class KiSystemTest {
         assertThrows(IllegalArgumentException.class, () -> FuerzaSystem.danioSalienteLiberado(1.0, 8, Double.NaN, P));
         assertThrows(IllegalArgumentException.class, () -> HealthSystem.danioAplicadoLiberado(3.0, 7, 50.0, TipoDanio.ESCALA_SIN_SUELO, P));
     }
+
+    @Test
+    void fovCorrectionRemovesOnlyTheVelBonus() {
+        assertEquals(1.0, KiSystem.correccionFov(0.1, 0.1, 0.0), 1e-12);                 // sin bonus no cambia nada
+        // correr con bonus ×2: velocidad 0,2 sobre andar 0,1 → FOV (2+1)/2 = 1,5; sin bonus (1+1)/2 = 1 → factor 2/3
+        assertEquals(1.0 / 1.5, KiSystem.correccionFov(0.2, 0.1, 1.0), 1e-12);
+        assertEquals(1.0, KiSystem.correccionFov(0.2, 0.0, 1.0), 1e-12);                 // datos inválidos → sin corrección
+    }
 }

@@ -47,6 +47,9 @@ Implementado y probado con tests automáticos (JUnit 20/20, GameTest 26/26); **n
 ## Liberación como función a trozos (2026-10-12)
 Sustituye la fórmula `max(0, lib/50)` y elimina el castigo por falta de ki (×4 recibido / ×0,25 hecho; parámetros `max_damage_taken_factor` y `min_damage_dealt_factor`). Ahora `stat_ef = 8 + (base−8)×lib/50` hasta 50 % y `base×lib/50` desde 50 %: 0 % = vanilla, 50 % = atributos del mod, 100 % = doble. VEL a 0 % es velocidad vanilla. El aviso "¡Sin Ki!" queda informativo (texto: "Tu liberación vuelve a 0 %"). Tests: JUnit 43/43, GameTest 52/52. **No verificado en el PC del usuario.** Ver `KI_IMPLEMENTATION.md`.
 
+## Correcciones tras probar la función a trozos (2026-10-12)
+(1) Corazones de vanilla ocultos mientras el HUD del mod esté visible; (2) el bonus de VEL ya no estira el FOV (se deshace en el cálculo del FOV del cliente); (3) el salto sube con VEL (misma mejora, sin atributo aparte); (4) el bonus de velocidad y de salto solo se aplica **mientras el jugador corre**. JUnit 44/44, GameTest 52/52; corazones y FOV solo compilados, no vistos en pantalla. Ver `KI_IMPLEMENTATION.md`.
+
 ## Ajustes del Ki (2026-10-12)
 Aplicados los 4 ajustes del usuario (el factor `max(0, lib/50)` y el castigo ×4/×0,25 de este bloque quedaron **sustituidos** por la función a trozos de arriba); avisos en la barra de acción ("¡Sin Ki!" al agotarse el ki y "Debes estar quieto" como mucho cada 2 s); tercera línea del HUD solo con liberación > 0. Tests: JUnit 41/41, GameTest 52/52; comprobado en cliente virtual (no en el PC del usuario). El aviso "¡Sin Ki!" no se vio en pantalla. Ver `KI_IMPLEMENTATION.md`.
 

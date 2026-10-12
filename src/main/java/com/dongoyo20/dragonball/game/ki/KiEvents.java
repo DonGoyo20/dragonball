@@ -14,9 +14,9 @@ public final class KiEvents {
 
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
-        if (event.getEntity() instanceof ServerPlayer player && KiService.countTick(player.getUUID())) {
-            KiService.tick(player);
-        }
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        if (KiService.countTick(player.getUUID())) KiService.tick(player);
+        else KiService.updateMovement(player);
     }
 
     @SubscribeEvent
