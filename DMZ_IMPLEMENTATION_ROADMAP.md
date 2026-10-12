@@ -13,19 +13,19 @@ Unidad: **ciclo** = una sesión de trabajo como la del Ki (diseño + código + t
 | Fase | Contenido | Ciclos | Depende de | Riesgo |
 |---|---|---|---|---|
 | 1 | Cierre de stats base (DEF, VEL, POD, CON) | 2–3 | — | bajo |
-| 2 | Defensa avanzada: mitigación, bloqueo, poise, esquiva | 2–3 | 1 | medio |
+| 2 | Defensa avanzada: mitigación (DEF) y esquiva; sin poise ni parry | 2 | 1 | medio |
 | 3 | Razas y personaje como datos (sin modelos) | 2–3 | 1 | bajo |
 | 4 | Formas y maestría (datos + núcleo + activación) | 3–4 | 1, 3 | medio |
-| 5 | Skills, TP y técnicas ki (fórmulas y datos) | 3–4 | 1, 3 | bajo |
+| 5 | Skills (en XP) y técnicas ki (fórmulas y datos) | 3–4 | 1, 3 | bajo |
 | 6 | Entidades de ki y ejecución de técnicas | 3–5 | 5 | medio |
 | 7 | Alineamiento, party, deseos y esferas | 2–3 | 1, 5 | bajo |
-| 8 | Misiones, NPC maestros y diálogos (español) | 4–6 | 3, 5, 7 | medio |
+| 8 | NPC maestros, diálogos (español) y contenido FTB | 3–4 | 3, 5, 7 | medio |
 | 9 | Mundo: estructuras, dimensiones, raids | 4–6 | 8 | medio-alto |
 | 10 | Cliente avanzado: pantallas, vuelo, radial | 3–5 | 4–6 | medio |
 | 11 | Render: GeckoLib 5, aura, shaders, kisense | 5–8 (+spike) | 3, 4, 10 | **alto** |
 | 12 | Assets privados | 1–2 por lote | sistemas que los usan | legal/IP |
 
-Total orientativo: **34–52 ciclos**. Las fases 1→2→(3,4,5) son la columna vertebral; 7, 9, 11 pueden ir en paralelo o posponerse.
+Total orientativo: **33–50 ciclos** (tras las decisiones cerradas: sin poise y sin sistema de misiones propio). Las fases 1→2→(3,4,5) son la columna vertebral; 7, 9, 11 pueden ir en paralelo o posponerse.
 
 ```
  1 Stats ─┬─▶ 2 Defensa
@@ -37,15 +37,19 @@ Total orientativo: **34–52 ciclos**. Las fases 1→2→(3,4,5) son la columna 
 
 ---
 
-## Decisiones del usuario necesarias antes de empezar (sólo las que son suyas)
+## Decisiones cerradas (confirmadas por el usuario)
 
-1. **Stats:** ¿mantener nuestros 7 (VIT, FUE, DEF, VEL, KI, POD, CON) o adoptar los 6 de DMZ? Recomiendo **mantener los nuestros** y usar las fórmulas de DMZ solo como referencia.
-2. **Moneda:** ¿XP (actual) o TP separados para skills/formas? Recomiendo seguir con XP para stats y decidir TP al llegar a la Fase 5.
-3. **Stamina y poise:** ¿entran al diseño? (afectan Fases 2 y 4).
-4. **Misiones:** ¿mantener FTB Quests o crear sistema propio? (Fase 8).
-5. **Idioma:** confirmar que el contenido se traduce al español como lengua principal.
+| # | Tema | Decisión | Efecto en la hoja de ruta |
+|---|---|---|---|
+| 1 | Atributos | **Se mantienen los 7 nuestros** (VIT, FUE, DEF, VEL, KI, POD, CON). No se adoptan los 6 de DMZ | DMZ solo aporta fórmulas de referencia; no hay migración de stats. Fase 1 completa DEF, POD y CON |
+| 2 | Moneda | **XP**, no TP | Fases 4, 5 y 8: costes de skills, formas y técnicas en XP. Sin moneda nueva |
+| 3 | Stamina / poise | **Sin stamina** (todo por Ki). **Sin poise por ahora** (necesita animaciones; posible en el futuro) | Fase 2 sin bloqueo con poise ni parry (el parry depende de stamina/poise). Fase 4: drenajes de formas solo en Ki y vida |
+| 4 | Misiones | **Se mantiene FTB Quests**; no hay sistema propio | Fase 8 sin modelo de misiones propio; solo NPC, diálogos y contenido FTB |
+| 5 | Idioma | **Español principal**; se mantienen las 8 variantes y el inglés como secundario | Todo texto nuevo se escribe primero en español y se añade a los 8 archivos de idioma + `en_us` |
 
-Si no hay respuesta, aplico las recomendaciones y lo dejo anotado como provisional.
+Estas decisiones están **cerradas**; si cambian, se reabren explícitamente (ver también `HANDOFF.md` §7).
+
+**Estado actual:** la Fase 1 **no ha empezado**. Se espera a que el usuario verifique en su PC el ciclo de Ki ajustado (liberación a trozos, VEL solo al correr, corazones y FOV).
 
 ---
 
@@ -55,8 +59,8 @@ Si no hay respuesta, aplico las recomendaciones y lo dejo anotado como provision
 - **Éxito:** 7 atributos con fórmula y tests JUnit; GameTests nuevos; JSON de balance con rechazo de archivo inválido; `StatsScreen` y comandos al día; sin regresiones (JUnit 41+, GameTest 52+); documento `*_IMPLEMENTATION.md` por stat.
 
 ## Fase 2 — Defensa avanzada
-- **Qué:** decidir si se adopta mitigación saturante `def/(k+def)`, bloqueo, poise, parry y evasión; núcleo puro de la tubería (atacante → víctima → bloqueo).
-- **Referencia DMZ:** `CombatEvent`, `calculatePostMitigationDamage`, `DashHandler`.
+- **Qué:** DEF con mitigación saturante `def/(k+def)` (a comparar con nuestra fórmula), evasión/dash con coste de Ki, núcleo puro de la tubería (atacante → víctima). **Fuera por decisión:** poise, parry y stamina. Un bloqueo simple (reducción fija, sin poise) solo si el usuario lo pide más adelante.
+- **Referencia DMZ:** `CombatEvent`, `calculatePostMitigationDamage`, `DashHandler` (sin la parte de poise/guardia).
 - **Éxito:** tubería explícita en `core/` con tests de tablas de valores; engancha `LivingIncomingDamageEvent`/`LivingDamageEvent.Pre` sin romper VIT/FUE; GameTests con zombie (armadura 0); informe de diferencias entre fórmula DMZ y la nuestra.
 
 ## Fase 3 — Razas y personaje como datos
@@ -65,12 +69,12 @@ Si no hay respuesta, aplico las recomendaciones y lo dejo anotado como provision
 - **Éxito:** al menos las 3 razas de BETA_RACES jugables por datos; Codec con compatibilidad hacia atrás verificada por test; sync al cliente; KubeJS puede sobrescribir.
 
 ## Fase 4 — Formas y maestría
-- **Qué:** registro `form` (sub-records para no superar 16 campos del codec), requisitos, multiplicadores, consumos, maestría (golpe dado/recibido, pasiva), apilado (Kaio-ken), activación por mantener tecla, reversión por falta de recursos.
+- **Qué:** registro `form` (sub-records para no superar 16 campos del codec), requisitos, multiplicadores, consumos **solo de Ki y vida** (sin stamina), maestría (golpe dado/recibido, pasiva), apilado (Kaio-ken), activación por mantener tecla, reversión por falta de recursos.
 - **Referencia DMZ:** `FormConfig`, `FormModeHandler`, `getFormMultiplier`, `applyMasteryStatBonus`.
 - **Éxito:** matemática pura en `core/` con valores dorados de DMZ en tests; ≥2 formas de ejemplo jugables; HUD/pantalla muestran forma y maestría; GameTests de transformar/revertir/drenar; sin aura ni pelo todavía (solo mensaje/partículas vanilla).
 
-## Fase 5 — Skills, TP y técnicas ki (datos y fórmulas)
-- **Qué:** registro `skill` con coste por nivel y razas permitidas, compra validada en servidor, registro `technique` con coste de ki/TP, cooldown, daño y carga (hasta 175 %). Sin entidades todavía: efecto de prueba (daño directo en rayo/hitscan).
+## Fase 5 — Skills (en XP) y técnicas ki (datos y fórmulas)
+- **Qué:** registro `skill` con coste por nivel y razas permitidas, compra validada en servidor, registro `technique` con coste de ki y de XP, cooldown, daño y carga (hasta 175 %). Sin entidades todavía: efecto de prueba (daño directo en rayo/hitscan).
 - **Referencia DMZ:** `SkillsConfig`, `KiAttackData` (fórmulas cerradas), `TechniqueConfig`.
 - **Éxito:** fórmulas con tests; compra/mejora por pantalla y comando; ranuras de técnica con teclas; límites validados server-side; GameTests de coste y cooldown.
 
@@ -84,9 +88,9 @@ Si no hay respuesta, aplico las recomendaciones y lo dejo anotado como provision
 - **Éxito:** tests puros de reglas; party persiste tras reinicio (GameTest/servidor); deseo `command` desactivado salvo permiso explícito.
 
 ## Fase 8 — Misiones, NPC maestros y diálogos
-- **Qué (según decisión 4):** modelo de misión/objetivos/recompensas en Codec; maestros (Roshi, Karin…) como una entidad genérica dirigida por datos; diálogos **en español**; estructura de sagas.
-- **Referencia DMZ:** `Quest`, `QuestParser`, objetivos (10) y recompensas (8). Los números de combate se **re-escalan**.
-- **Éxito:** una saga corta completa (p. ej. Saiyan inicial) jugable de principio a fin; textos 100 % en español; migración de la integración FTB documentada.
+- **Qué (decisiones 4 y 5):** las misiones se quedan en **FTB Quests** (sin modelo propio); maestros (Roshi, Karin…) como una entidad genérica dirigida por datos que enseñan skills por XP; diálogos **en español** en los 8 archivos de idioma + inglés; sagas como capítulos FTB.
+- **Referencia DMZ:** estructura de sagas, objetivos y recompensas como inspiración de contenido para FTB (no se porta el código de misiones). Los números de combate se **re-escalan**.
+- **Éxito:** una saga corta completa (p. ej. Saiyan inicial) jugable de principio a fin; textos 100 % en español; las misiones se entregan como datos FTB; recompensas del mod (XP, skills) expuestas a FTB por comando o datos.
 
 ## Fase 9 — Mundo
 - **Qué:** estructuras NBT (migradas/regeneradas) con colocación por datos; luego dimensión pequeña (Cámara del Tiempo) como prueba; Namek y Otherworld después; raids.

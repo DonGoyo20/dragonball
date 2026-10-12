@@ -1,5 +1,7 @@
 # DMZ_SYSTEMS_MAP — Mapa de sistemas de DragonMine Z
 
+> **Decisiones cerradas del usuario (aplican a todo el documento):** (1) se mantienen nuestros 7 atributos; (2) la moneda es XP, no TP; (3) sin stamina y sin poise por ahora; (4) se mantiene FTB Quests, sin sistema de misiones propio; (5) español como idioma principal (8 variantes + inglés). Donde el texto de abajo hable de TP, stamina, poise, parry o sistema propio de misiones, léase como **"descartado"**; se conserva el análisis solo como referencia.
+
 > **Fase 0 (solo estudio).** No se escribió código del mod ni se copió ningún asset.
 > Código estudiado: `staging/dmz_source/` (clon superficial, commit `2d348fa`, "fix: curseforge fix"; ignorado por git).
 > DMZ: Forge 1.20.1, Java 17, **GPL-3.0**, v2.1.3, 953 archivos Java, 2807 de recursos.
@@ -122,8 +124,8 @@ Leyenda de veredicto: **D** = directamente reimplementable (como datos/fórmulas
 - Regeneración por tick/5 s con constantes por clase (`baseHp5`, `hp5VitScaling`, `baseEp5`, `ep5EneScaling`, `baseSp5`, `sp5StmScaling`).
 - **Stamina** además de energía y **poise** (guardia): no los tenemos.
 - Liberación: el combate necesita `release ≥ 50` para ganar maestría; BP escala con `release`.
-- **Frente a nuestro mod:** tenemos Ki (reserva `50+10×KI`), liberación 0–100 con límite inicial 50 %, factor `max(0, lib/50)`, castigo ×4 recibido / ×0,25 infligido, regeneración y gasto, HUD, `StatsScreen`. DMZ añade stamina y poise, y 3 recursos regenerados por clase.
-- **Veredicto:** liberación/Ki **ya hechos** (nuestra versión es más limpia y testeada); stamina/poise **E** (crear con nuestra arquitectura si se decide); regen por clase **D**.
+- **Frente a nuestro mod:** tenemos Ki (reserva `50+10×KI`), liberación 0–100 con límite inicial 50 %, liberación como función a trozos (0 % vanilla, 50 % atributos del mod, 100 % el doble; sin castigo por falta de ki), regeneración y gasto, HUD, `StatsScreen`. DMZ añade stamina y poise, y 3 recursos regenerados por clase.
+- **Veredicto:** liberación/Ki **ya hechos** (nuestra versión es más limpia y testeada); stamina y poise **descartados por decisión del usuario** (todo por Ki; poise podría añadirse en el futuro); regen por clase **D**.
 
 ### 3.3 Formas / transformaciones / maestría
 
@@ -194,7 +196,7 @@ Leyenda de veredicto: **D** = directamente reimplementable (como datos/fórmulas
               ─▶ bloqueo/poise/parry ─▶ vida
 ```
 
-- **Frente a nuestro mod:** tenemos reducción por VIT (cúbica, 3 categorías, suelo 0,5), FUE cúbica, castigo por liberación. **No tenemos** DEF real (saturante), bloqueo, poise, parry, esquiva, choque, vuelo, debuffs a mobs.
+- **Frente a nuestro mod:** tenemos reducción por VIT (cúbica, 3 categorías, suelo 0,5), FUE cúbica, liberación a trozos (sin castigo por falta de ki). **No tenemos** DEF real (saturante), bloqueo, poise, parry, esquiva, choque, vuelo, debuffs a mobs.
 - **Veredicto:** matemática **D**; monolito del evento **A** (reconstruir como tubería explícita con `LivingIncomingDamageEvent` / `LivingDamageEvent.Pre`); `EntityStatDebuffs` **D** (como attachment); choque/vuelo/kisense/taiyoken **A** (la parte de shader es lo caro); armas/combos **E**.
 
 ### 3.8 Mundo (dimensiones, estructuras, raids)
@@ -241,9 +243,9 @@ Leyenda de veredicto: **D** = directamente reimplementable (como datos/fórmulas
 | `StatsData` (god-object) | `PlayerProgress` record + Codec + attachments | **A** | Nuestro enfoque ya es el correcto; no portar la estructura |
 | Sync de estado | `.sync` con predicado `hasChannel` | **A** | DMZ reenvía todo el NBT; nosotros delta/attachment |
 | Ki / liberación | Hecho | — | Más sólido que DMZ |
-| Stamina / poise | No | **E** | Decidir si entran en el diseño |
+| Stamina / poise | No | **Descartado** | Decisión cerrada: sin stamina; sin poise por ahora |
 | Formas + maestría | No | **D** (datos) / **A** (tick) | Prioridad alta |
-| Skills + TP | No (XP como moneda) | **D** | Decidir TP vs XP (§6) |
+| Skills (costes en XP) | No (XP como moneda) | **D** | Decisión cerrada: XP, no TP |
 | Técnicas ki (fórmulas) | No | **D** | Núcleo puro + tests |
 | Entidades ki | No | **A** | Proyectiles, renderers |
 | Strikes / combos | No | **E** | Diseño nuevo |
@@ -257,7 +259,7 @@ Leyenda de veredicto: **D** = directamente reimplementable (como datos/fórmulas
 | Alineamiento | No | **D** | |
 | Party | No | **D** | |
 | Deseos / esferas | No | **D/A** | |
-| Misiones (modelo) | FTB Quests (integración) | **D** | ¿Reemplazar FTB? decisión del usuario |
+| Misiones (modelo) | FTB Quests (integración) | **D** | Decisión cerrada: se mantiene FTB Quests; no se porta el modelo |
 | NPC maestros / sagas | Lobo salvaje + bestiario de datos | **A** | |
 | Mundo / dimensiones | No | **A** | |
 | Red (80 paquetes) | 2 payloads | **D** | Fusionar en acción+enum |
@@ -293,8 +295,8 @@ Criterio: dependencias → valor jugable → riesgo.
 4. **`Player.attack` y `Minecraft.startAttack`** (combos estilo Better Combat) son los mixins más difíciles.
 5. **`StatsData` toca todo**: portar por partes, nunca en bloque.
 6. **Escala de números**: DMZ usa BP del orden de miles/millones y misiones con niveles 1700–2320; nuestro diseño usa stats ≤ rangos distintos. Los datos de DMZ no se pueden pegar sin re-escalar.
-7. **Divergencia de diseño**: 6 stats de DMZ vs 7 nuestros; TP vs XP; stamina/poise. Hay que decidir qué manda (SYSTEMS.md prevalece sobre el GDD y sobre DMZ).
+7. **Divergencia de diseño (resuelta):** se mantienen nuestros 7 stats, XP en vez de TP, sin stamina ni poise. SYSTEMS.md prevalece sobre el GDD y sobre DMZ. El riesgo que queda es traducir fórmulas de DMZ (6 stats, TP, stamina) a nuestro modelo sin copiarlas a ciegas.
 8. **Mundo**: noise routers de Namek/Kai y los `.mca` de Otherworld (28 MB) pueden no migrar limpiamente.
 9. **Volumen**: ~953 archivos Java; incluso reimplementando solo lo esencial, el trabajo es de muchos ciclos.
-10. **Contenido solo en inglés**: diálogos y misiones requieren traducción propia.
+10. **Contenido solo en inglés**: diálogos y misiones requieren traducción propia; el español es la lengua principal (8 variantes + inglés).
 11. **Verificación**: casi nada de DMZ se puede validar sin ejecutarlo; los valores dorados salen de leer código. Los tests de fórmulas serán de regresión de "lo que dice el código", no de "lo que se siente en juego".

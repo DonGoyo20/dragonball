@@ -57,3 +57,13 @@ GeckoLib 4.9.3 (MIT, obligatoria), Patchouli 1.21.1-93 (CC-BY-NC-SA 3.0), FTB Qu
 
 ## 7. Próximo paso
 VIT → salud está implementado (ver `HEALTH_IMPLEMENTATION.md`; confirmaciones del usuario: vida real derivada de la vanilla, fórmula provisional cúbica —deuda técnica en SYSTEMS §3.2.1—, todo el daño escala salvo vacío y /kill (continuo con suelo de 0,5 HP), base universal del Saiyajin). Después se implementó FUE (`FUERZA_IMPLEMENTATION.md`). Falta que el usuario pruebe VIT y FUE en el juego. Siguen: DEF, VEL, ki (KI/POD/CON) y HUD, a decidir. Preguntas de diseño: las de `BESTIARY.md` §15 están **cerradas** (2026-10-12: quinto luchador de Baba fuera de la beta; Saibamen se autodestruyen; Vegeta con fase Ozaru; ver `BETA_BOSSES.md`). Siguen abiertas: licencia del mod y GPU del usuario. Pendiente de diseño: estadísticas de la fase Ozaru.
+
+### Decisiones cerradas de la reimplementación de DMZ (2026-10-12)
+Confirmadas por el usuario tras la Fase 0 (`DMZ_SYSTEMS_MAP.md`, `DMZ_IMPLEMENTATION_ROADMAP.md`). **Cerradas: no se reabren sin que el usuario lo pida.**
+1. **Atributos:** se mantienen los 7 nuestros (VIT, FUE, DEF, VEL, KI, POD, CON). No se adoptan los 6 de DMZ.
+2. **Moneda:** XP. No se adopta TP.
+3. **Stamina y poise:** sin stamina (todo por Ki); sin poise por ahora (requiere animaciones específicas; posible en el futuro). Por tanto tampoco parry.
+4. **Misiones:** se mantiene FTB Quests; no se implementa sistema propio.
+5. **Idioma:** español principal; se mantienen las 8 variantes y el inglés como secundario.
+
+**Estado:** la Fase 1 de la hoja de ruta (cierre de stats base: DEF, POD, CON) **no ha empezado**. Se espera a que el usuario verifique en su PC el ciclo de Ki ajustado (liberación a trozos, VEL solo al correr, corazones y FOV).
