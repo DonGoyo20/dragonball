@@ -19,21 +19,31 @@ package com.dongoyo20.dragonball.core;
  * @param attributeCap     tope del valor de un atributo
  * @param ki               recurso Ki (reserva, gasto y regeneración)
  * @param release          liberación de poder y VEL (movimiento)
+ * @param defense          DEF (defensa)
+ * @param pod              POD (poder de ki; sin efecto hasta que existan las técnicas)
  */
 public record BalanceParams(
         double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
         double fueBase, double fueGrowth, double strengthExponent, int attributeCap,
-        KiParams ki, ReleaseParams release) {
+        KiParams ki, ReleaseParams release, DefenseParams defense, PodParams pod) {
 
     /** Los valores vigentes antes de que el balance fuera configurable (SYSTEMS.md §3.1, §3.2.1 y §3.2.2). */
     public static final BalanceParams DEFAULT = new BalanceParams(8.0, 1.0, 12.5, 3.0, 0.5, 8.0, 1.0, 3.0, 99,
-            KiParams.DEFAULT, ReleaseParams.DEFAULT);
+            KiParams.DEFAULT, ReleaseParams.DEFAULT, DefenseParams.DEFAULT, PodParams.DEFAULT);
 
-    /** Constructor de los nueve valores de VIT y FUE (ki y liberación por defecto). */
+    /** Constructor sin los bloques de DEF y POD (valores por defecto). */
+    public BalanceParams(double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
+                         double fueBase, double fueGrowth, double strengthExponent, int attributeCap,
+                         KiParams ki, ReleaseParams release) {
+        this(vitBase, vitGrowth, hpPerVit, damageExponent, continuousFloor, fueBase, fueGrowth, strengthExponent,
+                attributeCap, ki, release, DefenseParams.DEFAULT, PodParams.DEFAULT);
+    }
+
+    /** Constructor de los nueve valores de VIT y FUE (ki, liberación, DEF y POD por defecto). */
     public BalanceParams(double vitBase, double vitGrowth, double hpPerVit, double damageExponent, double continuousFloor,
                          double fueBase, double fueGrowth, double strengthExponent, int attributeCap) {
         this(vitBase, vitGrowth, hpPerVit, damageExponent, continuousFloor, fueBase, fueGrowth, strengthExponent,
-                attributeCap, KiParams.DEFAULT, ReleaseParams.DEFAULT);
+                attributeCap, KiParams.DEFAULT, ReleaseParams.DEFAULT, DefenseParams.DEFAULT, PodParams.DEFAULT);
     }
 
     /** Mejoras de VIT que caben bajo el tope (8 + 91 = 99 con los valores por defecto). */
@@ -44,6 +54,16 @@ public record BalanceParams(
     /** Mejoras de FUE que caben bajo el tope. */
     public int fueMaxUpgrades() {
         return (int) Math.floor((attributeCap - fueBase) / fueGrowth + 1e-9);
+    }
+
+    /** Mejoras de DEF que caben bajo el tope. */
+    public int defMaxUpgrades() {
+        return (int) Math.floor((attributeCap - defense.defBase()) / defense.defGrowth() + 1e-9);
+    }
+
+    /** Mejoras de POD que caben bajo el tope. */
+    public int podMaxUpgrades() {
+        return (int) Math.floor((attributeCap - pod.podBase()) / pod.podGrowth() + 1e-9);
     }
 
     /** Mejoras de VEL que caben bajo el tope. */
@@ -80,6 +100,13 @@ public record BalanceParams(
         String releaseProblem = release.problem();
         if (releaseProblem != null) return releaseProblem;
         if (attributeCap < release.velBase() + release.velGrowth()) return "attribute_cap debe permitir al menos una mejora de VEL";
+        if (defense == null || pod == null) return "faltan los bloques defense o pod";
+        String defenseProblem = defense.problem();
+        if (defenseProblem != null) return defenseProblem;
+        String podProblem = pod.problem();
+        if (podProblem != null) return podProblem;
+        if (attributeCap < defense.defBase() + defense.defGrowth()) return "attribute_cap debe permitir al menos una mejora de DEF";
+        if (attributeCap < pod.podBase() + pod.podGrowth()) return "attribute_cap debe permitir al menos una mejora de POD";
         return null;
     }
 

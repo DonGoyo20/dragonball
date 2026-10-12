@@ -53,7 +53,7 @@ Estas decisiones están **cerradas**; si cambian, se reabren explícitamente (ve
 
 ---
 
-## Fase 1 — Cierre de stats base
+## Fase 1 — Cierre de stats base (IMPLEMENTADA 2026-10-12, pendiente de verificar en el PC; ver `DEF_POD_IMPLEMENTATION.md`)
 - **Qué:** DEF (mitigación propia), VEL (movimiento/salto/ataque), POD (daño de ki), CON (resistencia/regeneración) con el método VIT/FUE: fórmula en `core/`, parámetros en `balance/*.json`, tests, comandos, pantalla.
 - **Referencia DMZ:** escalado por raza/clase, regeneración `baseHp5/…`, coste de stat.
 - **Éxito:** 7 atributos con fórmula y tests JUnit; GameTests nuevos; JSON de balance con rechazo de archivo inválido; `StatsScreen` y comandos al día; sin regresiones (JUnit 41+, GameTest 52+); documento `*_IMPLEMENTATION.md` por stat.

@@ -105,4 +105,15 @@ class BalanceParamsTest {
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, ok.ki(), new ReleaseParams(50, 50, 10, 20, 8, 1, 0.5, 0.5, 0.25, 1.8)).problem()); // speed_max < 1
         assertNotNull(new BalanceParams(8, 1, 12.5, 3, 0.5, 8, 1, 3, 99, null, ok.release()).problem());
     }
+
+    @Test
+    void defenseAndPodDefaultsAndMaxUpgrades() {
+        assertEquals(8.0, D.defense().defBase());
+        assertEquals(1.0, D.defense().defGrowth());
+        assertEquals(3.0, D.defense().damageExponent());
+        assertEquals(8.0, D.pod().podBase());
+        assertEquals(1.0, D.pod().podGrowth());
+        assertEquals(91, D.defMaxUpgrades());
+        assertEquals(91, D.podMaxUpgrades());
+    }
 }

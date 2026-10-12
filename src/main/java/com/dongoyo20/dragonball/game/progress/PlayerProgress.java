@@ -1,6 +1,7 @@
 package com.dongoyo20.dragonball.game.progress;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.core.DefensaSystem;
 import com.dongoyo20.dragonball.core.FuerzaSystem;
 import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.Progression;
@@ -77,16 +78,17 @@ public record PlayerProgress(long xp, List<Integer> upgrades, KiData ki) {
     }
 
     /**
-     * ¿El atributo ya está en el tope? Solo tienen valores definidos VIT (0), FUE (1), VEL (3), KI (4) y CON (6);
-     * DEF (2) y POD (5) aún no (ciclos pendientes) y no tienen tope.
+     * ¿El atributo ya está en el tope? Los siete atributos tienen valores y tope (POD aún sin efecto: llegará con las técnicas de ki).
      */
     public boolean isAtCap(int index) {
         BalanceParams p = BalanceManager.get();
         return switch (index) {
             case 0 -> !HealthSystem.canUpgradeVit(upgrades.get(0), p);
             case 1 -> !FuerzaSystem.canUpgradeFue(upgrades.get(1), p);
+            case 2 -> !DefensaSystem.canUpgradeDef(upgrades.get(2), p);
             case 3 -> upgrades.get(3) >= p.velMaxUpgrades();
             case 4 -> upgrades.get(4) >= p.kiMaxUpgrades();
+            case 5 -> upgrades.get(5) >= p.podMaxUpgrades();
             case 6 -> upgrades.get(6) >= p.conMaxUpgrades();
             default -> false;
         };

@@ -211,11 +211,11 @@ public final class KiGameTests {
 
         low.hurt(low.damageSources().mobAttack(zombie), 1.0F);     // liberación 0 %: vanilla (VIT efectiva 8), sin castigo
         mid.hurt(mid.damageSources().mobAttack(zombie), 1.0F);     // 50 %: los atributos del mod (VIT 8) → ×1
-        high.hurt(high.damageSources().mobAttack(zombie), 1.0F);   // 100 %: VIT efectiva 16 → ×1/8
+        high.hurt(high.damageSources().mobAttack(zombie), 1.0F);   // 100 %: VIT efectiva 16 → ×1/8 y DEF efectiva 16 → ×1/8 (DEF también escala con la liberación)
 
         near(helper, 20.0 - low.getHealth(), 1.0, 0.01, "0 % de liberación (vanilla, sin castigo)");
         near(helper, 20.0 - mid.getHealth(), 1.0, 0.01, "50 % de liberación");
-        near(helper, 20.0 - high.getHealth(), 0.125, 0.01, "100 % de liberación");
+        near(helper, 20.0 - high.getHealth(), 0.125 * 0.125, 0.005, "100 % de liberación (VIT y DEF dobles)");
         helper.succeed();
     }
 

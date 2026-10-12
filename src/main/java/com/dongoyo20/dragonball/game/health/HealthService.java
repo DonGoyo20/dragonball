@@ -1,6 +1,7 @@
 package com.dongoyo20.dragonball.game.health;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.core.DefensaSystem;
 import com.dongoyo20.dragonball.core.KiSystem;
 import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.TipoDanio;
@@ -41,8 +42,28 @@ public final class HealthService {
         return KiSystem.statEfectiva(vit(player), p.vitBase(), KiService.liberacion(player), p);
     }
 
+    /** Valor actual de DEF del jugador (base + mejoras). */
+    public static int def(ServerPlayer player) {
+        BalanceParams p = BalanceManager.get();
+        int upgrades = ProgressService.get(player).upgrades().get(ProgressService.attributeIndex("def"));
+        return DefensaSystem.defValue(Math.min(upgrades, p.defMaxUpgrades()), p);
+    }
+
+    /** DEF efectiva según la liberación (vanilla 8 a 0 %, la del mod a 50 %, el doble a 100 %). */
+    public static double defEfectiva(ServerPlayer player) {
+        BalanceParams p = BalanceManager.get();
+        return KiSystem.statEfectiva(def(player), p.defense().defBase(), KiService.liberacion(player), p);
+    }
+
+    /**
+     * Daño recibido final: la reducción de VIT y, solo para el daño instantáneo ({@code ESCALA_SIN_SUELO}), la de DEF.
+     * El daño continuo (con suelo) y el que no escala (vacío, /kill) no pasan por DEF.
+     */
     public static float aplicarDanioEscalado(ServerPlayer player, float danioVanilla, TipoDanio tipo) {
-        return (float) HealthSystem.danioAplicadoLiberado(danioVanilla, vit(player), KiService.liberacion(player), tipo, BalanceManager.get());
+        BalanceParams p = BalanceManager.get();
+        double danio = HealthSystem.danioAplicadoLiberado(danioVanilla, vit(player), KiService.liberacion(player), tipo, p);
+        if (tipo == TipoDanio.ESCALA_SIN_SUELO) danio *= DefensaSystem.multiplicadorEfectivo(defEfectiva(player), p);
+        return (float) danio;
     }
 
     /** Daño de estado continuo: se aplica cada pocos ticks mientras dure la situación (lava, fuego, veneno…). */

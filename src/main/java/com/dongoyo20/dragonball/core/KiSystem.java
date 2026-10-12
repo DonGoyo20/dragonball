@@ -41,6 +41,11 @@ public final class KiSystem {
         return (int) Math.round(p.ki().conBase() + p.ki().conGrowth() * checkUpgrades(upgrades, p.conMaxUpgrades(), "CON"));
     }
 
+    /** Valor de POD tras {@code upgrades} mejoras (sin efecto todavía: llegará con las técnicas de ki). */
+    public static int podValue(int upgrades, BalanceParams p) {
+        return (int) Math.round(p.pod().podBase() + p.pod().podGrowth() * checkUpgrades(upgrades, p.podMaxUpgrades(), "POD"));
+    }
+
     public static int velValue(int upgrades, BalanceParams p) {
         return (int) Math.round(p.release().velBase() + p.release().velGrowth() * checkUpgrades(upgrades, p.velMaxUpgrades(), "VEL"));
     }

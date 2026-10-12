@@ -31,5 +31,14 @@
     "speed_max": 2.5,
     "jump_exponent": 0.25,
     "jump_max": 1.8
+  },
+  "defense": {
+    "def_base": 8.0,
+    "def_growth": 1.0,
+    "damage_exponent": 3.0
+  },
+  "pod": {
+    "pod_base": 8.0,
+    "pod_growth": 1.0
   }
 }

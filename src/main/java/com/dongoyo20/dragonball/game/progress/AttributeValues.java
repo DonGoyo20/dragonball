@@ -1,6 +1,7 @@
 package com.dongoyo20.dragonball.game.progress;
 
 import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.core.DefensaSystem;
 import com.dongoyo20.dragonball.core.FuerzaSystem;
 import com.dongoyo20.dragonball.core.HealthSystem;
 import com.dongoyo20.dragonball.core.KiSystem;
@@ -9,12 +10,12 @@ import com.dongoyo20.dragonball.core.KiSystem;
 public final class AttributeValues {
     private AttributeValues() {}
 
-    /** El atributo no tiene todavía valores definidos (DEF y POD: ciclos pendientes). */
+    /** El atributo no tiene valores definidos (hoy los siete los tienen; se conserva por si se añade otro). */
     public static final int UNDEFINED = -1;
 
-    /** Si el atributo escala con la liberación (VIT, FUE, VEL); KI, POD y CON no cambian con ella. */
+    /** Si el atributo escala con la liberación (VIT, FUE, DEF, VEL); KI, POD y CON no cambian con ella. */
     public static boolean scalesWithRelease(int index) {
-        return index == 0 || index == 1 || index == 3;
+        return index == 0 || index == 1 || index == 2 || index == 3;
     }
 
     /** Valor base del atributo {@code index} (orden VIT, FUE, DEF, VEL, KI, POD, CON) o {@link #UNDEFINED}. */
@@ -23,8 +24,10 @@ public final class AttributeValues {
         return switch (index) {
             case 0 -> HealthSystem.vitValue(Math.min(up, p.vitMaxUpgrades()), p);
             case 1 -> FuerzaSystem.fueValue(Math.min(up, p.fueMaxUpgrades()), p);
+            case 2 -> DefensaSystem.defValue(Math.min(up, p.defMaxUpgrades()), p);
             case 3 -> KiSystem.velValue(Math.min(up, p.velMaxUpgrades()), p);
             case 4 -> KiSystem.kiValue(Math.min(up, p.kiMaxUpgrades()), p);
+            case 5 -> KiSystem.podValue(Math.min(up, p.podMaxUpgrades()), p);
             case 6 -> KiSystem.conValue(Math.min(up, p.conMaxUpgrades()), p);
             default -> UNDEFINED;
         };
@@ -36,7 +39,7 @@ public final class AttributeValues {
      */
     public static double effectiveValue(int index, int base, double releasePercent, BalanceParams p) {
         if (!scalesWithRelease(index)) return base;
-        double vanilla = switch (index) { case 0 -> p.vitBase(); case 1 -> p.fueBase(); default -> p.release().velBase(); };
+        double vanilla = switch (index) { case 0 -> p.vitBase(); case 1 -> p.fueBase(); case 2 -> p.defense().defBase(); default -> p.release().velBase(); };
         return KiSystem.statEfectiva(base, vanilla, releasePercent, p);
     }
 }

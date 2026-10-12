@@ -2,7 +2,9 @@ package com.dongoyo20.dragonball.game.balance;
 
 import com.dongoyo20.dragonball.DragonBall;
 import com.dongoyo20.dragonball.core.BalanceParams;
+import com.dongoyo20.dragonball.core.DefenseParams;
 import com.dongoyo20.dragonball.core.KiParams;
+import com.dongoyo20.dragonball.core.PodParams;
 import com.dongoyo20.dragonball.core.ReleaseParams;
 import com.dongoyo20.dragonball.game.network.BalanceSyncPayload;
 import com.google.gson.Gson;
@@ -61,6 +63,20 @@ public final class BalanceManager {
             Codec.DOUBLE.optionalFieldOf("regen_below_percent", KD.regenBelowPercent()).forGetter(KiParams::regenBelowPercent)
     ).apply(i, KiParams::new));
 
+    private static final DefenseParams DFD = DefenseParams.DEFAULT;
+    private static final PodParams PD = PodParams.DEFAULT;
+
+    static final Codec<DefenseParams> DEFENSE_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.DOUBLE.optionalFieldOf("def_base", DFD.defBase()).forGetter(DefenseParams::defBase),
+            Codec.DOUBLE.optionalFieldOf("def_growth", DFD.defGrowth()).forGetter(DefenseParams::defGrowth),
+            Codec.DOUBLE.optionalFieldOf("damage_exponent", DFD.damageExponent()).forGetter(DefenseParams::damageExponent)
+    ).apply(i, DefenseParams::new));
+
+    static final Codec<PodParams> POD_CODEC = RecordCodecBuilder.create(i -> i.group(
+            Codec.DOUBLE.optionalFieldOf("pod_base", PD.podBase()).forGetter(PodParams::podBase),
+            Codec.DOUBLE.optionalFieldOf("pod_growth", PD.podGrowth()).forGetter(PodParams::podGrowth)
+    ).apply(i, PodParams::new));
+
     static final Codec<ReleaseParams> RELEASE_CODEC = RecordCodecBuilder.create(i -> i.group(
             Codec.DOUBLE.optionalFieldOf("initial_limit", RD.initialLimit()).forGetter(ReleaseParams::initialLimit),
             Codec.DOUBLE.optionalFieldOf("reference_percent", RD.referencePercent()).forGetter(ReleaseParams::referencePercent),
@@ -86,7 +102,9 @@ public final class BalanceManager {
             Codec.DOUBLE.optionalFieldOf("strength_exponent", D.strengthExponent()).forGetter(BalanceParams::strengthExponent),
             Codec.INT.optionalFieldOf("attribute_cap", D.attributeCap()).forGetter(BalanceParams::attributeCap),
             KI_CODEC.optionalFieldOf("ki", KD).forGetter(BalanceParams::ki),
-            RELEASE_CODEC.optionalFieldOf("release", RD).forGetter(BalanceParams::release)
+            RELEASE_CODEC.optionalFieldOf("release", RD).forGetter(BalanceParams::release),
+            DEFENSE_CODEC.optionalFieldOf("defense", DFD).forGetter(BalanceParams::defense),
+            POD_CODEC.optionalFieldOf("pod", PD).forGetter(BalanceParams::pod)
     ).apply(i, BalanceParams::new)).validate(p -> {
         String problem = p.problem();
         return problem == null ? DataResult.success(p) : DataResult.error(() -> problem);

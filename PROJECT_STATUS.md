@@ -47,6 +47,9 @@ Implementado y probado con tests automáticos (JUnit 20/20, GameTest 26/26); **n
 ## Liberación como función a trozos (2026-10-12)
 Sustituye la fórmula `max(0, lib/50)` y elimina el castigo por falta de ki (×4 recibido / ×0,25 hecho; parámetros `max_damage_taken_factor` y `min_damage_dealt_factor`). Ahora `stat_ef = 8 + (base−8)×lib/50` hasta 50 % y `base×lib/50` desde 50 %: 0 % = vanilla, 50 % = atributos del mod, 100 % = doble. VEL a 0 % es velocidad vanilla. El aviso "¡Sin Ki!" queda informativo (texto: "Tu liberación vuelve a 0 %"). Tests: JUnit 43/43, GameTest 52/52. **No verificado en el PC del usuario.** Ver `KI_IMPLEMENTATION.md`.
 
+## Fase 1 DMZ: DEF y POD (2026-10-12)
+DEF implementada (valor, compra, tope 99, reducción cúbica del daño instantáneo, escala con la liberación); POD con valor y compra pero **sin efecto** hasta que existan las técnicas; CON sin cambios. Datos en `combat.json` (`defense`, `pod`). JUnit 53/53, GameTest 57/57. **No verificado en el PC del usuario.** Ver `DEF_POD_IMPLEMENTATION.md`.
+
 ## Correcciones tras probar la función a trozos (2026-10-12)
 (1) Corazones de vanilla ocultos mientras el HUD del mod esté visible; (2) el bonus de VEL ya no estira el FOV (se deshace en el cálculo del FOV del cliente); (3) el salto sube con VEL (misma mejora, sin atributo aparte); (4) el bonus de velocidad y de salto solo se aplica **mientras el jugador corre**. JUnit 44/44, GameTest 52/52; corazones y FOV solo compilados, no vistos en pantalla. Ver `KI_IMPLEMENTATION.md`.
 
