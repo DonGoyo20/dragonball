@@ -36,7 +36,7 @@
 ## Pendiente de verificar
 - Licencia real y estructura del código de DMZ (leer el repo).
 - Última versión estable de NeoForge y de Minecraft hoy (el entorno no llega a maven.neoforged.net).
-- Modelo exacto de la GPU AMD.
+- ~~Modelo exacto de la GPU AMD~~: es una Radeon RX 9060 XT (2026-10-13).
 
 ## Canon de Dragon Ball verificado para el bestiario (búsquedas, 2026-10-11)
 > Fuentes mayormente wikis de fans, no oficiales. Se citan para saber qué está confirmado y qué no.

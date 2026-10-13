@@ -67,3 +67,7 @@ Confirmadas por el usuario tras la Fase 0 (`DMZ_SYSTEMS_MAP.md`, `DMZ_IMPLEMENTA
 5. **Idioma:** español principal; se mantienen las 8 variantes y el inglés como secundario.
 
 **Estado:** la Fase 1 de la hoja de ruta (cierre de stats base: DEF, POD, CON) **no ha empezado**. Se espera a que el usuario verifique en su PC el ciclo de Ki ajustado (liberación a trozos, VEL solo al correr, corazones y FOV).
+
+### Entorno de pruebas del usuario (2026-10-13)
+El usuario ahora prueba en **CachyOS (Arch Linux)**: CPU Ryzen 5 5600X, GPU **AMD Radeon RX 9060 XT**, 16 GB de RAM, KDE Plasma 6.7 sobre Wayland, shell fish, pantalla 2560×1440 con escala 1,5. Comandos: `./gradlew build | runGameTestServer | runClient` (Java 21: `jdk21-openjdk`; el Java por defecto del sistema es 27 y no sirve para el mod). Mantener el proyecto en `/home` (no en los discos NTFS de `/mnt`). Esto cierra la duda "GPU desconocida".
+
